@@ -1557,10 +1557,219 @@ background-color: var(--cyann);
 
 .cover-container{
 height: 70vh;
-
+background-color: var(--gray-dark);
 
 
 }
 
 
+.body-container{
+width: 100%;
 
+margin: 0 auto;
+
+display: flex;
+flex-flow: row  wrap;
+justify-content: center;
+}
+
+
+.card-set-profile-header{
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: var(--white);
+height: 4rem;
+border-radius: 5px;
+border-bottom-left-radius: 0;
+border-bottom-right-radius: 0;
+padding: 0 20px;
+position: absolute;
+left: 0;
+width: 100%;
+}
+
+.card-set-profile{
+margin: -30px 10px  10px 10px;
+background-color: #e7ebee;
+width: 55%;
+border-radius: 5px;
+box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+padding: 0 20px;
+padding-bottom: 3rem;
+margin-bottom: 3rem;
+position: relative;
+}
+
+.card-view-profile{
+background-color: var(--white);
+width: 35%;
+margin: -30px 10px  10px 10px;
+border-radius: 5px;
+box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+padding: 20px;
+padding-top: 0;
+max-height: 30rem;
+}
+
+
+
+@media (max-width: 768px) {
+.body-container{
+flex-flow: column-reverse;
+align-items: center;
+}
+
+  .card-view-profile{
+width: 80%;
+margin-top: -17rem;
+
+  }
+  .card-set-profile{
+width: 80%;
+margin: 10px 10px  10px 10px;
+/* padding: 0 10px; */
+  }
+}
+
+.info-form h4{
+
+padding-top: 5rem;
+
+}
+
+
+.your-info{
+display: flex;
+justify-content: space-evenly;
+flex-flow: row wrap;
+
+}
+
+.your-info div{
+margin: 10px 0px;
+width: 45%;
+}
+
+
+.your-info .age{
+width: 93%;
+display: flex;
+flex-flow: column;
+}
+
+
+
+
+input,textarea{
+width: 100%;
+border-color: rgba(50, 151, 211, .25);
+border: none;
+background-color: var(--white);
+height: 2.5rem;
+border-radius: 5px;
+}
+
+input:focus,textarea:focus{
+
+transition: box-shadow .15s ease;
+border: 0;
+box-shadow: 0 1px 3px rgba(50, 50, 93, .15), 0 1px 0 rgba(0, 0, 0, .02)
+
+}
+
+label{
+
+font-size: .875rem;
+font-weight: 600;
+color: #525f7f;
+
+ }
+
+.contact-info{
+display: flex;
+justify-content: space-evenly;
+flex-flow: row wrap;
+
+
+}
+
+.contact-info div{
+margin: 10px 0px;
+width: 28%;
+}
+
+.contact-info .Home-Address{
+width: 100%;
+display: flex;
+flex-flow: column;
+align-items: center;
+position: relative;
+}
+
+
+
+.contact-info .Home-Address input,.contact-info .Home-Address div{
+width: 92%;
+
+}
+
+
+.textarea-container label{
+margin-left: 1.5rem;
+
+
+}
+
+.textarea-container textarea{
+display: block;
+margin: 0 auto;
+width: 92%;
+height: 5rem;
+}
+
+
+.user-Profile-pix {
+position: relative;
+
+}
+
+
+.user-Profile-pix img{
+border-radius: 50%;
+width: 13rem;
+height: 13rem;
+display: block;
+margin: 0 auto;
+/* position: absolute; */
+margin-top: -7rem;
+}
+
+.friends-follwers-container{
+display: flex;
+justify-content: center;
+padding-top: 3rem;
+}
+.friends-follwers-container div{
+margin: 0 20px;
+text-align: center;
+
+}
+
+.friends-follwers-container div h5,.userData-userName h5{
+	font-size: 1.1rem;
+	font-weight: bold;
+text-align: center;
+}
+
+.userData-userName{
+padding-top: 20px;
+display: flex;
+justify-content: center;
+/* align-items: center; */
+}
+
+hr{
+width: 95%;
+
+}
