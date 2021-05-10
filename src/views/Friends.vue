@@ -1,115 +1,96 @@
 <template>
   <div class="friends-main-container">
     <div class="side-links">
-<div class="list-group-button">
+      <div class="list-group-button">
 
-      
-        <div  @click="showFriends">
+
+        <div @click="showFriends">
           Friends
           <span>{{ userData.friends.length }}</span>
         </div>
 
-        <div  @click="showFollowing">
+        <div @click="showFollowing">
           Following <span>{{ userData.following.length }}</span>
         </div>
-        <div  @click="showFollowers">
+        <div @click="showFollowers">
           Followers
           <span>{{ userData.followers.length }}</span>
         </div>
-     
-</div>
+
+      </div>
     </div>
 
     <div class="friends-container">
-
+<div class="fill-container-Top"></div>
       <div class="friends-container-header">
         <h4>Friends </h4>
       </div>
       <div class="friends-main-container">
-      <!-- <ul v-show="displayFriends" v-for="user in userData.friends" :key="user.userName" class="friend-content"
-        @click="showUserProfile(user.userName, user.userId)"> -->
-      <!-- 
-          <div class="user-images">
+
+
+        <div v-show="displayFriends" v-for="user in $store.state.userData.friends" :key="user.userName"
+          class="friend-content">
+          <div class="friend-main-content">
+            <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
+              <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
+
+              <img :src="handleImages(user.userName)" alt="" class="userIcon-image">
+
+            </div>
+
+
+            <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
+              <div>
+                <h5>{{ user.userName }}</h5>
+                <font-awesome-icon :icon="['fas', 'user-friends']" />
+              </div>
+            </div>
+            <button class="btn btn-danger">Unfriend</button>
+          </div>
+        </div>
+
+        <div v-show="displayFollowers" v-for="user in $store.state.userData.followers" :key="user.userName"
+          class="friend-content">
+
+          <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
             <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
 
-            <img :src="handleImages('bose')" alt="" class="userIcon-image">
+            <img :src="handleImages(user.userName)" alt="" class="userIcon-image">
 
           </div>
-          <div class="user-name-details">
-
-            {{ user.userName }}
-
-          </div> -->
-      <!-- <li>yes</li>
 
 
+          <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
+            <div>
+              <h5>{{ user.userName }}</h5>
+              <font-awesome-icon :icon="['fas', 'user-friends']" />
+            </div>
+          </div>
+          <button class="btn btn-danger">Unfollow</button>
+        </div>
 
-      </ul> -->
+        <div v-show="displayFollowing" v-for="user in $store.state.userData.following" :key="user.userName"
+          class="friend-content">
+
+          <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
+            <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
+
+            <img :src="handleImages(user.userName)" alt="" class="userIcon-image">
+
+          </div>
 
 
-
-      <div v-show="displayFriends" v-for="user in $store.state.userData.friends" :key="user.userName"
-        class="friend-content">
-
-        <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
-          <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
-
-          <img :src="handleImages(user.userName)" alt="" class="userIcon-image">
-
+          <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
+            <div>
+              <h5>{{ user.userName }}</h5>
+              <font-awesome-icon :icon="['fas', 'user-friends']" />
+            </div>
+          </div>
+          <button class="btn btn-danger">Follow back</button>
         </div>
 
 
-        <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
-          <div>
-            <h5>{{ user.userName }}</h5>
-            <font-awesome-icon :icon="['fas', 'user-friends']" />
-          </div>
-        </div>
-        <button class="btn btn-danger">Unfriend</button>
       </div>
-
-<div v-show="displayFollowers" v-for="user in $store.state.userData.followers" :key="user.userName"
-        class="friend-content">
-
-        <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
-          <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
-
-          <img :src="handleImages(user.userName)" alt="" class="userIcon-image">
-
-        </div>
-
-
-        <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
-          <div>
-            <h5>{{ user.userName }}</h5>
-            <font-awesome-icon :icon="['fas', 'user-friends']" />
-          </div>
-        </div>
-        <button class="btn btn-danger">Unfollow</button>
-      </div>
-
-<div v-show="displayFollowing" v-for="user in $store.state.userData.following" :key="user.userName"
-        class="friend-content">
-
-        <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
-          <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
-
-          <img :src="handleImages(user.userName)" alt="" class="userIcon-image">
-
-        </div>
-
-
-        <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
-          <div>
-            <h5>{{ user.userName }}</h5>
-            <font-awesome-icon :icon="['fas', 'user-friends']" />
-          </div>
-        </div>
-        <button class="btn btn-danger">Follow back</button>
-      </div>
-
-
-</div>
     </div>
 
 
