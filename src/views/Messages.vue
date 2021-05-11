@@ -1,715 +1,346 @@
 <template>
+<section id="messageBox">
+  <div class="message-container"  >
 
-  <nav ref="nav">
-    <div class="nav-container-one">
-      <div class="logo-container">
-        <h3>SoMedia</h3>
+    <div class="list-container-left">
 
-
-        <span class="search-icon">{{''}}
-          <font-awesome-icon :icon="['fas', 'search']" />
-        </span>
-
-        <input type="text" placeholder=" Search for Friends..." v-model="searchInput">
+      <div class="header-chat-list">
+        <h5>Chats</h5>
+        <input type="text" placeholder="Search Messages">
 
 
       </div>
 
-      <ul class="website-info">
-        <li> <a href="#about">About</a>
-          <font-awesome-icon :icon="['fas', 'info']" />
-        </li>
-        <li> <a href="#contact">Contact</a>
-          <font-awesome-icon :icon="['fas', 'phone-square-alt']" />
-        </li>
-        <li>
-          <!-- <button class="log-out">Logout <font-awesome-icon :icon="['fas', 'sign-out-alt']" v-if="true"  />
-</button> -->
-          <button @click="handleLogin('')" class="btn btn-danger m-1" v-if="logout">LogOut
-            <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
-          </button>
-          <button @click="handleLogin('login')" class="btn btn-success m-1" v-if="updateUserData">LogIn
-            <font-awesome-icon :icon="['fas', 'sign-in-alt']" />
-          </button>
-        </li>
-      </ul>
+
+      <div class="chat-list">
 
 
-      <div class="user-icon">
+        <div>
 
 
-        <span ref="userImage" class="userImage" @click="handleUserOwnMenu"> <img :src="handleUserIcon()" alt="">
-          {{userData.userName}}
-          <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
-          <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
-          <div class="dropdown-OwnMenu" ref="userOwnMenu">
-            <ul>
-              <li @click="showFriends()">Your Friends</li>
-              <li @click="showFriends()">Your Followers</li>
-              <li @click="showFriends()"> Following</li>
-              <li @click="'chats'">Chats</li>
-
-            </ul>
-          </div>
-
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <div class="nav-container-two">
-
-      <ul class="home-list">
-        <li ref="home" @click="handleActiveLink('home')" class="active-link  lists">
-          <router-link :to="{ name: 'Home' }">Home</router-link>
-          <font-awesome-icon :icon="['fas', 'home']" ref="homeIcon" />
-        </li>
-        <li class="lists" ref="newsFeed" @click="handleActiveLink('newsFeed')">
-          <router-link :to="{ name: 'Home' }">Newsfeed </router-link>
-          <font-awesome-icon :icon="['fas', 'newspaper']" ref="newsFeedIcon" /><span class="show-counter"
-            v-if="timelineCount? true:false">{{timelineCount}}</span>
-        </li>
-
-        <li class="lists" ref="timeline" @click="handleActiveLink('timeline')">
-          <router-link :to="{name:'Timeline',params:{userName:$store.state.userData.userName,Timeline:'Timeline'}}">
-            Timeline</router-link>
-          <font-awesome-icon :icon="['fas', 'user-clock']" ref="timelineIcon" />
-        </li>
-        <li class="lists" ref="profile" @click="handleActiveLink('profile')">
-          <router-link :to="{
-                name: 'userProfile',
-                params: { userName: userData.userName },
-              }">
-            Profile
-          </router-link>
-          <font-awesome-icon :icon="['fas', 'user']" ref="profileIcon" />
-        </li>
-        <li class="lists" ref="messages" @click="()=>{handleActiveLink('messages')
-showMessages()}">Messages
-          <font-awesome-icon :icon="['fas', 'envelope']" ref="messageIcon" /><span class="show-counter-messages"
-            v-if="newMessageCount? true:false">{{newMessageCount}}</span>
-        </li>
-        <li class="lists" ref="notificationsFullNav" @click="handleNotifications('notificationsFullNav')">
-          Notifications
-          <font-awesome-icon :icon="['fas', 'bell']" ref="notificationIcon" />
-          <span class="show-counter-notification" v-if="notificationCount? true:false">{{notificationCount}}</span>
-
-          <div class="dropdown-notifications" ref="notificationMenuFullNav">
-            <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
-            <ul v-for="notification in notifications">
-              <li ref="lists"
-                @click="showNotificationDetails('friend request',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'friend request' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> sent you a {{notification.notificationType}}
-                <br> <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('message',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'message' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                You have a new {{notification.notificationType}} from <span
-                  class="names-Bold">{{notification.userName}}</span> <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists" @click="showNotificationDetails('post',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                Your friend <span class="names-Bold">{{notification.userName}}</span> just made a new
-                {{notification.notificationType}} <br> <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('likes',notification.notificationId,notification.posterUserName)"
-                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> likes your post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                Your friend <span class="names-Bold">{{notification.userName}}</span> likes <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.userName === userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> likes your comment on <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('comment',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> commented on your post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                Your friend
-                <span class="names-Bold">{{notification.userName}}</span> commented on <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-
-              <li ref="lists"
-                @click="showNotificationDetails('follow',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'follow' && notification.notificationStatus === 'unRead' && notification.userName !== userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> started following you <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-            </ul>
-            <span v-if="!notificationCount? true:false">You have no new Notification</span>
-
-          </div>
-        </li>
-
-      </ul>
-
-      <div class="user-icon">
-
-
-        <span ref="userImageFullNav" class="userImage" @click="handleUserOwnMenu('userImageFullNav')"> <img
-            :src="handleUserIcon()" alt=""> <span>
-            {{userData.userName}}</span>
-          <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
-          <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
-          <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
-
-          <div class="dropdown-OwnMenu" ref="userOwnMenuFullNav">
-            <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
-
-            <ul>
-              <li @click="showFriends">Your Friends</li>
-              <li @click="showFriends">Your Followers</li>
-              <li @click="showFriends"> Following</li>
-              <li @click="'chats'">Chats</li>
-            </ul>
-          </div>
-
-        </span>
-
-      </div>
-
-    </div>
-
-
-  </nav>
-
-
-
-  <div class="collapsed-nav" ref="collapsedNav" style="display: none;">
-    <div class="logo-container">
-      <h3>SoMedia</h3>
-
-
-      <span class="search-icon">{{''}}
-        <font-awesome-icon :icon="['fas', 'search']" />
-      </span>
-
-      <input type="text" placeholder=" Search for Friends..." v-model="searchInput">
-
-
-    </div>
-
-    <div class="nav-container-two">
-      <ul class="home-list">
-        <li ref="home" @click="handleActiveLink('home')" class="active-link  lists">
-          <router-link :to="{ name: 'Home' }"><span class="collapsed-nav-text">Home </span>
-            <font-awesome-icon :icon="['fas', 'home']" ref="homeIcon" />
-          </router-link>
-        </li>
-        <li class="lists" ref="newsFeed" @click="handleActiveLink('newsFeed')">
-          <router-link :to="{ name: 'Home' }"> <span class="collapsed-nav-text">Newsfeed </span> 
-            <font-awesome-icon :icon="['fas', 'newspaper']" ref="newsFeedIcon" />
-          </router-link><span class="show-counter" v-if="timelineCount? true:false">{{timelineCount}}</span>
-        </li>
-
-        <li class="lists" ref="timeline" @click="handleActiveLink('timeline')">
-          <router-link :to="{name:'Timeline',params:{userName:$store.state.userData.userName,Timeline:'Timeline'}}">
-            <span class="collapsed-nav-text">Timeline </span>
-             <font-awesome-icon :icon="['fas', 'user-clock']" ref="timelineIcon" />
-          </router-link>
-        </li>
-        <li class="lists" ref="profile" @click="handleActiveLink('profile')">
-          <router-link :to="{
-                name: 'userProfile',
-                params: { userName: userData.userName },
-              }">
-
-            <span class="collapsed-nav-text"> Profile </span>
-             <font-awesome-icon :icon="['fas', 'user']" ref="profileIcon" />
-          </router-link>
-        </li>
-        <li class="lists" ref="messages" @click="()=>{handleActiveLink('messages')
-showMessages()}"> <span class="collapsed-nav-text"> Messages </span>
-           <font-awesome-icon :icon="['fas', 'envelope']" ref="messageIcon" /><span class="show-counter-messages  "
-            v-if="newMessageCount? true:false">{{newMessageCount}}</span>
-        </li>
-        <li class="lists" ref="notifications" @click="handleNotifications('notifications')"> <span
-            class="collapsed-nav-text"> Notifications </span>
-
-          <font-awesome-icon :icon="['fas', 'bell']" ref="notificationIcon" />
-          <span class="show-counter-notification" v-if="notificationCount? true:false">{{notificationCount}}</span>
-
-          <div class="dropdown-notifications" ref="notificationMenu">
-            <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
-            <ul v-for="notification in notifications">
-              <li ref="lists"
-                @click="showNotificationDetails('friend request',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'friend request' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> sent you a {{notification.notificationType}}
-                <br> <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('message',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'message' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                You have a new {{notification.notificationType}} from <span
-                  class="names-Bold">{{notification.userName}}</span> <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists" @click="showNotificationDetails('post',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                Your friend <span class="names-Bold">{{notification.userName}}</span> just made a new
-                {{notification.notificationType}} <br> <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('likes',notification.notificationId,notification.posterUserName)"
-                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> likes your post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                Your friend <span class="names-Bold">{{notification.userName}}</span> likes <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.userName === userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> likes your comment on <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('comment',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> commented on your post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-              <li ref="lists"
-                @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                Your friend
-                <span class="names-Bold">{{notification.userName}}</span> commented on <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-
-              <li ref="lists"
-                @click="showNotificationDetails('follow',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'follow' && notification.notificationStatus === 'unRead' && notification.userName !== userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> started following you <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-            </ul>
-            <span v-if="!notificationCount? true:false">You have no new Notification</span>
-
-          </div>
-        </li>
-
-      </ul>
-    </div>
-
-    <div class="user-icon">
-
-
-      <span ref="userImage" class="userImage" @click="handleUserOwnMenu"> <img :src="handleUserIcon()" alt=""> <span>
-          {{userData.userName}}</span>
-        <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
-        <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
-        <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
-
-
-        <div class="dropdown-OwnMenu" ref="userOwnMenu">
-          <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
-
-          <ul>
-            <li @click="showFriends">Your Friends</li>
-            <li @click="showFriends">Your Followers</li>
-            <li @click="showFriends"> Following</li>
-            <li @click="'chats'">Chats</li>
-            <li>
-              <button @click="handleLogin('')" class="btn btn-danger m-1" v-if="logout">LogOut
-                <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
-              </button>
-              <button @click="handleLogin('login')" class="btn btn-success m-1" v-if="updateUserData">LogIn
-                <font-awesome-icon :icon="['fas', 'sign-in-alt']" />
-              </button>
-            </li>
-          </ul>
         </div>
 
-      </span>
+        <div v-for="userName in chattedUsersList" :key="chattedUsersInfo[userName].userName"
+          @click="showMessage(userName, 'Read')">
 
+          <div class="user-MessageDetails-container">
+
+            <div class="notice-image-container">
+
+              <img :src="handleImages(userName)" alt="">
+              <div class="new-message-alert" v-if="userData.messageStatus[userName].messageViewStatus === 'unRead'">
+
+              </div>
+            </div>
+
+            <div class="userName-data-container">
+
+              <div>
+                <span>{{userName}}</span>
+                <span>{{showDateInWords(chattedUsersInfo[userName].messageDate)}}</span>
+
+              </div>
+
+
+              <div>
+                <span v-if="chattedUsersInfo[userName].userName === userData.userName" class="shortMessage">You:&nbsp<span class="message-ellipsis"> {{chattedUsersInfo[userName].message}}</span> 
+<span class="sideMessageCheck">
+ <font-awesome-icon :icon="['fas', 'check']" class="check-side"
+              v-if="handleMessageStatus(chattedUsersInfo[userName].messageStatus, chattedUsersInfo[userName].messageId)" />
+            <font-awesome-icon :icon="['fas', 'check-double']" class="check-double-side"
+              v-if="!handleMessageStatus(chattedUsersInfo[userName].messageStatus, chattedUsersInfo[userName].messageId)" :class="statusClass" />
+</span>
+</span>
+
+ 
+
+                <span v-if="chattedUsersInfo[userName].userName !== userData.userName" class="message-ellipsis2"> {{chattedUsersInfo[userName].message}} 
+</span>
+              </div>
+            </div>
+
+
+
+
+          </div>
+
+
+
+
+        </div>
+
+
+        <!-- <ul
+        v-for="userName in chattedUsersInfo"
+        :key="userName"
+        @click="showMessage(userName, 'Read', 'Read')"
+      >
+        <li>
+
+
+          {{ userName }}
+         
+        </li>
+      </ul> -->
+      </div>
+    </div>
+    <div class="container-message">
+      <div class="fill-up-container"></div>
+      <div class="messager-Header"><img :src="messageUserThumbnail" alt="">
+        <h5>{{friendMessaged}}</h5>
+      </div>
+      <div v-for="message in showingMessages" :key="message.messageId" class="message-body"
+        :class="handleUserChatBoxStyle(message.userName)">
+        <img :src="handleImages(message.userName)" v-if="message.messageStatus.length" alt="">
+        <div class="message-Box" v-if="message.messageStatus.length">
+          <font-awesome-icon :icon="['fas', 'caret-right']" class="caret-right" />
+          <font-awesome-icon :icon="['fas', 'caret-left']" class="caret-left" />
+          <div>
+           
+              <h6>{{ message.userName }}</h6>
+            
+            <span>{{ showDate(message.messageDate) }}
+            
+            </span>
+
+          </div> 
+ <hr>
+          <span>
+            {{ message.message }}
+
+          </span>
+
+
+
+          <span class="message-status">
+            <font-awesome-icon :icon="['fas', 'check']" class="check"
+              v-if="handleMessageStatus(message.messageStatus, message.messageId)" />
+            <font-awesome-icon :icon="['fas', 'check-double']" class="check-double"
+              v-if="!handleMessageStatus(message.messageStatus, message.messageId)" :class="statusClass" />
+          </span>
+        </div>
+        <!-- <p>  {{moment().format('LT')}} </p> -->
+
+        <!-- 
+        <input type="text" value="delete message" class="btn btn-danger" @click="
+            handleDeleteMessage(
+              userData.userName,
+              friendMessaged,
+              message.messageId
+            )
+          " /> -->
+      </div>
+
+      <form @submit.prevent="handleSubmitMessage" class="message-input-field">
+        <input type="text" v-model="message" placeholder=" Type your message" />
+        <img :src="userData.userThumbnail" alt="">
+        <!-- <button type="submit" class="btn btn-success">send</button> -->
+      </form>
     </div>
 
+    <div class="list-container-right ">
 
+      <div class="friends-listHeader">
+        <h5>Friends</h5>
+      </div>
+      <div class="friends-list-container">
 
-
+        <div v-for="friend in userData.friends" :key="friend.userName">
+          <div @click='showMessage(friend.userName,"newMessage")' class="friendLists">
+            <img :src="handleImages(friend.userName)" alt=""> <span>{{ friend.userName }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <router-view />
+</section>
 </template>
 
 <script>
-  import moment from "moment"
+  import { uuid } from "vue-uuid";
+  import moment from "moment";
 
   export default {
-    name: "App",
+    name: "Messages",
+    props: ["userName"],
+
     data() {
       return {
-
-        userData: {},
-        login: true,
-        logout: false,
-        notificationState: false,
-        notificationStateFullNav: false,
-        userOwnMenu: false,
-        userOwnMenuFullNav: false,
-        activeLink: "home",
-        searchInput: '',
-        dropIconDisplay: true,
-        notifications: [],
-        notificationCount: '',
-        newMessageCount: 0,
-        timelineCount: 0,
-      }
-    },
-    created() {
-      window.addEventListener('click', (event) => this.handleCloseDropDown(event))
-    },
-    unmounted() {
-
-      window.removeEventListener('click', (event) => this.handleCloseDropDown(event))
+        userData: {
+          messageStatus: {}
+        },
+        showingMessage: [],
+        friendMessaged: "",
+        chattedUsersInfo: [],
+        message: "",
+        showingMessageStatus: [],
+        chattedUsersList: [],
+        messageUserThumbnail: '',
+        messageUserName: '',
+        statusClass: "check-double"
+      };
     },
 
     mounted() {
+      this.loadData("on");
+    // document.addEventListener('scroll', () => this.onScroll(document.getElementById("messageBox")));
 
-      window.addEventListener('scroll', () => this.handleCollaspNav());
     },
     beforeUnmount() {
+      this.loadData("off");
+    // document.removeEventListener('scroll', () => this.onScroll(document.getElementById("messageBox")));
 
-      window.removeEventListener('scroll', () => this.handleCollaspNav());
     },
-    // mounted() {
-    //   this.loadData();
-    // },
-    // beforeUnmount() {
-    //   this.loadData();
-    // },
-
     methods: {
-
-      handleCollaspNav() {
-
-        if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+      loadData(messageOnScreen) {
+        this.userData = this.$store.state.users[this.userName];
 
 
-          this.$store.dispatch("handleDisplayFunctions", {
-            navCollapsed: true
-          });
+        let messageStatus = [];
 
-          this.$refs.nav.style = "display:none"
-          this.$refs.collapsedNav.style = "display:flex"
-        } else {
-          this.$store.dispatch("handleDisplayFunctions", {
-            navCollapsed: false
-          });
-          this.$refs.nav.style = "display:block"
-          this.$refs.collapsedNav.style = "display:none"
+        for (const message in this.userData.messageStatus) {
+          messageStatus.push(this.userData.messageStatus[message]);
         }
 
-      },
+        this.showingMessageStatus = messageStatus.filter((message) => message.showMessage === 'on');
 
-      handleLogin(params) {
-        if (params) {
+        this.showingMessage = this.userData.messages[this.showingMessageStatus[0].friendMessaged];
 
+        this.friendMessaged = this.showingMessageStatus[0].friendMessaged
 
-          return this.$router.push({ name: "Login" });
-        }
+        this.showMessage(this.friendMessaged,"Read",messageOnScreen);
 
-        this.login = true
-        this.logout = false
-        this.$router.push({ name: "Login" });
-        this.$store.dispatch("updateUserData", {
-          Guest: {
-            userName: "Guest",
-            emailAddress: "",
-            password: "",
-            emailAddress: "419",
-            firstName: "",
-            lastName: "",
-            address: "",
-            emailAddress: "",
-            postCode: "",
-            country: "",
-            city: "",
-            aboutMe: "",
-            messages: [],
-            posts: [],
-            followers: [],
-            following: [],
-            friends: [],
-          },
+        this.$store.dispatch("handleNotificationUpdate", {
+          userName: this.userData.userName,
+          notificationStatus: "Read",
+          notificationType: 'message'
         });
 
 
 
       },
 
-      handleUserIcon() {
-        if (this.userData.userThumbnail === undefined || !this.userData.userThumbnail) {
 
-          return " https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png"
-          // require('./assets/userThumbnail/original1.jpg')
+//  onScroll(ref) {
+// console.log(this.isElementInViewport(ref));
+ 
 
+// },
+
+//   isElementInViewport(el) {
+//       var rect = el.getBoundingClientRect();
+//       return (
+//         rect.top >= 0 &&
+//         rect.left >= 0 &&
+//         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+//         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+//       );
+//     },
+
+      handleUserChatBoxStyle(userName) {
+        if (userName === this.userName) {
+          return "this-user"
         }
-
-        return this.userData.userThumbnail
+        return "other-user";
 
       },
 
 
-      handleCloseDropDown(e) {
 
+      handleImages(userName) {
+        if (this.$store.state.users[userName].userThumbnail.length) {
 
-        let noticeMenuFullNav = this.$refs.notificationsFullNav
-        let ownMenuFullNav = this.$refs.userImageFullNav
-        let noticeMenu = this.$refs.notifications
-        let ownMenu = this.$refs.userImage
-        let target = e.target
-        if (ownMenu !== target && !ownMenu.contains(target) && this.userOwnMenu === true) {
-          this.handleUserOwnMenu()
-
-        }
-        if (ownMenuFullNav !== target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
-          this.handleUserOwnMenu('userImageFullNav')
-
+          return this.$store.state.users[userName].userThumbnail
 
         }
 
-
-
-        if (noticeMenu !== target && !noticeMenu.contains(target) && this.notificationState === true) {
-          this.handleNotifications()
-
-        }
-
-        if (noticeMenuFullNav !== target && !noticeMenuFullNav.contains(target) && this.notificationStateFullNav === true) {
-          this.handleNotifications("notificationsFullNav")
-        }
-
-
-
+        return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png"
       },
 
-      handleUserOwnMenu(params) {
-        if (params === 'userImageFullNav') {
-          this.userOwnMenuFullNav ? this.$refs.userOwnMenuFullNav.style = "display:none;height:0;transition:all 1s" : this.$refs.userOwnMenuFullNav.style = "display:flex;height:auto;transition:all 1s";
+      handleSubmitMessage() {
+        const messageId = uuid.v1();
+        if (this.message && this.friendMessaged) {
+          this.$store.dispatch("handleSubmitMessage", {
+            [messageId]: {
+              userName: this.userData.userName,
+              friendMessaged: this.friendMessaged,
+              userId: this.userData.userId,
+              message: this.message,
+              messageId,
+              messageDate: Date.now(),
+              messageStatus: "sent",
+            },
+          });
+          this.showMessage(this.friendMessaged, "unRead");
 
-          this.dropIconDisplay = !this.dropIconDisplay
-          this.userOwnMenuFullNav = !this.userOwnMenuFullNav
+
+
+          this.$store.dispatch("handleNotifications", {
+            userName: this.userData.userName,
+            friendUserName: this.friendMessaged,
+            notificationId: uuid.v1(),
+            notificationType: 'message',
+            notificationStatus: "unRead",
+            notificationDate: Date.now()
+          });
+
+          this.message = "";
+          this.showingMessage = this.userData.messages[this.friendMessaged];
+        }
+      },
+
+      showMessage(userName, status,messageOnScreen) {
+        this.messageUserThumbnail = this.handleImages(userName);
+        this.friendMessaged = userName;
+
+        if (!this.chattedUsersList.includes(userName) && status === "newMessage") {
+          this.showingMessage = {
+            'none': {
+              messageId: "none",
+              messageDate: '',
+              userName: this.userName,
+              message: '',
+              messageStatus:'',
+            }
+          }
         }
         else {
-          this.userOwnMenu ? this.$refs.userOwnMenu.style = "display:none;height:0;transition:all 1s" : this.$refs.userOwnMenu.style = "display:flex;height:auto;transition:all 1s";
+          this.$store.dispatch("handleMessageViewStatus", {
+            friendMessaged: userName,
+            messageOnScreen,
+            userName: this.userName,
+            messageViewStatus: status,
+            showMessage: "on",
 
-
-          this.dropIconDisplay = !this.dropIconDisplay
-          this.userOwnMenu = !this.userOwnMenu
-        }
-
-
-
-
-      },
-      handleActiveLink(activeLink) {
-        this.$refs.[this.activeLink].classList.remove("active-link")
-        this.$refs.[activeLink].classList.add("active-link")
-        this.activeLink = activeLink
-
-      },
-
-      handleNotifications(params) {
-        if (params === "notificationsFullNav") {
-          this.notificationStateFullNav ? this.$refs.notificationMenuFullNav.style = "display:none;height:0;transition:all 1s" : this.$refs.notificationMenuFullNav.style = "display:flex;height:auto;transition:all 1s"
-
-          this.notificationStateFullNav = !this.notificationStateFullNav
-        }
-        else {
-          this.notificationState ? this.$refs.notificationMenu.style = "display:none;height:0;transition:all 1s" : this.$refs.notificationMenu.style = "display:flex;height:auto;transition:all 1s"
-          this.notificationState = !this.notificationState
-        }
-
-      },
-      showMessages() {
-        if (this.userData.userName !== "Guest") {
-          this.$router.push({
-            name: "Messages",
-            params: { userName: this.userData.userName },
           });
-        }
-      },
-      showFriends() {
-        if (this.userData.userName !== "Guest") {
-          this.$router.push({
-            name: "Friends",
-            params: { userName: this.userData.userName },
-          });
+          this.showingMessage = this.userData.messages[userName];
         }
       },
 
 
+      handleMessageStatus(messageStatus, messageId) {
 
-
-      showUserTimeline(userName) {
-        this.$router.push({
-          name: "Timeline",
-          params: { userName: userName, Timeline: "Timeline" },
+        this.$store.dispatch("handleMessageStatus", {
+          friendMessaged: this.friendMessaged,
+          userName: this.userData.userName,
         });
 
-      },
+        if (messageStatus === "sent") {
+          return true;
+        } else if (messageStatus === "received") {
 
-      showNotificationDetails(notificationType, notificationId, userName, posterUserName) {
+          this.statusClass = "check-double"
 
-        switch (notificationType) {
-
-          case 'friend request':
-            this.$router.push({
-              name: "Friends",
-              params: { userName: this.userData.userName },
-            })
-            break;
+          return false;
+        } else if (messageStatus === "Read") {
 
 
-          case 'message':
-            this.$store.dispatch("handleMessageViewStatus", {
-              friendMessaged: userName,
-              userName: this.userData.userName,
-              messageViewStatus: "Read",
-              showMessage: "on"
-            });
-
-
-            this.$router.push({
-              name: "Messages",
-              params: { userName: this.userData.userName },
-            })
-            break;
-
-          case 'post':
-            this.$router.push({
-              name: "Timeline",
-              params: { userName, Timeline: "Timeline" },
-            })
-
-
-
-            break;
-
-          case 'likes':
-            this.$router.push({
-              name: "Timeline",
-              params: { userName: posterUserName, Timeline: "Timeline" },
-            })
-
-
-            this.$store.dispatch("handleNotificationUpdate", {
-              userName: this.userData.userName,
-              notificationStatus: "Read",
-              notificationType: 'likes'
-            });
-            break;
-
-          case 'comment':
-            this.$router.push({
-              name: "Timeline",
-              params: { userName: posterUserName, Timeline: "Timeline" },
-            })
-
-            this.$store.dispatch("handleNotificationUpdate", {
-              userName: this.userData.userName,
-              notificationStatus: "Read",
-              notificationType: 'comment'
-            });
-            break;
-
-          default:
-            break;
+          this.statusClass = "check-double-read"
+          return false;
         }
-
-
-
       },
 
-
-      showDate(date) {
+      showDateInWords(date) {
         const currentDate = Date.now();
         const dateStatus = currentDate - date;
         const minutes = Math.round(dateStatus / (1000 * 60));
@@ -737,94 +368,115 @@ showMessages()}"> <span class="collapsed-nav-text"> Messages </span>
       },
 
 
+
+
+      showDate(messageDate) {
+        let currentDate = Date.now();
+        let dateStatus = currentDate - messageDate;
+        const minutes = Math.round(dateStatus / (1000 * 60));
+        const hours = Math.round(dateStatus / (1000 * 60 * 60));
+        const days = Math.round(dateStatus / (1000 * 60 * 60 * 24));
+        const weeks = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7));
+        const months = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7 * 12));
+        const years = Math.round(dateStatus / (1000 * 60 * 60 * 365));
+
+        if (minutes <= 0) {
+          return "Just now";
+        } else if (minutes < 59) {
+          return minutes === 1 ? "1 minute ago" : minutes + "minutes ago";
+        } else if (hours < 11) {
+          return moment(messageDate).format(" h:mm :ss a L");
+        } else if (days >= 1) {
+          return moment(messageDate).format(" h:mm:ss a L");
+        } else if (weeks < 59) {
+          return moment(messageDate).format(" h:mm :ss a L");
+        } else if (months < 59) {
+          return moment(messageDate).format(" h:mm :SS a L");
+        } else {
+          return moment(messageDate).format(" h:mm a  L");
+        }
+      },
+
+      handleDeleteMessage(userName, friendMessaged, messageId) {
+        this.$store.dispatch("handleDeleteMessage", {
+          userName,
+          friendMessaged,
+          messageId,
+        });
+      },
     },
     computed: {
+      showingMessages() {
 
-      updateUserData() {
-        const userData = this.$store.state.userData
-        this.userData = this.$store.state.userData
-
-        let notifications = []
-        for (const notificationId in this.userData.notifications) {
-          notifications = [...notifications, this.userData.notifications[notificationId]]
-
-          this.notifications = notifications
-        }
-
-
-        this.$store.dispatch("handleMessageStatus", {
-          userName: this.userData.userName,
-        });
+        this.userData = this.$store.state.users[this.userName];
 
 
 
-        let messageStatus = {}
-        for (let messageUserName in this.userData.messageStatus) {
-          if (this.userData.messageStatus[messageUserName].messageViewStatus === "unRead") {
-            for (let messageId in this.userData.messages[messageUserName]) {
-              if (this.userData.messages[messageUserName][messageId].messageStatus === "received") {
-
-
-                messageStatus = { ...messageStatus, [messageId]: { friendMessaged: this.userData.messages[messageUserName][messageId].userName } }
-
-
-              }
 
 
 
-            }
+        let chattedUsersList = []
+        let userMessageName = Object.keys(this.userData.messages)
+        for (let userName in this.userData.messageStatus) {
+
+          if (this.userData.messageStatus[userName].showMessage === "on") {
+            let filteredUserName = userMessageName.filter((user) => user === userName)
+            chattedUsersList = userMessageName.filter((user) => user !== userName)
+            chattedUsersList.splice(0, 0, ...filteredUserName)
 
           }
 
-
         }
 
-        this.newMessageCount = Object.keys(messageStatus).length
 
-        // if(this.userName !== "Guest"){
-        // console.log(1,this.$store.state.users["bose"].messages);
-        // console.log(2,this.$store.state.users["uche"].messages["bose"]);
-        // console.log(3,this.$store.state.users["chigo"].messages["bose"]);
-        // }
+        this.chattedUsersList = chattedUsersList;
 
-        let timelineCounter = {};
 
-        for (const userKey in this.$store.state.newsFeed) {
-          if (!this.$store.state.newsFeed[userKey].views.includes(this.userData.userName)) {
-            timelineCounter = { ...timelineCounter, [userKey]: { userName: this.$store.state.newsFeed[userKey].userName } }
+
+
+
+
+        let chattedUsersInfo = {};
+
+
+        for (const chatUserName in this.userData.messageStatus) {
+          // console.log('chatUserName ', chatUserName );
+
+          let messageObjects = []
+          for (const messageId in this.userData.messages[chatUserName]) {
+            messageObjects = [...messageObjects, this.userData.messages[chatUserName][messageId]]
+              .sort((a, b) => a.messageDate - b.messageDate)
+            // console.log(' messageObjects ', messageObjects );
 
           }
+          chattedUsersInfo = { ...chattedUsersInfo, [chatUserName]: messageObjects[messageObjects.length - 1] }
+
         }
 
-        this.timelineCount = Object.keys(timelineCounter).length
-
-
-        const notificationCount = this.notifications.filter((noticeStatus) => noticeStatus.notificationStatus === "unRead")
-
-        this.notificationCount = notificationCount.length
-
-
-
-        let login = true
-        if (this.$store.state.userData.userName !== "Guest") {
-          login = false
-          this.logout = true
-        } else { login = true }
-        return login
-      }
-
-    }
+        this.chattedUsersInfo = chattedUsersInfo;
 
 
 
 
+
+
+
+
+
+
+
+
+        let showingMessages = [];
+
+        for (const message in this.showingMessage) {
+          showingMessages.push(this.showingMessage[message]);
+        }
+        return showingMessages.sort((a, b) => a.messageDate - b.messageDate);
+      },
+    },
   };
 </script>
 
-
-
-<style>
-
-
+<style scoped>
 
 </style>
