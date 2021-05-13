@@ -1,42 +1,52 @@
 <template>
   <div class="timeline-layout">
-    <div class="profile-cover-container">
-<!-- 
+
+    <div class="profile-cover-container"  :style="userCoverImage">
+      <!-- 
     <h2>{{ userData.userName }}</h2>
   <h2>{{handleUserNames}}</h2> -->
-
-      <ul>
-        <li @click="toggleDisplay('displayPosts')">
-          <router-link :to="{
+      <div class="cover-Links">
+        <ul>
+          <li @click="toggleDisplay('displayPosts')">
+            <router-link :to="{
             name: 'Timeline',
             params: { userName: userData.userName, Timeline: 'Timeline' },
           }">Timeline</router-link>
-        </li>
-        <li @click="toggleDisplay('displayProfile')">
-          <router-link :to="{
+          </li>
+          <li @click="toggleDisplay('displayProfile')">
+            <router-link :to="{
             name: 'Timeline',
             params: { userName: userData.userName, Timeline: 'Profile' },
           }">Profile</router-link>
-        </li>
-        <li @click="toggleDisplay('displayPhotos')">
-          <router-link :to="{
+          </li>
+          <li @click="toggleDisplay('displayPhotos')">
+            <router-link :to="{
             name: 'Timeline',
             params: { userName: userData.userName, Timeline: 'Photos' },
           }">Photos</router-link>
-        </li>
-        <li @click="handleShowFriends( userData.userName)">
-          Friends
-        </li>
-        <li>
-          <router-link :to="{
+          </li>
+          <li @click="handleShowFriends( userData.userName)">
+            Friends
+          </li>
+          <li>
+            <router-link :to="{
             name: 'userProfile',
             params: { userName: $store.state.userData.userName },
           }">
-            My Profile
-          </router-link>
-        </li>
-      </ul>
+              My Profile
+            </router-link>
+          </li>
+        </ul>
+      </div>
 
+
+
+
+      <div class="user-profile-pic">
+
+        <img :src="handleUserProfilePic(userName)" alt="">
+
+      </div>
     </div>
     <div class="timeline-container">
 
@@ -45,24 +55,24 @@
 
 
       <div class="sideBar">
-        <ul>
-          <li>
-            fjfjjgfjfjjg
-          </li>
-          <li>
-            fjfjjgfjfjjg
-          </li>
-          <li>
-            fjfjjgfjfjjg
-          </li>
-          <li>
-            fjfjjgfjfjjg
-          </li>
-          <li>
-            fjfjjgfjfjjg
-          </li>
+        <div class="timeline-user-photos">
+<div class="user-photos-header">
 
-        </ul>
+   <h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Photos
+          </h5>
+          <h5 v-else>Your Photos</h5>
+<!-- if="this.userData.userName === this.$store.state.userData.userName" -->
+</div>
+   <div class="userPhotos">
+                <div v-for="photo in userData.photos" :key="photo.imageId" class="image-photos"
+                   >
+                    <img :src="photo.imageUrl" alt="" @click="toggleDisplay('displayPhotos')">
+
+
+                </div>
+            </div>
+      
+        </div>
 
       </div>
       <div class="components-container">
@@ -73,47 +83,71 @@
         <Profiles :userName="handleUserNames" v-show="displayProfile" @toggleView="toggleDisplay" />
 
       </div>
+
+
+
+
+
+
+
       <div class="activities-container">
-<div class="active-header">
-<h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Activities</h5>
-<h5 v-if="this.userData.userName === this.$store.state.userData.userName">Your Activities</h5>
-</div>
-<div class="active-container">
+        <div class="active-header" :style="positioning">
+          <h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Activities
+          </h5>
+          <h5 v-if="this.userData.userName === this.$store.state.userData.userName">Your Activities</h5>
+        </div>
+        <div class="active-container" :style="positioning">
 
 
 
-        <ul v-for="activity in userData.activities"   @click="showActivityDetails(activity.posterUserName)" >
-          <li  v-if="activity.activity === 'followed'">You started
-           <br> following {{activity.friendUserName}} <br> {{  showDate(activity.activityDate) }}<hr></li>
-          <li  v-if="activity.activity === 'posted'">You made <br> a
-            post <br>{{ showDate(activity.activityDate)}}<hr></li>
-          <li 
-            v-if="activity.activity === 'commented' && activity.posterUserName !== this.userData.userName ">You
-            commented on a <br> post by {{activity.posterUserName}} <br> {{showDate(activity.activityDate)}}<hr></li>
-          <li 
-            v-if="activity.activity === 'commented' && activity.posterUserName === this.userData.userName ">You
-            commented on a <br> post You Made<br> {{ showDate(activity.activityDate)}}<hr></li>
+          <ul v-for="activity in userData.activities" @click="showActivityDetails(activity.posterUserName)">
+            <li v-if="activity.activity === 'followed'">You started
+              <br> following {{activity.friendUserName}} <br> {{ showDate(activity.activityDate) }}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'posted'">You made <br> a
+              post <br>{{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'commented' && activity.posterUserName !== this.userData.userName ">You
+              commented on a <br> post by {{activity.posterUserName}} <br> {{showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'commented' && activity.posterUserName === this.userData.userName ">You
+              commented on a <br> post You Made<br> {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
 
-          <li 
-            v-if="activity.activity === 'liked' && activity.posterUserName !== userData.userName">You liked a <br> post by
-            {{activity.posterUserName}} <br> {{ showDate(activity.activityDate)}}<hr></li>
-          <li 
-            v-if="activity.activity === 'likedComment' && activity.posterUserName !== activity.commenterUserName && activity.posterUserName !== this.userData.userName ">You
-            liked a <br> comment by {{activity.commenterUserName}} on {{activity.posterUserName}}'s Post <br>
-            {{ showDate(activity.activityDate)}} <hr></li>
-          <li 
-            v-if="activity.activity === 'likedComment'&& activity.posterUserName === activity.commenterUserName">You
-            liked a <br> comment by {{activity.commenterUserName}} on {{handleGender(activity.posterUserName)}} Post<br>
-            {{ showDate(activity.activityDate)}} <hr></li>
-<li 
-            v-if="activity.activity === 'likedComment'&& activity.posterUserName === this.userData.userName">You
-            liked a <br> comment by {{activity.commenterUserName}} on Your Post<br>
-            {{ showDate(activity.activityDate)}} <hr></li>
-          <li 
-            v-if="activity.activity === 'liked' && activity.posterUserName === userData.userName">You liked <br> Your own
-            post<br> {{ showDate(activity.activityDate)}}<hr></li>
+            <li v-if="activity.activity === 'liked' && activity.posterUserName !== userData.userName">You liked a <br>
+              post by
+              {{activity.posterUserName}} <br> {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li
+              v-if="activity.activity === 'likedComment' && activity.posterUserName !== activity.commenterUserName && activity.posterUserName !== this.userData.userName ">
+              You
+              liked a <br> comment by {{activity.commenterUserName}} on {{activity.posterUserName}}'s Post <br>
+              {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'likedComment'&& activity.posterUserName === activity.commenterUserName">You
+              liked a <br> comment by {{activity.commenterUserName}} on {{handleGender(activity.posterUserName)}}
+              Post<br>
+              {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'likedComment'&& activity.posterUserName === this.userData.userName">You
+              liked a <br> comment by {{activity.commenterUserName}} on Your Post<br>
+              {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'liked' && activity.posterUserName === userData.userName">You liked <br>
+              Your own
+              post<br> {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
 
-          <!-- <li   @click="showActivityDetails('message',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'message' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">You have a new {{notification.notificationType}} from {{notification.userName}}<hr></li>
+            <!-- <li   @click="showActivityDetails('message',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'message' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">You have a new {{notification.notificationType}} from {{notification.userName}}<hr></li>
 <h6   @click="showActivityDetails('post',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">Your friend {{notification.userName}} just made a new {{notification.notificationType}}</h6>
 <h6   @click="showActivityDetails('likes',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName === userData.userName">{{notification.userName}} likes your post</h6>
 <h6   @click="showActivityDetails('comment',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName === userData.userName">{{notification.userName}} commented on your post</h6>
@@ -121,9 +155,9 @@
 <h6   @click="showActivityDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)" v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">Your friend {{notification.userName}} likes {{notification.posterUserName}}'s post</h6>
 <h6   @click="showActivityDetails('follow',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'follow' && notification.notificationStatus === 'unRead' && notification.userName !== userData.userName">{{notification.userName}} started following you</h6> -->
 
-        </ul>
+          </ul>
 
-</div>
+        </div>
       </div>
 
 
@@ -138,26 +172,6 @@
 
   <div>
   </div>
-  <div class="container">
-    <div class="container1">
-  
-    </div>
-    <div class="container2">
-
-
-
-    </div>
-    <div class="container3">
-    
-
-    </div>
-
-
-
-
-  </div>
-
-
 
 
 </template>
@@ -180,7 +194,8 @@
         displayFriends: false,
         displayPhotos: false,
         displayProfile: false,
-        // userName:"bose"
+        activePosition: false,
+
       };
     },
 
@@ -211,6 +226,18 @@
 
       },
 
+
+      handleUserProfilePic(userName) {
+        if (this.$store.state.users[userName].userThumbnail !== undefined && this.$store.state.users[userName].userThumbnail.length) {
+          return this.$store.state.users[userName].userThumbnail
+
+        }
+
+        return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png"
+
+      },
+
+
       showActivityDetails(userName) {
 
         // console.log(userName);
@@ -219,32 +246,32 @@
 
       },
 
-   showDate(date) {
-      let currentDate = Date.now();
-      let dateStatus = currentDate - date;
-      const minutes = Math.round(dateStatus / (1000 * 60));
-      const hours = Math.round(dateStatus / (1000 * 60 * 60));
-      const days = Math.round(dateStatus / (1000 * 60 * 60 * 24));
-      const weeks = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7));
-      const months = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7 * 12));
-      const years = Math.round(dateStatus / (1000 * 60 * 60 * 365));
+      showDate(date) {
+        let currentDate = Date.now();
+        let dateStatus = currentDate - date;
+        const minutes = Math.round(dateStatus / (1000 * 60));
+        const hours = Math.round(dateStatus / (1000 * 60 * 60));
+        const days = Math.round(dateStatus / (1000 * 60 * 60 * 24));
+        const weeks = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7));
+        const months = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7 * 12));
+        const years = Math.round(dateStatus / (1000 * 60 * 60 * 365));
 
-      if (minutes <= 0) {
-        return "Just now";
-      } else if (minutes < 59) {
-        return minutes === 1 ? "1 minute ago" : minutes + "minutes ago";
-      } else if (hours < 11) {
-        return moment(date).format("L, h:mm :ss a");
-      } else if (days >= 1) {
-        return moment(date).format("L, h:mm:ss a");
-      } else if (weeks < 59) {
-        return moment(date).format("L, h:mm :ss a");
-      } else if (months < 59) {
-        return moment(date).format("L, h:mm :SS a");
-      } else {
-        return moment(date).format("L, h:mm a");
-      }
-    },
+        if (minutes <= 0) {
+          return "Just now";
+        } else if (minutes < 59) {
+          return minutes === 1 ? "1 minute ago" : minutes + "minutes ago";
+        } else if (hours < 11) {
+          return moment(date).format("L, h:mm :ss a");
+        } else if (days >= 1) {
+          return moment(date).format("L, h:mm:ss a");
+        } else if (weeks < 59) {
+          return moment(date).format("L, h:mm :ss a");
+        } else if (months < 59) {
+          return moment(date).format("L, h:mm :SS a");
+        } else {
+          return moment(date).format("L, h:mm a");
+        }
+      },
 
 
 
@@ -298,15 +325,38 @@
           }
 
         return "her"
-      }
+      },
 
 
 
 
     },
     computed: {
+      positioning() {
+        if (this.$store.state.displayFunctions.navCollapsed) {
+          this.activePosition = "position:fixed;top:15%;margin:0 20px;transition: cubic-bezier(0.39, 0.575, 0.565, 1);"
+          return this.activePosition
 
-      handleUserNames() {
+        }
+        else {
+          this.activePosition = "position:relative"
+
+          return this.activePosition
+
+        }
+
+
+
+      },
+
+userCoverImage(){
+
+return `background-image:url(${this.userData.userCoverImage})`
+
+},
+
+    handleUserNames() {
+
         const userName = this.userName
 
         this.loadData(this.userName)
