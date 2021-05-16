@@ -1,7 +1,7 @@
 <template>
   <div class="timeline-layout">
 
-    <div class="profile-cover-container"  :style="userCoverImage">
+    <div class="profile-cover-container" :style="userCoverImage">
       <!-- 
     <h2>{{ userData.userName }}</h2>
   <h2>{{handleUserNames}}</h2> -->
@@ -45,7 +45,7 @@
       <div class="user-profile-pic">
 
         <img :src="handleUserProfilePic(userName)" alt="">
-
+        <span class="username-header">{{userData.userName}}</span>
       </div>
     </div>
     <div class="timeline-container">
@@ -56,22 +56,21 @@
 
       <div class="sideBar">
         <div class="timeline-user-photos">
-<div class="user-photos-header">
+          <div class="user-photos-header">
 
-   <h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Photos
-          </h5>
-          <h5 v-else>Your Photos</h5>
-<!-- if="this.userData.userName === this.$store.state.userData.userName" -->
-</div>
-   <div class="userPhotos">
-                <div v-for="photo in userData.photos" :key="photo.imageId" class="image-photos"
-                   >
-                    <img :src="photo.imageUrl" alt="" @click="toggleDisplay('displayPhotos')">
+            <h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Photos
+            </h5>
+            <h5 v-else>Your Photos</h5>
+            <!-- if="this.userData.userName === this.$store.state.userData.userName" -->
+          </div>
+          <div class="userPhotos">
+            <div v-for="photo in userData.photos" :key="photo.imageId" class="image-photos">
+              <img :src="photo.imageUrl" alt="" @click="displayPhotosComp(photo)">
 
 
-                </div>
             </div>
-      
+          </div>
+
         </div>
 
       </div>
@@ -200,14 +199,27 @@
     },
 
     mounted() {
-      this.loadData(this.userName);
+      this.loadData(this.userName, "load");
     },
     beforeUnmount() {
-      this.loadData(this.userName);
+      this.loadData(this.userName, "unLoad");
     },
     methods: {
-      loadData(userName) {
+      loadData(userName, params) {
         this.userData = this.$store.state.users[userName];
+
+
+        params === "load" ? this.$store.dispatch("handleDisplayFunctions", {
+          activeLink: "Timeline",
+          params: "activeLink"
+        }) : this.$store.dispatch("handleDisplayFunctions", {
+          activeLink: "",
+          params: "activeLink"
+        })
+
+
+
+
 
         if (this.$store.state.userData.userName === "Guest") {
           this.$router.push({
@@ -217,6 +229,16 @@
 
 
         }
+
+      },
+
+      displayPhotosComp(photo) {
+        this.$store.dispatch("handleDisplayFunctions", {
+          displayClickedImage: photo,
+          params: "displayClickedImage"
+        });
+        this.toggleDisplay("displayPhotos")
+
 
       },
 
@@ -349,13 +371,13 @@
 
       },
 
-userCoverImage(){
+      userCoverImage() {
 
-return `background-image:url(${this.userData.userCoverImage})`
+        return `background-image:url(${this.userData.userCoverImage})`
 
-},
+      },
 
-    handleUserNames() {
+      handleUserNames() {
 
         const userName = this.userName
 
