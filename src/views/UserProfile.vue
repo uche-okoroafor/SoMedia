@@ -32,7 +32,7 @@
           <div class="card-set-profile-header">
             <h3>My account</h3>
 
-            <input class="btn btn-info  editBtn" @click="handleEnableEdit" value="Edit"/>
+            <input class="btn btn-info  editBtn" @click="handleEnableEdit" value="Edit" />
           </div>
 
           <div class="info-form">
@@ -107,9 +107,9 @@
                 :disabled="inputState"></textarea>
             </div>
           </div>
-<div class="submitbtn">
-          <button type="submit" class="btn btn-success mt-5 " @click="handleuserDetailsUpDate">Save</button>
-</div>
+          <div class="submitbtn">
+            <button type="submit" class="btn btn-success mt-5 " @click="handleuserDetailsUpDate">Save</button>
+          </div>
         </form>
       </div>
       <div class="card-view-profile">
@@ -203,9 +203,10 @@
             unLikes: [],
           },
         },
-        inputState: false,
+        inputState: true,
         userCoverImage: '',
         userProfileImage: '',
+        onUserName: 'uche',
       }
     },
 
@@ -217,7 +218,8 @@
     },
     methods: {
       loadData(params) {
-        this.userDetails ={ ...this.$store.state.users[this.userName]};
+        this.onUserName = this.userName
+        this.userDetails = { ...this.$store.state.users[this.userName] };
         params === "load" ? this.$store.dispatch("handleDisplayFunctions", {
           activeLink: "userProfile",
           params: "activeLink"
@@ -243,7 +245,6 @@
 
         })
 
-        console.log(this.userCoverImage);
       },
 
       getLocalProfileImgAddress(e) {
@@ -255,7 +256,6 @@
           userName: this.userName,
 
         })
-        console.log(this.userProfileImage);
 
 
       },
@@ -279,38 +279,46 @@
 
 
       handleUserDetailsUpDate() {
-  // this.$store.dispatch('handleAccountUpdate', {
-  //         params: 'updateCoverImage',
-  //         userCoverImage: this.userCoverImage,
-  //         userName: this.userName,
+        // this.$store.dispatch('handleAccountUpdate', {
+        //         params: 'updateCoverImage',
+        //         userCoverImage: this.userCoverImage,
+        //         userName: this.userName,
 
-  //       })
+        //       })
 
-if(this.userDetails.userName !== this.userData.userName){
+        if (this.userDetails.userName !== this.userData.userName) {
 
-this.$store.dispatch('handleAccountUpdate', {
-          params: 'updateUserName',
-          userName: this.userName,
-userDetails:this.userDetails,
-        })
+          this.$store.dispatch('handleAccountUpdate', {
+            params: 'updateUserName',
+            userName: this.userName,
+            userDetails: this.userDetails,
+          })
+          // this.onUserName =this.userDetails.userName
+          this.$router.push({
+            name: "userProfile",
+            params: { userName: this.userDetails.userName },
+          });
+          // this.loadData("load");
 
-}
-else
-{
-this.$store.dispatch('handleAccountUpdate', {
-          params: 'otherDetails',
-          userName: this.userName,
-userDetails:this.userDetails,
-        })
+        }
+        else {
 
- this.inputState=true
-        this.userDetails ={ ...this.$store.state.users[this.userName]};
-
-}
+          this.$store.dispatch('handleAccountUpdate', {
+            params: 'otherDetails',
+            userName: this.userName,
+            userDetails: this.userDetails,
+          })
+          console.log(this.userName, 2);
 
 
 
 
+
+        }
+        // this.userDetails = { ...this.$store.state.users[this.userName] };
+        this.inputState = true
+
+        console.log('working');
 
 
       },
@@ -327,16 +335,18 @@ userDetails:this.userDetails,
       },
 
       HandleUserCoverImage() {
-        return `background-image:url(${this.userData.userCoverImage})`
 
+        if (this.userData.userCoverImage !== undefined) {
+          return `background-image:url(${this.userData.userCoverImage})`
+        }
       },
 
     },
     computed: {
       userData() {
 
-const  userData = this.$store.state.users[this.userName];
-        return userData ;
+        const userData = this.$store.state.users[this.userName];
+        return userData;
       },
     },
 
