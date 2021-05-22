@@ -3,62 +3,62 @@
     <div class="container-sidebar-one">
       <div class="sidebar-list" :style="handleDisplayFunctions()">
         <ul>
-          <router-link :to="{
+         
+            <li>
+ <router-link :to="{
                 name: 'Messages',
                 params: { userName: userData.userName },
               }">
-            <li>
-
               <span> Messages </span>
               <font-awesome-icon class="ml-2" :icon="['fas', 'envelope']" />
-
+ </router-link>
             </li>
-          </router-link>
-          <router-link :to="{
+         
+          
+            <li>
+<router-link :to="{
                 name: 'Friends',
                 params: { userName: userData.userName, Timeline: 'friends' },
               }">
-            <li>
-
               <span>Friends </span>
               <font-awesome-icon class="ml-2" :icon="['fas', 'user-friends']" />
-
+</router-link>
             </li>
-          </router-link>
-          <router-link :to="{
+          
+         
+            <li>
+ <router-link :to="{
                 name: 'Friends',
                 params: { userName: userData.userName, Timeline: 'friends' },
               }">
-            <li>
-
               <span> Following </span>
               <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
-
+    </router-link>
             </li>
-          </router-link>
-          <router-link :to="{
+      
+          
+            <li>
+<router-link :to="{
                 name: 'Friends',
                 params: { userName: userData.userName, Timeline: 'friends' },
               }">
-            <li>
-
               <span>Followers </span>
               <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
-
+</router-link>
             </li>
-          </router-link>
+          
         </ul>
       </div>
     </div>
 
     <div class="posts-container">
       <div class="form-field mb-5" ref="formField">
-        <span><img :src="userData.userThumbnail" alt="" />
+        <span><img :src="userData.userProfileImage" class="user-image-icon" alt="" />
           <span v-if="showUserName" class="username-header"> &nbsp; {{ userData.userName }}</span>
         </span>
         <form @submit.prevent="handlePublishPost()" ref="form">
-          <textarea name="posttextarea" v-model="postTextArea" cols="30" rows="3" :class="postStyle"
-            placeholder=" Make a post" @click="handleTextarea('text')" ref="textArea"></textarea>
+          <textarea name="posttextarea" v-model="postTextArea" cols="30" rows="3" class="" 
+            placeholder=" Make a post"  @click="handleMakePost('text')" ref="textArea"></textarea>
 
           <br />
           <div class="filepreview" v-if="previewImage||previewVideo">
@@ -68,7 +68,7 @@
 
 
 
-            <div class="post-Video" v-if="previewVideo">
+            <div class="post-Video" v-if="previewVideo && loadFileAddress">
               <video width="500" heigth="100" controls>
                 <source :src="tempUrl" type="video/mp4">
                 <source :src="tempUrl" type="video/ogg">
@@ -80,8 +80,10 @@
 
 
           </div>
-
-
+  <input type="file"  name="fileUpload" accept="image/png,image/jpeg,video/mp4" ref="filesUploadVideo"
+            @change="localFiles" v-show="false">
+  <input type="file"  name="fileUpload" accept="image/png,image/jpeg" ref="filesUploadImages"
+            @change="localFiles" v-show="false">
 
 
 
@@ -90,14 +92,14 @@
           <div class="textarea-icons" ref="textareaIcons">
             <span class="edit-container" ref="editContainer">
               <span class="edit-icon-container">
-                <font-awesome-icon :icon="['fas', 'edit']" ref="timelineIcon" @click="handleTextarea('text')" />
+                <font-awesome-icon :icon="['fas', 'edit']" ref="timelineIcon" @click="handleMakePost('text')" />
                 <span ref="chevronRight" style="display: none">
                   <font-awesome-icon :icon="['fas', 'chevron-right']" class="chevron-right" />
                 </span>
               </span>
 
-              <span class="text-theme-container" ref="themeContainer">
-                <div @click="handleTheme('text-theme-default')" class="text-theme text-theme-default ml-4"
+              <span class="text-theme-container themes-icons-container" ref="themeContainer">
+                <div @click="handleTheme('text-theme-default')" class="text-theme text-theme-default "
                   style="padding: 0"></div>
                 <div @click="handleTheme('text-themeOne')" class="text-theme text-themeOne" style="padding: 0"></div>
                 <div @click="handleTheme('text-themeTwo')" class="text-theme text-themeTwo" style="padding: 0"></div>
@@ -115,18 +117,17 @@
               </span>
             </span>
             <span>
-              <font-awesome-icon :icon="['fas', 'image']" @click="handleTextarea('image')" />
+              <font-awesome-icon :icon="['fas', 'image']" @click="handleMakePost('image')" />
             </span>
             <span>
-              <font-awesome-icon :icon="['fas', 'video']" ref="timelineIcon" @click="handleTextarea('video')" />
+              <font-awesome-icon :icon="['fas', 'video']" ref="timelineIcon" @click="handleMakePost('video')" />
             </span>
           </div>
 
 
 
 
-          <input type="file" id="s" name="fileUpload" accept="image/png, image/jpeg,video/mp4" ref="filesUpload"
-            @change="localFiles" v-show="false">
+         
 
           <button type="submit" class="btn btn-success">Post</button>
         </form>
@@ -137,21 +138,22 @@
 
 
         <div class="userImage" @click="showUserTimeline(post.userName, post.userId)">
-          <img :src="handleUserIcon($store.state.users[post.userName].userThumbnail)" alt="" />
+          <img :src="handleUserIcon($store.state.users[post.userName].userProfileImage)" class="user-image-icon" alt="" />
           <span class="userName-Timeposted"><span class="username-header">{{ post.userName }}</span><span> Posted {{
               showDate(post.datePosted)
               }}</span>
           </span>
         </div>
 
-        <div class="post rounded mt-3" :class="post.postStyle" v-if="post.posts.length">
+        <div class="post rounded" :class="post.postStyle" v-if="post.posts.length"
+          :style="handlePostThemes(post.postStyle)" ref="post">
           <span> {{ post.posts }}</span>
         </div>
         <div v-for="image in post.postImages" class="post-images" :key="post.postImages" v-if="post.postImages.length">
           <img :src="image.imageUrl" alt="">
         </div>
-        <div class="post-Video" v-if="post.postVideos.videoId && !image.imageUrl.length">
-          <video width="500" heigth="100" controls>
+        <div class="post-Video" v-if="post.postVideos.videoId">
+          <video width="500" max-height="300" controls>
             <source :src="post.postVideos.videoUrl" type="video/mp4">
             <source :src="post.postVideos.videoUrl" type="video/ogg">
             Your browser does not support HTML video.
@@ -181,7 +183,7 @@
                 post.userName,
                 post.postId
               )
-            " class="m-2 text-danger comment-unlike">unlikes
+            " class="m-2 text-danger comment-unlike   ">unlikes
             <font-awesome-icon :icon="['fas', 'thumbs-down']" />
             {{ post.unLikes.length }}
           </span>
@@ -191,9 +193,10 @@
         <hr />
         <h6 class="ml-5">Comments</h6>
 
-        <div class="ml-5 pt-2 comments" v-for="comment in post.comments" :key="comment.commentId">
+        <div class="comments" v-for="comment in post.comments" :key="comment.commentId">
           <div class="userImage ml-5" @click="showUserTimeline(comment.userName, comment.userId)">
-            <img :src="handleUserIcon($store.state.users[comment.userName].userThumbnail)" alt="" />
+            <img :src="handleUserIcon($store.state.users[comment.userName].userProfileImage)" class="user-image-icon"
+              alt="" />
             <span class="userName-Timeposted"><span class="username-header">{{ comment.userName }}</span><span>
                 commented {{
                 showDate(comment.dateCommented) }}</span>
@@ -210,7 +213,7 @@
                 post.userName,
                 comment
               )
-            " class="m-2 p-5 text-success comment-like">
+            " class="comment-mobile-view text-success comment-like">
             Likes
             <font-awesome-icon :icon="['fas', 'thumbs-up']" />
             {{ comment.likes.length }}
@@ -224,14 +227,14 @@
                 post.userName,
                 comment
               )
-            " class="m-2 p-5 text-danger  comment-unlike">
+            " class="comment-mobile-view text-danger  comment-unlike">
             Unlikes
             <font-awesome-icon :icon="['fas', 'thumbs-down']" />
             {{ comment.unLikes.length }}
           </span>
         </div>
         <div class="comment-input-field">
-          <span><img :src="handleUserIcon(userData.userThumbnail)" alt="" /></span>
+          <span><img :src="handleUserIcon(userData.userProfileImage)" class="user-image-icon" alt="" /></span>
           <form @submit.prevent="
               handlePosterComment(post.posterComment, post.postId, post.userName)
             ">
@@ -250,8 +253,8 @@
         </div>
         <ul v-for="friend in $store.state.allUsers" :key="friend.userName">
           <span>
-            <li>
-              <img :src="$store.state.users[friend.userName].userThumbnail" alt="" />
+            <li @click="showMessage(friend.userName)">
+              <img :src="$store.state.users[friend.userName].userProfileImage" class="user-image-icon" alt="" />
               <span class="username-header"> {{ friend.userName }}</span>
               <button class="btn btn-success">Chat</button>
             </li>
@@ -311,7 +314,8 @@
         postStyle: "text-theme-default",
         tempUrl: '',
         previewVideo: false,
-        previewImage: false
+        previewImage: false,
+        loadFileAddress: false,
       };
     },
 
@@ -349,6 +353,21 @@
       },
 
 
+      handlePostThemes(theme) {
+        if (theme !== "text-theme-default") {
+
+          return "min-height:200px"
+        }
+
+
+        return "heigth:auto"
+
+
+
+      },
+
+
+
       localFiles(e) {
 
         this.tempUrl = URL.createObjectURL(e.target.files[0]);
@@ -357,29 +376,35 @@
 
 
       handleTheme(theme) {
+        this.$refs.textArea.classList.remove(this.postStyle) 
+        this.$refs.textArea.classList.add(theme) 
         this.postStyle = theme;
+
       },
 
-      handleTextarea(params) {
+      handleMakePost(params) {
         if (params !== "text") {
           if (params === "video") {
             this.previewVideo = true;
             this.previewImage = false;
+            this.loadFileAddress = false;
+            this.tempUrl = "";
+ this.$refs.filesUploadVideo.click()
           } else {
             this.previewImage = true;
             this.previewVideo = false;
-          }
-          this.$refs.filesUpload.click()
+ this.$refs.filesUploadImages.click()         
+ }
+         
         }
 
+this.$refs.formField.style = "flex-flow:column;transition:all 0.4s";
 
-        this.previewImage || this.previewVideo ? this.$refs.formField.style = "flex-flow:column;height:auto;transition:all 0.4s" :
- this.$refs.formField.style = "flex-flow:column;height:32rem;transition:all 0.4s";
-        this.$refs.textArea.style =
-          "width:100%;height:15rem;transition:all 0.4s;border-radius:0";
+
+        this.$refs.textArea.classList.add("textarea-input") 
         this.$refs.textareaIcons.style =
           "flex-flow:column;font-size:1.5rem;transition:all 0.4s";
-        this.$refs.themeContainer.style = "display:flex;width:auto;transition:all 0.4s";
+        this.$refs.themeContainer.style = "display:flex;";
         this.$refs.editContainer.style = "display:flex";
         this.$refs.chevronRight.style = "display:inline";
         this.showUserName = true;
@@ -387,8 +412,8 @@
 
       CloseTextArea() {
         this.$refs.formField.style = "flex-flow:row;height:auto;transition:all 0.4s";
-        this.$refs.textArea.style =
-          "width:95%;height:2.5rem;transition:all 0.4s;border-radius:15px";
+        this.$refs.textArea.classList.remove("textarea-input") 
+
         this.$refs.textareaIcons.style = "flex-flow:row;";
         this.$refs.themeContainer.style = "display:none;";
         this.$refs.editContainer.style = "display:inline";
@@ -408,12 +433,12 @@
         }
       },
 
-      handleUserIcon(userThumbnail) {
-        if (userThumbnail === undefined) {
+      handleUserIcon(userProfileImage) {
+        if (userProfileImage === undefined) {
           return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png";
-          // require('./assets/userThumbnail/original1.jpg')
+          // require('./assets/userProfileImage/original1.jpg')
         }
-        return userThumbnail;
+        return userProfileImage;
       },
       showUserTimeline(userName) {
         this.$router.push({
@@ -422,10 +447,17 @@
         });
       },
 
+
+
       handlePublishPost() {
         let postId = uuid.v1();
-let videoId =uuid.v1();
-let imageId = uuid.v1();
+        let videoId = '';
+        let imageId = '';
+
+        this.previewVideo ? videoId = uuid.v1() : imageId = uuid.v1();
+        // this.previewVideo || this.previewImage?this.postStyle =
+
+
         if (this.postTextArea.length || this.tempUrl.length) {
           this.$store.dispatch("handlePublishPost", {
             [postId]: {
@@ -440,10 +472,10 @@ let imageId = uuid.v1();
               posterComment: "",
               comments: [],
               postStyle: this.postStyle,
-                postImages: [{ imageUrl:this.tempUrl, imageId }],
-                postVideos: {videoUrl:this.tempUrl,videoId},
+              postImages: [{ imageUrl: this.tempUrl, imageId }],
+              postVideos: { videoUrl: this.tempUrl, videoId },
 
-          
+
 
 
             },
@@ -451,6 +483,7 @@ let imageId = uuid.v1();
           this.postTextArea = "";
           this.CloseTextArea();
           this.loadData();
+this.tempUrl=""
         }
 
         this.$store.dispatch("handleNotifications", {
@@ -529,6 +562,23 @@ let imageId = uuid.v1();
         }
       },
 
+
+
+
+
+showMessage(userName, status){
+ 
+
+this.$store.dispatch("handleDisplayFunctions", {
+          userName,
+          params: "displayMessage"
+        })
+this.$router.push({
+          name: "Messages",
+          params: { userName: this.userData.userName },
+        })
+
+},
       // handlePostViews(posterUserName){
       //  this.$store.dispatch("handlePostViews", {
       //           userName: this.userData.userName,
@@ -699,7 +749,17 @@ let imageId = uuid.v1();
 
       newsFeeds() {
 
-        // console.log(this.localFiles);
+     
+
+        if (this.previewVideo && this.tempUrl.length || this.previewImage && this.tempUrl.length) {
+          this.loadFileAddress = true
+
+
+        }
+
+
+
+
 
         let newsFeeds = [];
 
