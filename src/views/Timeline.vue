@@ -90,13 +90,13 @@
 
 
       <div class="activities-container">
-        <div class="active-header" :style="positioning">
+       
+        <div class="active-container" >
+ <div class="active-header" >
           <h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Activities
           </h5>
           <h5 v-if="this.userData.userName === this.$store.state.userData.userName">Your Activities</h5>
         </div>
-        <div class="active-container" :style="positioning">
-
 
 
           <ul v-for="activity in userData.activities" @click="showActivityDetails(activity.posterUserName)">
@@ -250,8 +250,8 @@
 
 
       handleUserProfilePic(userName) {
-        if (this.$store.state.users[userName].userThumbnail !== undefined && this.$store.state.users[userName].userThumbnail.length) {
-          return this.$store.state.users[userName].userThumbnail
+        if (this.$store.state.users[userName].userProfileImage !== undefined && this.$store.state.users[userName].userProfileImage.length) {
+          return this.$store.state.users[userName].userProfileImage
 
         }
 
@@ -354,22 +354,22 @@
 
     },
     computed: {
-      positioning() {
-        if (this.$store.state.displayFunctions.navCollapsed) {
-          this.activePosition = "position:fixed;top:15%;margin:0 20px;transition: cubic-bezier(0.39, 0.575, 0.565, 1);"
-          return this.activePosition
+      // positioning() {
+      //   if (this.$store.state.displayFunctions.navCollapsed) {
+      //     this.activePosition = "position:fixed;top:15%;margin:0 20px;transition: cubic-bezier(0.39, 0.575, 0.565, 1);"
+      //     return this.activePosition
 
-        }
-        else {
-          this.activePosition = "position:relative"
+      //   }
+      //   else {
+      //     this.activePosition = "position:relative"
 
-          return this.activePosition
+      //     return this.activePosition
 
-        }
+      //   }
 
 
 
-      },
+      // },
 
       userCoverImage() {
 
