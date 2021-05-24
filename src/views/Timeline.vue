@@ -7,34 +7,27 @@
   <h2>{{handleUserNames}}</h2> -->
       <div class="cover-Links">
         <ul>
-          <li @click="toggleDisplay('displayPosts')">
+          <li @click="toggleDisplay('displayPosts')"  >
             <router-link :to="{
             name: 'Timeline',
             params: { userName: userData.userName, Timeline: 'Timeline' },
-          }">Timeline</router-link>
+          }"    :style="displayPosts && activeLink">Posts</router-link>
           </li>
           <li @click="toggleDisplay('displayProfile')">
             <router-link :to="{
             name: 'Timeline',
             params: { userName: userData.userName, Timeline: 'Profile' },
-          }">Profile</router-link>
+          }"  :style="displayProfile && activeLink">Profile</router-link>
           </li>
           <li @click="toggleDisplay('displayPhotos')">
             <router-link :to="{
             name: 'Timeline',
             params: { userName: userData.userName, Timeline: 'Photos' },
-          }">Photos</router-link>
+          }"    :style="displayPhotos && activeLink">Photos</router-link>
           </li>
           <li @click="handleShowFriends( userData.userName)">
-            Friends
-          </li>
-          <li>
-            <router-link :to="{
-            name: 'userProfile',
-            params: { userName: $store.state.userData.userName },
-          }">
-              My Profile
-            </router-link>
+<a href="" :style="displayFriends && activeLink" ref="timelineFriendsLink">
+            Friends</a>
           </li>
         </ul>
       </div>
@@ -89,7 +82,7 @@
 
 
 
-      <div class="activities-container">
+      <div class="activities-container" :class="activitiesDisplay">
        
         <div class="active-container" >
  <div class="active-header" >
@@ -194,15 +187,19 @@
         displayPhotos: false,
         displayProfile: false,
         activePosition: false,
+activeLink:"background-color: var(--pink);color: var(--navy-blue) !important;font-weight: bold;border-radius:5px",
+activitiesDisplay:'',
 
       };
     },
 
     mounted() {
       this.loadData(this.userName, "load");
+window.scrollTo(0, 0)
     },
     beforeUnmount() {
       this.loadData(this.userName, "unLoad");
+window.scrollTo(0, 0)
     },
     methods: {
       loadData(userName, params) {
@@ -305,6 +302,11 @@
             this.displayFriends = false
             this.displayPhotos = false
             this.displayProfile = false
+this.activitiesDisplay=""
+
+// this.$refs.[this.formerLink].classList.remove("timeline-nav-link")
+// this.$refs.postsLink.classList.add("timeline-nav-link")
+// this.formerLink="postsLink"
             break;
 
 
@@ -315,6 +317,11 @@
             this.displayPhotos = false
             this.displayProfile = false
             this.$router.push({ name: "Timeline", params: { userName: this.userData.userName, Timeline: 'Friends' } })
+this.activitiesDisplay=""
+
+// this.$refs.[this.formerLink].classList.remove("timeline-nav-link")
+// this.$refs.timelineFriendsLink.classList.add("timeline-nav-link")
+// this.formerLink="timelineFriendsLink"
             break;
 
           case "displayPhotos":
@@ -322,7 +329,10 @@
             this.displayFriends = false
             this.displayPhotos = true
             this.displayProfile = false
-
+this.activitiesDisplay="activities-display"
+// this.$refs.postsLink.classList.remove("timeline-nav-link")
+// this.$refs.timelinePhotosLink.classList.add("timeline-nav-link")
+// this.formerLink="timelinePhotosLink"
             break;
 
           case "displayProfile":
@@ -330,6 +340,10 @@
             this.displayFriends = false
             this.displayPhotos = false
             this.displayProfile = true
+this.activitiesDisplay="activities-display"
+// this.$refs.[this.formerLink].classList.remove("timeline-nav-link")
+// this.$refs.timelineProfileLink.classList.add("timeline-nav-link")
+// this.formerLink="timelineProfileLink"
             break;
 
 
@@ -372,7 +386,6 @@
       // },
 
       userCoverImage() {
-
         return `background-image:url(${this.userData.userCoverImage})`
 
       },
