@@ -1,213 +1,227 @@
 <template>
-  <div class="timeline-layout">
+  <div class="mai-container">
+    <div class="cover-container" :style="HandleUserCoverImage()">
+      <div class="welcome-message">
+        <h1> Hello&nbsp;{{ userData.userName }}</h1>
+        <span>Welcome to your Profile &nbsp;</span>
+        <!-- <span>Update Your Cover Picture</span> -->
+        <span class="update-cover-img">
+          <font-awesome-icon :icon="['fas', 'folder-plus']" @click="handleImageUpdate" />&nbsp;
 
-    <div class="profile-cover-container" :style="userCoverImage">
-      <!-- 
-    <h2>{{ userData.userName }}</h2>
-  <h2>{{handleUserNames}}</h2> -->
-      <div class="cover-Links">
-        <ul>
-          <li @click="toggleDisplay('displayPosts')"  >
-            <router-link :to="{
-            name: 'Timeline',
-            params: { userName: userData.userName, Timeline: 'Timeline' },
-          }"    :style="displayPosts && activeLink">Posts</router-link>
-          </li>
-          <li @click="toggleDisplay('displayProfile')">
-            <router-link :to="{
-            name: 'Timeline',
-            params: { userName: userData.userName, Timeline: 'Profile' },
-          }"  :style="displayProfile && activeLink">Profile</router-link>
-          </li>
-          <li @click="toggleDisplay('displayPhotos')">
-            <router-link :to="{
-            name: 'Timeline',
-            params: { userName: userData.userName, Timeline: 'Photos' },
-          }"    :style="displayPhotos && activeLink">Photos</router-link>
-          </li>
-          <li @click="handleShowFriends( userData.userName)">
-<a href="" :style="displayFriends && activeLink" ref="timelineFriendsLink">
-            Friends</a>
-          </li>
-        </ul>
+          <span class="update-cover-text">Update Your Cover Picture
+          </span>
+
+          <input type="file" name="fileUpload" accept="image/png, image/jpeg,video/mp4" ref="uploadCoverImage"
+            @change="getLocalCoverImgAddress" v-show="false">
+          <input type="file" name="fileUploadprofile" accept="image/png, image/jpeg,video/mp4" ref="uploadProfileImage"
+            @change="getLocalProfileImgAddress" v-show="false">
+        </span>
+
+
       </div>
-
-
-
-
-      <div class="user-profile-pic">
-
-        <img :src="handleUserProfilePic(userName)" alt="">
-        <span class="username-header">{{userData.userName}}</span>
-      </div>
+      <!--  <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae <br />
+        facere sit quidem nobis accusantium illo explicabo doloribus laudantium omnis
+        veritatis totam libero in laborum amet, doloremque, delectus magni! Totam,
+        perferendis!
+      </p> -->
     </div>
-    <div class="timeline-container">
+    <div class="body-container">
+      <div class="card-set-profile">
+        <form @submit.prevent="handleUserDetailsUpDate">
+          <div class="card-set-profile-header">
+            <h3>My account</h3>
 
-
-
-
-
-      <div class="sideBar">
-        <div class="timeline-user-photos">
-          <div class="user-photos-header">
-
-            <h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Photos
-            </h5>
-            <h5 v-else>Your Photos</h5>
-            <!-- if="this.userData.userName === this.$store.state.userData.userName" -->
+            <input type="button" class="btn btn-info  editBtn" @click="handleEnableEdit" value="Edit" />
           </div>
-          <div class="userPhotos">
-            <div v-for="photo in userData.photos" :key="photo.imageId" class="image-photos">
-              <img :src="photo.imageUrl" alt="" @click="displayPhotosComp(photo)">
 
+          <div class="info-form">
+            <h4>User information</h4>
+            <div class="your-info">
+              <div>
+                <label for="UserName">UserName</label>
+                <input type="text" v-model="userDetails.userName" placeholder="UserName" :disabled="inputState" />
+              </div>
 
+              <div>
+                <label for="Email"> Email</label>
+                <input type="text" v-model="userDetails.emailAddress" placeholder="Email" :disabled="inputState" />
+              </div>
+
+              <div>
+                <label for="FirstName">First Name</label>
+                <input type="text" v-model="userDetails.firstName" placeholder="First Name" :disabled="inputState" />
+              </div>
+
+              <div>
+                <label for="LastName">Last Name</label>
+                <input type="text" v-model="userDetails.lastName" placeholder="Last Name" :disabled="inputState" />
+              </div>
+
+              <div>
+                <label for="age">Age</label>
+                <input type="text" v-model="userDetails.age" placeholder="age" :disabled="inputState" />
+              </div>
+
+              <div>
+                <label for="education">Education</label>
+                <input type="text" v-model="userDetails.education" placeholder="Education" :disabled="inputState" />
+              </div>
+
+              <div class="age">
+                <label for="occupation">Occupation</label>
+                <input type="text" v-model="userDetails.occupation" placeholder="Occupation" :disabled="inputState" />
+              </div>
+            </div>
+            <hr />
+          </div>
+          <h4>Contact information</h4>
+          <div class="contact-info">
+            <div class="Home-Address">
+              <div>
+                <label for="Address">Address</label>
+              </div>
+              <input type="text" placeholder="Home Address" v-model="userDetails.Address" :disabled="inputState" />
+            </div>
+            <div class="">
+              <label for="City">City</label>
+              <input type="text" placeholder="City" v-model="userDetails.city" :disabled="inputState" />
+            </div>
+            <div class="">
+              <label for="Country">Country</label>
+              <input type="text" placeholder="Country" v-model="userDetails.country" :disabled="inputState" />
+            </div>
+            <div class="">
+              <label for="postCode">postCode</label>
+              <input type="text" placeholder="postCode" v-model="userDetails.postCode" :disabled="inputState" />
             </div>
           </div>
+          <hr />
+
+          <div class="about-me">
+            <h4>About me</h4>
+
+            <div class="textarea-container">
+              <label for="About-me">About Me</label>
+              <textarea name="About-me" cols="30" rows="5" placeholder="About me" v-model="userDetails.aboutMe"
+                :disabled="inputState"></textarea>
+            </div>
+          </div>
+          <div class="submitbtn">
+            <button type="submit" class="btn btn-success mt-5 " @click="handleuserDetailsUpDate">Save</button>
+          </div>
+        </form>
+      </div>
+      <div class="card-view-profile">
+        <div class="user-Profile-pix">
+
+
+
+
+          <img :src="handleUserProfilePic(userName)" alt="" />
+          <span class="setup-buttons">
+            <font-awesome-icon :icon="['fas', 'folder-plus']" @click="handleImageUpdate('profileImage')" /><span
+              class="setup-buttons-text">&nbsp; Update Profile Picture</span>
+          </span>
 
         </div>
-
-      </div>
-      <div class="components-container">
-
-        <Posts :userName="handleUserNames" v-if="displayPosts" :loadData="loadData" />
-        <Photos :userName="handleUserNames" v-show="displayPhotos" />
-        <Friends :userName="handleUserNames" v-show="displayFriends" @toggleView="toggleDisplay" />
-        <Profiles :userName="handleUserNames" v-show="displayProfile" @toggleView="toggleDisplay" />
-
-      </div>
-
-
-
-
-
-
-
-      <div class="activities-container" :class="activitiesDisplay">
-       
-        <div class="active-container" >
- <div class="active-header" >
-          <h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Activities
-          </h5>
-          <h5 v-if="this.userData.userName === this.$store.state.userData.userName">Your Activities</h5>
+        <div class="friends-follwers-container">
+          <div>
+            <h5>{{ userData.friends.length }} 1</h5>
+            <span>Friends</span>
+          </div>
+          <div>
+            <h5>{{ userData.photos.length }}2</h5>
+            <span>Photos</span>
+          </div>
+          <div>
+            <h5>{{ userData.posts.length }}3</h5>
+            <span>Posts</span>
+          </div>
         </div>
 
-
-          <ul v-for="activity in userData.activities" @click="showActivityDetails(activity.posterUserName)">
-            <li v-if="activity.activity === 'followed'">You started
-              <br> following {{activity.friendUserName}} <br> {{ showDate(activity.activityDate) }}
-              <hr>
-            </li>
-            <li v-if="activity.activity === 'posted'">You made <br> a
-              post <br>{{ showDate(activity.activityDate)}}
-              <hr>
-            </li>
-            <li v-if="activity.activity === 'commented' && activity.posterUserName !== this.userData.userName ">You
-              commented on a <br> post by {{activity.posterUserName}} <br> {{showDate(activity.activityDate)}}
-              <hr>
-            </li>
-            <li v-if="activity.activity === 'commented' && activity.posterUserName === this.userData.userName ">You
-              commented on a <br> post You Made<br> {{ showDate(activity.activityDate)}}
-              <hr>
-            </li>
-
-            <li v-if="activity.activity === 'liked' && activity.posterUserName !== userData.userName">You liked a <br>
-              post by
-              {{activity.posterUserName}} <br> {{ showDate(activity.activityDate)}}
-              <hr>
-            </li>
-            <li
-              v-if="activity.activity === 'likedComment' && activity.posterUserName !== activity.commenterUserName && activity.posterUserName !== this.userData.userName ">
-              You
-              liked a <br> comment by {{activity.commenterUserName}} on {{activity.posterUserName}}'s Post <br>
-              {{ showDate(activity.activityDate)}}
-              <hr>
-            </li>
-            <li v-if="activity.activity === 'likedComment'&& activity.posterUserName === activity.commenterUserName">You
-              liked a <br> comment by {{activity.commenterUserName}} on {{handleGender(activity.posterUserName)}}
-              Post<br>
-              {{ showDate(activity.activityDate)}}
-              <hr>
-            </li>
-            <li v-if="activity.activity === 'likedComment'&& activity.posterUserName === this.userData.userName">You
-              liked a <br> comment by {{activity.commenterUserName}} on Your Post<br>
-              {{ showDate(activity.activityDate)}}
-              <hr>
-            </li>
-            <li v-if="activity.activity === 'liked' && activity.posterUserName === userData.userName">You liked <br>
-              Your own
-              post<br> {{ showDate(activity.activityDate)}}
-              <hr>
-            </li>
-
-            <!-- <li   @click="showActivityDetails('message',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'message' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">You have a new {{notification.notificationType}} from {{notification.userName}}<hr></li>
-<h6   @click="showActivityDetails('post',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">Your friend {{notification.userName}} just made a new {{notification.notificationType}}</h6>
-<h6   @click="showActivityDetails('likes',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName === userData.userName">{{notification.userName}} likes your post</h6>
-<h6   @click="showActivityDetails('comment',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName === userData.userName">{{notification.userName}} commented on your post</h6>
-<h6   @click="showActivityDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)" v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">Your friend {{notification.userName}} commented on {{notification.posterUserName}}'s post</h6>
-<h6   @click="showActivityDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)" v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">Your friend {{notification.userName}} likes {{notification.posterUserName}}'s post</h6>
-<h6   @click="showActivityDetails('follow',notification.notificationId,notification.userName)" v-if="notification.notificationType === 'follow' && notification.notificationStatus === 'unRead' && notification.userName !== userData.userName">{{notification.userName}} started following you</h6> -->
-
-          </ul>
-
+        <div class="userData-userName">
+          <h5>{{ userData.userName }}</h5>
+          ,
+          <span>{{ userData.age }}</span>
         </div>
+
+        <div class="userData-userName">
+          <h5>{{ userData.city }}</h5>
+          ,
+          <span>{{ userData.country }}</span>
+        </div>
+
+        <div class="userData-userName">
+          <h5>{{ userData.occupation }}</h5>
+          ,
+          <span>{{ userData.education }}</span>
+        </div>
+
+        <hr />
+
+        <span>{{ userData.aboutMe }}</span>
       </div>
-
-
-
-
     </div>
-
   </div>
-
-
-
-
-  <div>
-  </div>
-
-
 </template>
+
 <script>
-  import Posts from "../components/Posts"
-  import Photos from "../components/Photos.vue"
-  import Friends from "../components/Friends.vue"
-  import Profiles from "../components/Profiles.vue"
-  import moment from 'moment'
-
-
   export default {
-    name: "About",
-    props: ["Timeline", "userName"],
-    components: { Posts, Friends, Photos, Profiles },
+    name: "userProfile",
+    props: ["userName"],
     data() {
       return {
-        userData: {},
-        displayPosts: true,
-        displayFriends: false,
-        displayPhotos: false,
-        displayProfile: false,
-        activePosition: false,
-activeLink:"background-color: var(--pink);color: var(--navy-blue) !important;font-weight: bold;border-radius:5px",
-activitiesDisplay:'',
-
-      };
+        userDetails: {
+          userName: "Guest",
+          userId: "419",
+          emailAddress: "419",
+          firstName: "Guest",
+          lastName: "Guest",
+          address: "Guest",
+          emailAddress: "Guest@gmail.com",
+          postCode: "Guest",
+          country: "Guest",
+          city: "Guest",
+          aboutMe: "Guest",
+          password: "Guest",
+          occupation: "Guest",
+          education: "Guest",
+          age: "27",
+          messages: [],
+          posts: {
+            Guest: { likes: ["Guest"], unLikes: ["Guest"] },
+          },
+          followers: ["Guest"],
+          following: ["Guest"],
+          friends: ["Guest"],
+          userProfileImage: '',
+          userCoverImage: '',
+          posterComment: "",
+          comments: {
+            likes: [],
+            unLikes: [],
+          },
+        },
+        inputState: true,
+        userCoverImage: '',
+        userProfileImage: '',
+        onUserName: 'uche',
+      }
     },
 
     mounted() {
-      this.loadData(this.userName, "load");
-window.scrollTo(0, 0)
+      this.loadData("load");
     },
     beforeUnmount() {
-      this.loadData(this.userName, "unLoad");
-window.scrollTo(0, 0)
+      this.loadData("unLoad");
     },
     methods: {
-      loadData(userName, params) {
-        this.userData = this.$store.state.users[userName];
-
-
+      loadData(params) {
+        this.onUserName = this.userName
+        this.userDetails = { ...this.$store.state.users[this.userName] };
         params === "load" ? this.$store.dispatch("handleDisplayFunctions", {
-          activeLink: "Timeline",
+          activeLink: "userProfile",
           params: "activeLink"
         }) : this.$store.dispatch("handleDisplayFunctions", {
           activeLink: "",
@@ -215,195 +229,128 @@ window.scrollTo(0, 0)
         })
 
 
+        this.$store.dispatch("handleDisplayFunctions", {
+          activeLink: "userProfile",
+          params: "activeLink"
+        });
+      },
+
+      getLocalCoverImgAddress(e) {
+
+        this.userCoverImage = URL.createObjectURL(e.target.files[0]);
+        this.$store.dispatch('handleAccountUpdate', {
+          params: 'updateCoverImage',
+          userCoverImage: this.userCoverImage,
+          userName: this.userName,
+
+        })
+
+      },
+
+      getLocalProfileImgAddress(e) {
+
+        this.userProfileImage = URL.createObjectURL(e.target.files[0]);
+        this.$store.dispatch('handleAccountUpdate', {
+          params: 'updateProfileImage',
+          userProfileImage: this.userProfileImage,
+          userName: this.userName,
+
+        })
+
+
+      },
+
+      handleEnableEdit() {
+
+        this.inputState = false
+      },
+
+      handleImageUpdate(params) {
+        if (params === 'profileImage') {
+          this.$refs.uploadProfileImage.click()
+
+
+        } else {
+          this.$refs.uploadCoverImage.click()
+
+        }
+      },
 
 
 
-        if (this.$store.state.userData.userName === "Guest") {
+      handleUserDetailsUpDate() {
+        // this.$store.dispatch('handleAccountUpdate', {
+        //         params: 'updateCoverImage',
+        //         userCoverImage: this.userCoverImage,
+        //         userName: this.userName,
+
+        //       })
+
+        if (this.userDetails.userName !== this.userData.userName) {
+
+          this.$store.dispatch('handleAccountUpdate', {
+            params: 'updateUserName',
+            userName: this.userName,
+            userDetails: this.userDetails,
+          })
+          // this.onUserName =this.userDetails.userName
           this.$router.push({
-            name: 'Login',
+            name: "userProfile",
+            params: { userName: this.userDetails.userName },
           });
+          // this.loadData("load");
+
+        }
+        else {
+
+          this.$store.dispatch('handleAccountUpdate', {
+            params: 'otherDetails',
+            userName: this.userName,
+            userDetails: this.userDetails,
+          })
+          console.log(this.userName, 2);
+
+
 
 
 
         }
+        // this.userDetails = { ...this.$store.state.users[this.userName] };
+        this.inputState = true
 
-      },
-
-      displayPhotosComp(photo) {
-        this.$store.dispatch("handleDisplayFunctions", {
-          displayClickedImage: photo,
-          params: "displayClickedImage"
-        });
-        this.toggleDisplay("displayPhotos")
+        console.log('working');
 
 
       },
-
-      handleShowFriends(userName) {
-        userName === this.$store.state.userData.userName && this.$router.push({ name: "Friends", params: { userName: userName } })
-        userName !== this.$store.state.userData.userName && this.toggleDisplay("displayFriends")
-
-      },
-
 
       handleUserProfilePic(userName) {
-        if (this.$store.state.users[userName].userProfileImage !== undefined && this.$store.state.users[userName].userProfileImage.length) {
-          return this.$store.state.users[userName].userProfileImage
-
+        if (
+          this.$store.state.users[userName].userProfileImage !== undefined &&
+          this.$store.state.users[userName].userProfileImage.length
+        ) {
+          return this.$store.state.users[userName].userProfileImage;
         }
 
-        return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png"
-
+        return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png";
       },
 
+      HandleUserCoverImage() {
 
-      showActivityDetails(userName) {
-
-        // console.log(userName);
-
-
-
-      },
-
-      showDate(date) {
-        let currentDate = Date.now();
-        let dateStatus = currentDate - date;
-        const minutes = Math.round(dateStatus / (1000 * 60));
-        const hours = Math.round(dateStatus / (1000 * 60 * 60));
-        const days = Math.round(dateStatus / (1000 * 60 * 60 * 24));
-        const weeks = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7));
-        const months = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7 * 12));
-        const years = Math.round(dateStatus / (1000 * 60 * 60 * 365));
-
-        if (minutes <= 0) {
-          return "Just now";
-        } else if (minutes < 59) {
-          return minutes === 1 ? "1 minute ago" : minutes + "minutes ago";
-        } else if (hours < 11) {
-          return moment(date).format("L, h:mm :ss a");
-        } else if (days >= 1) {
-          return moment(date).format("L, h:mm:ss a");
-        } else if (weeks < 59) {
-          return moment(date).format("L, h:mm :ss a");
-        } else if (months < 59) {
-          return moment(date).format("L, h:mm :SS a");
-        } else {
-          return moment(date).format("L, h:mm a");
+        if (this.userData.userCoverImage !== undefined) {
+          return `background-image:url(${this.userData.userCoverImage})`
         }
       },
-
-
-
-
-      toggleDisplay(params) {
-        switch (params) {
-          case "displayPosts":
-            this.displayPosts = true
-            this.displayFriends = false
-            this.displayPhotos = false
-            this.displayProfile = false
-this.activitiesDisplay=""
-
-// this.$refs.[this.formerLink].classList.remove("timeline-nav-link")
-// this.$refs.postsLink.classList.add("timeline-nav-link")
-// this.formerLink="postsLink"
-            break;
-
-
-
-          case "displayFriends":
-            this.displayPosts = false
-            this.displayFriends = true
-            this.displayPhotos = false
-            this.displayProfile = false
-            this.$router.push({ name: "Timeline", params: { userName: this.userData.userName, Timeline: 'Friends' } })
-this.activitiesDisplay=""
-
-// this.$refs.[this.formerLink].classList.remove("timeline-nav-link")
-// this.$refs.timelineFriendsLink.classList.add("timeline-nav-link")
-// this.formerLink="timelineFriendsLink"
-            break;
-
-          case "displayPhotos":
-            this.displayPosts = false
-            this.displayFriends = false
-            this.displayPhotos = true
-            this.displayProfile = false
-this.activitiesDisplay="activities-display"
-// this.$refs.postsLink.classList.remove("timeline-nav-link")
-// this.$refs.timelinePhotosLink.classList.add("timeline-nav-link")
-// this.formerLink="timelinePhotosLink"
-            break;
-
-          case "displayProfile":
-            this.displayPosts = false
-            this.displayFriends = false
-            this.displayPhotos = false
-            this.displayProfile = true
-this.activitiesDisplay="activities-display"
-// this.$refs.[this.formerLink].classList.remove("timeline-nav-link")
-// this.$refs.timelineProfileLink.classList.add("timeline-nav-link")
-// this.formerLink="timelineProfileLink"
-            break;
-
-
-          default:
-            break;
-        }
-      },
-
-      handleGender(userName) {
-
-        for (const user in this.$store.state.users)
-          if (this.$store.state.users[userName].gender === "male") {
-            return "his"
-
-          }
-
-        return "her"
-      },
-
-
-
 
     },
     computed: {
-      // positioning() {
-      //   if (this.$store.state.displayFunctions.navCollapsed) {
-      //     this.activePosition = "position:fixed;top:15%;margin:0 20px;transition: cubic-bezier(0.39, 0.575, 0.565, 1);"
-      //     return this.activePosition
+      userData() {
 
-      //   }
-      //   else {
-      //     this.activePosition = "position:relative"
-
-      //     return this.activePosition
-
-      //   }
-
-
-
-      // },
-
-      userCoverImage() {
-        return `background-image:url(${this.userData.userCoverImage})`
-
+        const userData = this.$store.state.users[this.userName];
+        return userData;
       },
-
-      handleUserNames() {
-
-        const userName = this.userName
-
-        this.loadData(this.userName)
-
-        return userName
-
-      }
+    },
 
 
-    }
+
   };
 </script>
-<style>
-
-</style>
