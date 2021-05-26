@@ -1,62 +1,73 @@
 <template>
-<section id="messageBox">
-  <div class="message-container"  >
+  <section id="messageBox">
+    <div class="message-container">
 
-    <div class="list-container-left">
-
-      <div class="header-chat-list">
-        <h5>Chats</h5>
-        <input type="text" placeholder="Search Messages">
+      <div class="list-container-left">
 
 
-      </div>
 
 
-      <div class="chat-list">
+        <div class="chat-list">
+          <div class="header-chat-list">
+            <h5>Chats</h5>
+            <input type="text" placeholder="Search Messages">
 
 
-        <div>
+          </div>
+
+          <div>
 
 
-        </div>
+          </div>
 
-        <div v-for="userName in chattedUsersList" :key="chattedUsersInfo[userName].userName"
-          @click="showMessage(userName, 'Read')">
+          <div v-for="user in chattedUsersList" :key="chattedUsersInfo[user.userName].userName"
+            @click="showMessage(user.userName, 'Read')" :style="activeChattedUser(user.showMessage)">
 
-          <div class="user-MessageDetails-container">
+            <div class="user-MessageDetails-container">
 
-            <div class="notice-image-container">
+              <div class="notice-image-container">
 
-              <img :src="handleImages(userName)" alt="">
-              <div class="new-message-alert" v-if="userData.messageStatus[userName].messageViewStatus === 'unRead'">
+                <img :src="handleImages(user.userName)" alt="">
+                <div class="new-message-alert"
+                  v-if="userData.messageStatus[user.userName].messageViewStatus === 'unRead'">
 
-              </div>
-            </div>
-
-            <div class="userName-data-container">
-
-              <div>
-                <span>{{userName}}</span>
-                <span>{{showDateInWords(chattedUsersInfo[userName].messageDate)}}</span>
-
+                </div>
               </div>
 
+              <div class="userName-data-container">
 
-              <div>
-                <span v-if="chattedUsersInfo[userName].userName === userData.userName" class="shortMessage">You:&nbsp<span class="message-ellipsis"> {{chattedUsersInfo[userName].message}}</span> 
-<span class="sideMessageCheck">
- <font-awesome-icon :icon="['fas', 'check']" class="check-side"
-              v-if="handleMessageStatus(chattedUsersInfo[userName].messageStatus, chattedUsersInfo[userName].messageId)" />
-            <font-awesome-icon :icon="['fas', 'check-double']" class="check-double-side"
-              v-if="!handleMessageStatus(chattedUsersInfo[userName].messageStatus, chattedUsersInfo[userName].messageId)" :class="statusClass" />
-</span>
-</span>
+                <div class="side-userName">
+                  <span class="username-header">{{user.userName}}</span>
+                  <span>{{showDateInWords(chattedUsersInfo[user.userName].messageDate)}}</span>
 
- 
+                </div>
 
-                <span v-if="chattedUsersInfo[userName].userName !== userData.userName" class="message-ellipsis2"> {{chattedUsersInfo[userName].message}} 
-</span>
+
+                <div class="side-user-message">
+                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName"
+                    class="shortMessage">You:&nbsp<span
+                      class="message-ellipsis">{{handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
+
+                    <span class="sideMessageCheck">
+                      <font-awesome-icon :icon="['fas', 'check']" class="check-side"
+                        v-if="handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)" />
+                      <font-awesome-icon :icon="['fas', 'check-double']" class="check-double-side"
+                        v-if="!handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)"
+                        :class="statusClass" />
+                    </span>
+                  </span>
+
+
+
+                  <span v-if="chattedUsersInfo[user.userName].userName !== userData.userName" class="message-ellipsis2">
+                    {{chattedUsersInfo[user.userName].message}}
+                  </span>
+                </div>
               </div>
+
+
+
+
             </div>
 
 
@@ -65,12 +76,7 @@
           </div>
 
 
-
-
-        </div>
-
-
-        <!-- <ul
+          <!-- <ul
         v-for="userName in chattedUsersInfo"
         :key="userName"
         @click="showMessage(userName, 'Read', 'Read')"
@@ -82,46 +88,50 @@
          
         </li>
       </ul> -->
-      </div>
-    </div>
-    <div class="container-message">
-      <div class="fill-up-container"></div>
-      <div class="messager-Header"><img :src="messageUserThumbnail" alt="">
-        <h5>{{friendMessaged}}</h5>
-      </div>
-      <div v-for="message in showingMessages" :key="message.messageId" class="message-body"
-        :class="handleUserChatBoxStyle(message.userName)">
-        <img :src="handleImages(message.userName)" v-if="message.messageStatus.length" alt="">
-        <div class="message-Box" v-if="message.messageStatus.length">
-          <font-awesome-icon :icon="['fas', 'caret-right']" class="caret-right" />
-          <font-awesome-icon :icon="['fas', 'caret-left']" class="caret-left" />
-          <div>
-           
-              <h6>{{ message.userName }}</h6>
-            
-            <span>{{ showDate(message.messageDate) }}
-            
-            </span>
-
-          </div> 
- <hr>
-          <span>
-            {{ message.message }}
-
-          </span>
-
-
-
-          <span class="message-status">
-            <font-awesome-icon :icon="['fas', 'check']" class="check"
-              v-if="handleMessageStatus(message.messageStatus, message.messageId)" />
-            <font-awesome-icon :icon="['fas', 'check-double']" class="check-double"
-              v-if="!handleMessageStatus(message.messageStatus, message.messageId)" :class="statusClass" />
-          </span>
         </div>
-        <!-- <p>  {{moment().format('LT')}} </p> -->
+      </div>
+      <div class="container-message">
+        <div class="fill-up-container"></div>
+        <div class="messager-Header" :style="handleNavCollapse()">
+          <img :src="userProfilePicture" alt="">
 
-        <!-- 
+
+          <h5>{{friendMessaged}}</h5>
+        </div>
+        <div class="trysrcoll" id="messageBody">
+          <div v-for="message in showingMessages" :key="message.messageId" class="message-body"
+            :class="handleUserChatBoxStyle(message.userName)">
+            <img :src="handleImages(message.userName)" v-if="message.messageStatus.length" alt="">
+            <div class="message-Box" v-if="message.messageStatus.length">
+              <font-awesome-icon :icon="['fas', 'caret-right']" class="caret-right" />
+              <font-awesome-icon :icon="['fas', 'caret-left']" class="caret-left" />
+              <div>
+
+                <h6 class="username-header">{{ message.userName }}</h6>
+
+                <span>{{ showDate(message.messageDate) }}
+
+                </span>
+
+              </div>
+              <hr>
+              <span class="message-background">
+                {{ message.message }}
+
+              </span>
+
+
+
+              <span class="message-status">
+                <font-awesome-icon :icon="['fas', 'check']" class="check"
+                  v-if="handleMessageStatus(message.messageStatus, message.messageId)" />
+                <font-awesome-icon :icon="['fas', 'check-double']" class="check-double"
+                  v-if="!handleMessageStatus(message.messageStatus, message.messageId)" :class="statusClass" />
+              </span>
+            </div>
+            <!-- <p>  {{moment().format('LT')}} </p> -->
+
+            <!-- 
         <input type="text" value="delete message" class="btn btn-danger" @click="
             handleDeleteMessage(
               userData.userName,
@@ -129,31 +139,33 @@
               message.messageId
             )
           " /> -->
+          </div>
+        </div>
+        <form @submit.prevent="handleSubmitMessage" class="message-input-field">
+          <input type="text" v-model="message" placeholder=" Type your message" />
+          <img :src="userData.userProfileImage" alt="">
+          <!-- <button type="submit" class="btn btn-success">send</button> -->
+        </form>
       </div>
 
-      <form @submit.prevent="handleSubmitMessage" class="message-input-field">
-        <input type="text" v-model="message" placeholder=" Type your message" />
-        <img :src="userData.userThumbnail" alt="">
-        <!-- <button type="submit" class="btn btn-success">send</button> -->
-      </form>
-    </div>
+      <div class="list-container-right ">
 
-    <div class="list-container-right ">
-
-      <div class="friends-listHeader">
-        <h5>Friends</h5>
-      </div>
-      <div class="friends-list-container">
-
-        <div v-for="friend in userData.friends" :key="friend.userName">
-          <div @click='showMessage(friend.userName,"newMessage")' class="friendLists">
-            <img :src="handleImages(friend.userName)" alt=""> <span>{{ friend.userName }}</span>
+      
+        <div class="friends-list-container">
+  <div class="friends-listHeader">
+          <h5>Friends</h5>
+        </div>
+          <div v-for="friend in userData.friends" :key="friend.userName">
+            <div @click='showMessage(friend.userName,"newMessage")' class="friendLists">
+              <img :src="handleImages(friend.userName)" alt=""> <span class="username-header">{{ friend.userName
+                }}</span>
+              <button class="btn btn-success message-friend">Message</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 </template>
 
 <script>
@@ -175,7 +187,9 @@
         message: "",
         showingMessageStatus: [],
         chattedUsersList: [],
-        messageUserThumbnail: '',
+        messageUserProfilePicture: '',
+
+        userProfilePicture: '',
         messageUserName: '',
         statusClass: "check-double"
       };
@@ -183,19 +197,31 @@
 
     mounted() {
       this.loadData("on");
-    // document.addEventListener('scroll', () => this.onScroll(document.getElementById("messageBox")));
+      // document.addEventListener('scroll', () => this.onScroll(document.getElementById("messageBox")));
 
     },
     beforeUnmount() {
       this.loadData("off");
-    // document.removeEventListener('scroll', () => this.onScroll(document.getElementById("messageBox")));
+      // document.removeEventListener('scroll', () => this.onScroll(document.getElementById("messageBox")));
 
     },
     methods: {
       loadData(messageOnScreen) {
         this.userData = this.$store.state.users[this.userName];
 
+        messageOnScreen === "on" ? this.$store.dispatch("handleDisplayFunctions", {
+          activeLink: "Messages",
+          params: "activeLink"
+        }) : this.$store.dispatch("handleDisplayFunctions", {
+          activeLink: "",
+          params: "activeLink"
+        })
+        // document.getElementById('messageBody').scrollTo=document.getElementById('messageBody').scrollHeight 
 
+
+        // setTimeout(() => {
+        // document.getElementById('messageBody').scrollTo=document.getElementById('messageBody').scrollHeight  
+        // }, 100);
         let messageStatus = [];
 
         for (const message in this.userData.messageStatus) {
@@ -207,9 +233,15 @@
         this.showingMessage = this.userData.messages[this.showingMessageStatus[0].friendMessaged];
 
         this.friendMessaged = this.showingMessageStatus[0].friendMessaged
+        let messagedUserName = this.$store.state.displayFunctions.displayMessage.userName
 
-        this.showMessage(this.friendMessaged,"Read",messageOnScreen);
 
+        if (messagedUserName.length) {
+
+          this.showMessage(messagedUserName, "newMessage");
+        } else {
+          this.showMessage(this.friendMessaged, "Read", messageOnScreen);
+        }
         this.$store.dispatch("handleNotificationUpdate", {
           userName: this.userData.userName,
           notificationStatus: "Read",
@@ -221,21 +253,51 @@
       },
 
 
-//  onScroll(ref) {
-// console.log(this.isElementInViewport(ref));
- 
 
-// },
 
-//   isElementInViewport(el) {
-//       var rect = el.getBoundingClientRect();
-//       return (
-//         rect.top >= 0 &&
-//         rect.left >= 0 &&
-//         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-//         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-//       );
-//     },
+      scrollToBottom() {
+        const messageBox = document.getElementsByClassName('message-body')[document.getElementsByClassName('message-body').length - 1];
+
+        setTimeout(() => {
+          if (messageBox) {
+
+            messageBox.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+
+
+      },
+
+      activeChattedUser(show) {
+        if (show === "on") {
+
+          return "background-color:rgba(232, 62, 140, 0.52)"
+        }
+
+        return "background-color:white"
+      },
+
+
+
+
+      handleMessageSlice(message) {
+
+
+
+
+
+
+
+        if (message.length > 20) {
+
+          let slicedMessage = message.slice(0, 19) + "...."
+          return slicedMessage
+        }
+
+        return message
+
+      },
+
 
       handleUserChatBoxStyle(userName) {
         if (userName === this.userName) {
@@ -247,10 +309,12 @@
 
 
 
-      handleImages(userName) {
-        if (this.$store.state.users[userName].userThumbnail.length) {
 
-          return this.$store.state.users[userName].userThumbnail
+      handleImages(userName) {
+
+
+        if (this.$store.state.users[userName].userProfileImage.length) {
+          return this.$store.state.users[userName].userProfileImage
 
         }
 
@@ -258,6 +322,7 @@
       },
 
       handleSubmitMessage() {
+
         const messageId = uuid.v1();
         if (this.message && this.friendMessaged) {
           this.$store.dispatch("handleSubmitMessage", {
@@ -287,22 +352,37 @@
           this.message = "";
           this.showingMessage = this.userData.messages[this.friendMessaged];
         }
+        this.scrollToBottom()
+
       },
 
-      showMessage(userName, status,messageOnScreen) {
-        this.messageUserThumbnail = this.handleImages(userName);
-        this.friendMessaged = userName;
+      showMessage(userName, status, messageOnScreen) {
 
-        if (!this.chattedUsersList.includes(userName) && status === "newMessage") {
+
+        this.userProfilePicture = this.handleImages(userName);
+        this.friendMessaged = userName;
+        let chattedUsersList = this.chattedUsersList.map((user) => user.userName)
+
+        console.log(chattedUsersList);
+        console.log(userName);
+        if (!chattedUsersList.includes(userName) && status === "newMessage") {
           this.showingMessage = {
             'none': {
               messageId: "none",
               messageDate: '',
               userName: this.userName,
               message: '',
-              messageStatus:'',
+              messageStatus: '',
             }
           }
+          this.$store.dispatch("handleDisplayFunctions", {
+            userName: '',
+            params: "displayMessage"
+          })
+
+
+
+
         }
         else {
           this.$store.dispatch("handleMessageViewStatus", {
@@ -404,33 +484,56 @@
           messageId,
         });
       },
+      handleNavCollapse() {
+        if (this.$store.state.displayFunctions.navCollapsed) {
+
+
+          return "margin-top:-90px"
+
+        }
+
+
+        return "margin-top:0"
+
+
+
+
+      }
+
+
+
+
+
+
+
     },
     computed: {
       showingMessages() {
 
         this.userData = this.$store.state.users[this.userName];
 
-
-
-
-
-
-        let chattedUsersList = []
-        let userMessageName = Object.keys(this.userData.messages)
+        let messageStatusList = []
         for (let userName in this.userData.messageStatus) {
+          messageStatusList = [...messageStatusList, { userName, showMessage: this.userData.messageStatus[userName].showMessage }]
 
-          if (this.userData.messageStatus[userName].showMessage === "on") {
-            let filteredUserName = userMessageName.filter((user) => user === userName)
-            chattedUsersList = userMessageName.filter((user) => user !== userName)
-            chattedUsersList.splice(0, 0, ...filteredUserName)
-
-          }
 
         }
 
 
-        this.chattedUsersList = chattedUsersList;
+        let chattedUsersList = []
 
+        // let userMessageName = Object.keys(this.userData.messages)
+        for (let userName in this.userData.messageStatus) {
+
+          if (this.userData.messageStatus[userName].showMessage === "on") {
+            let filteredUserList = messageStatusList.filter((user) => user.userName === userName)
+            chattedUsersList = messageStatusList.filter((user) => user.userName !== userName)
+            chattedUsersList.splice(0, 0, ...filteredUserList)
+
+          }
+        }
+
+        this.chattedUsersList = chattedUsersList;
 
 
 
@@ -454,6 +557,8 @@
         }
 
         this.chattedUsersInfo = chattedUsersInfo;
+
+
 
 
 
