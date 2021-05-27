@@ -2,7 +2,7 @@
   <section id="messageBox">
     <div class="message-container">
 
-      <div class="list-container-left">
+      <div class="list-container-left" :style="displayChatList">
 
 
 
@@ -90,13 +90,19 @@
       </ul> -->
         </div>
       </div>
-      <div class="container-message">
+      <div class="container-message" ref="containerMessage" :style="displayMessage">
         <div class="fill-up-container"></div>
         <div class="messager-Header" :style="handleNavCollapse()">
           <img :src="userProfilePicture" alt="">
 
 
           <h5>{{friendMessaged}}</h5>
+<span @click="showChatList"    class="return-chatlist-btn" >
+
+              <font-awesome-icon :icon="['fas', 'chevron-left']" v-if="windowWidth < 778"/>
+
+
+</span>
         </div>
         <div class="trysrcoll" id="messageBody">
           <div v-for="message in showingMessages" :key="message.messageId" class="message-body"
@@ -191,7 +197,9 @@
 
         userProfilePicture: '',
         messageUserName: '',
-        statusClass: "check-double"
+        statusClass: "check-double",
+displayMessage:'',
+displayChatList:'display:block',
       };
     },
 
@@ -363,8 +371,6 @@
         this.friendMessaged = userName;
         let chattedUsersList = this.chattedUsersList.map((user) => user.userName)
 
-        console.log(chattedUsersList);
-        console.log(userName);
         if (!chattedUsersList.includes(userName) && status === "newMessage") {
           this.showingMessage = {
             'none': {
@@ -395,7 +401,24 @@
           });
           this.showingMessage = this.userData.messages[userName];
         }
+if(this.windowWidth < 778 && this.displayChatList ==="display:block"){
+
+this.displayChatList="display:none"
+this.displayMessage="display:block"
+}
+
+
+
+
       },
+
+showChatList(){
+this.displayMessage="display:none"
+this.displayChatList="display:block"
+
+},
+
+
 
 
       handleMessageStatus(messageStatus, messageId) {
@@ -508,6 +531,16 @@
 
     },
     computed: {
+windowWidth() {
+if(this.$store.state.displayFunctions.windowWidth>778){
+// this.displayChatList="display:block"
+// this.displayMessage="display:block"
+console.log('no');
+
+}
+console.log('yes');
+    return this.$store.state.displayFunctions.windowWidth;
+  },
       showingMessages() {
 
         this.userData = this.$store.state.users[this.userName];
@@ -518,6 +551,7 @@
 
 
         }
+
 
 
         let chattedUsersList = []
