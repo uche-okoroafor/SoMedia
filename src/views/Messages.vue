@@ -2,7 +2,7 @@
   <section id="messageBox">
     <div class="message-container">
 
-      <div class="list-container-left" :style="displayChatList">
+      <div class="list-container-left container-mobile-view  " ref="chatList">
 
 
 
@@ -47,21 +47,21 @@
                   <span v-if="chattedUsersInfo[user.userName].userName === userData.userName"
                     class="shortMessage">You:&nbsp<span
                       class="message-ellipsis">{{handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
+                  </span>
+                  <span class="sideMessageCheck">
+                    <font-awesome-icon :icon="['fas', 'check']" class="check-side"
+                      v-if="handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)" />
+                    <font-awesome-icon :icon="['fas', 'check-double']" class="check-double-side"
+                      v-if="!handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)"
+                      :class="statusClass" />
 
-                    <span class="sideMessageCheck">
-                      <font-awesome-icon :icon="['fas', 'check']" class="check-side"
-                        v-if="handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)" />
-                      <font-awesome-icon :icon="['fas', 'check-double']" class="check-double-side"
-                        v-if="!handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)"
-                        :class="statusClass" />
-                    </span>
                   </span>
 
 
 
-                  <span v-if="chattedUsersInfo[user.userName].userName !== userData.userName" class="message-ellipsis2">
+                  <!-- <span v-if="chattedUsersInfo[user.userName].userName !== userData.userName" class="message-ellipsis2">
                     {{chattedUsersInfo[user.userName].message}}
-                  </span>
+                  </span> -->
                 </div>
               </div>
 
@@ -76,33 +76,165 @@
           </div>
 
 
-          <!-- <ul
-        v-for="userName in chattedUsersInfo"
-        :key="userName"
-        @click="showMessage(userName, 'Read', 'Read')"
-      >
-        <li>
-
-
-          {{ userName }}
-         
-        </li>
-      </ul> -->
         </div>
       </div>
-      <div class="container-message" ref="containerMessage" :style="displayMessage">
-        <div class="fill-up-container"></div>
+
+      <div class="list-container-left  container-desktop-view">
+
+
+
+
+        <div class="chat-list">
+          <div class="header-chat-list">
+            <h5>Chats</h5>
+            <input type="text" placeholder="Search Messages">
+
+
+          </div>
+
+          <div>
+
+
+          </div>
+
+          <div v-for="user in chattedUsersList" :key="chattedUsersInfo[user.userName].userName"
+            @click="showMessage(user.userName, 'Read')" :style="activeChattedUser(user.showMessage)">
+
+            <div class="user-MessageDetails-container">
+
+              <div class="notice-image-container">
+
+                <img :src="handleImages(user.userName)" alt="">
+                <div class="new-message-alert"
+                  v-if="userData.messageStatus[user.userName].messageViewStatus === 'unRead'">
+
+                </div>
+              </div>
+
+              <div class="userName-data-container">
+
+                <div class="side-userName">
+                  <span class="username-header">{{user.userName}}</span>
+                  <span>{{showDateInWords(chattedUsersInfo[user.userName].messageDate)}}</span>
+
+                </div>
+
+
+                <div class="side-user-message">
+                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName"
+                    class="shortMessage">You:&nbsp<span
+                      class="message-ellipsis">{{handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
+                  </span>
+                  <span class="sideMessageCheck">
+                    <font-awesome-icon :icon="['fas', 'check']" class="check-side"
+                      v-if="handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)" />
+                    <font-awesome-icon :icon="['fas', 'check-double']" class="check-double-side"
+                      v-if="!handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)"
+                      :class="statusClass" />
+
+                  </span>
+
+
+
+                  <!-- <span v-if="chattedUsersInfo[user.userName].userName !== userData.userName" class="message-ellipsis2">
+                    {{chattedUsersInfo[user.userName].message}}
+                  </span> -->
+                </div>
+              </div>
+
+
+
+
+            </div>
+
+
+
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+
+      <div class="container-message  container-desktop-view">
+        <div class="fill-up-container" :style="filUpStyle"></div>
         <div class="messager-Header" :style="handleNavCollapse()">
           <img :src="userProfilePicture" alt="">
 
 
           <h5>{{friendMessaged}}</h5>
-<span @click="showChatList"    class="return-chatlist-btn" >
+          <span @click="showChatList" class="return-chatlist-btn">
+            <span>
+              <font-awesome-icon :icon="['fas', 'chevron-left']" />
+            </span>
 
-              <font-awesome-icon :icon="['fas', 'chevron-left']" v-if="windowWidth < 778"/>
+          </span>
+        </div>
+        <div class="trysrcoll" id="messageBody">
+          <div v-for="message in showingMessages" :key="message.messageId"
+            class="message-body  message-body-disktopView" :class="handleUserChatBoxStyle(message.userName)">
+            <img :src="handleImages(message.userName)" v-if="message.messageStatus.length" alt="">
+            <div class="message-Box" v-if="message.messageStatus.length">
+              <font-awesome-icon :icon="['fas', 'caret-right']" class="caret-right" />
+              <font-awesome-icon :icon="['fas', 'caret-left']" class="caret-left" />
+              <div>
+
+                <h6 class="username-header">{{ message.userName }}</h6>
+
+                <span>{{ showDate(message.messageDate) }}
+
+                </span>
+
+              </div>
+              <hr>
+              <span class="message-background">
+                {{ message.message }}
+
+              </span>
 
 
-</span>
+
+              <span class="message-status">
+                <font-awesome-icon :icon="['fas', 'check']" class="check"
+                  v-if="handleMessageStatus(message.messageStatus, message.messageId)" />
+                <font-awesome-icon :icon="['fas', 'check-double']" class="check-double"
+                  v-if="!handleMessageStatus(message.messageStatus, message.messageId)" :class="statusClass" />
+              </span>
+            </div>
+            <!-- <p>  {{moment().format('LT')}} </p> -->
+
+            <!-- 
+        <input type="text" value="delete message" class="btn btn-danger" @click="
+            handleDeleteMessage(
+              userData.userName,
+              friendMessaged,
+              message.messageId
+            )
+          " /> -->
+          </div>
+        </div>
+        <form @submit.prevent="handleSubmitMessage" class="message-input-field">
+          <input type="text" v-model="message" placeholder=" Type your message" />
+          <img :src="userData.userProfileImage" alt="">
+          <!-- <button type="submit" class="btn btn-success">send</button> -->
+        </form>
+      </div>
+
+      <div class="container-message  container-mobile-view  container-mobileView " ref="containerMessage">
+        <div class="fill-up-container" :style="filUpStyle"></div>
+        <div class="messager-Header" :style="handleNavCollapse()">
+          <img :src="userProfilePicture" alt="">
+
+
+          <h5>{{friendMessaged}}</h5>
+          <span @click="showChatList" class="return-chatlist-btn">
+            <span>
+              <font-awesome-icon :icon="['fas', 'chevron-left']" />
+            </span>
+
+          </span>
         </div>
         <div class="trysrcoll" id="messageBody">
           <div v-for="message in showingMessages" :key="message.messageId" class="message-body"
@@ -154,18 +286,21 @@
         </form>
       </div>
 
+
       <div class="list-container-right ">
 
-      
+
         <div class="friends-list-container">
-  <div class="friends-listHeader">
-          <h5>Friends</h5>
-        </div>
+          <div class="friends-listHeader">
+            <h5>Friends</h5>
+          </div>
           <div v-for="friend in userData.friends" :key="friend.userName">
             <div @click='showMessage(friend.userName,"newMessage")' class="friendLists">
               <img :src="handleImages(friend.userName)" alt=""> <span class="username-header">{{ friend.userName
                 }}</span>
-              <button class="btn btn-success message-friend">Message</button>
+              <div class="message-friend">
+                <button class="btn btn-success ">Chat</button>
+              </div>
             </div>
           </div>
         </div>
@@ -198,8 +333,11 @@
         userProfilePicture: '',
         messageUserName: '',
         statusClass: "check-double",
-displayMessage:'',
-displayChatList:'display:block',
+        displayMessage: '',
+        displayChatList: '',
+        filUpStyle: '',
+
+
       };
     },
 
@@ -265,11 +403,20 @@ displayChatList:'display:block',
 
       scrollToBottom() {
         const messageBox = document.getElementsByClassName('message-body')[document.getElementsByClassName('message-body').length - 1];
+        const messageBoxDisktopView = document.getElementsByClassName('message-body-disktopView')[document.getElementsByClassName('message-body-disktopView').length - 1];
 
         setTimeout(() => {
           if (messageBox) {
 
             messageBox.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+
+
+        setTimeout(() => {
+          if (messageBoxDisktopView) {
+
+            messageBoxDisktopView.scrollIntoView({ behavior: 'smooth' });
           }
         }, 100);
 
@@ -289,16 +436,8 @@ displayChatList:'display:block',
 
 
       handleMessageSlice(message) {
-
-
-
-
-
-
-
-        if (message.length > 20) {
-
-          let slicedMessage = message.slice(0, 19) + "...."
+        if (message.length > 15) {
+          let slicedMessage = message.slice(0, 14) + "...."
           return slicedMessage
         }
 
@@ -401,22 +540,24 @@ displayChatList:'display:block',
           });
           this.showingMessage = this.userData.messages[userName];
         }
-if(this.windowWidth < 778 && this.displayChatList ==="display:block"){
 
-this.displayChatList="display:none"
-this.displayMessage="display:block"
-}
+        // if(  this.windowWidth < 778){
+        this.$refs.chatList.classList.add("container-mobileView")
+        this.$refs.containerMessage.classList.remove("container-mobileView")
+
+
+        // }
 
 
 
 
       },
 
-showChatList(){
-this.displayMessage="display:none"
-this.displayChatList="display:block"
-
-},
+      showChatList() {
+        this.$refs.containerMessage.classList.add("container-mobileView")
+        this.$refs.chatList.classList.remove("container-mobileView")
+        console.log(this.$refs.chatList.classList);
+      },
 
 
 
@@ -474,6 +615,7 @@ this.displayChatList="display:block"
 
 
       showDate(messageDate) {
+
         let currentDate = Date.now();
         let dateStatus = currentDate - messageDate;
         const minutes = Math.round(dateStatus / (1000 * 60));
@@ -510,18 +652,20 @@ this.displayChatList="display:block"
       handleNavCollapse() {
         if (this.$store.state.displayFunctions.navCollapsed) {
 
-
+          this.filUpStyle = "height:130px"
           return "margin-top:-90px"
 
         }
-
+        this.filUpStyle = "height:160px"
 
         return "margin-top:0"
 
 
 
 
-      }
+      },
+
+
 
 
 
@@ -531,16 +675,17 @@ this.displayChatList="display:block"
 
     },
     computed: {
-windowWidth() {
-if(this.$store.state.displayFunctions.windowWidth>778){
-// this.displayChatList="display:block"
-// this.displayMessage="display:block"
-console.log('no');
+      windowWidth() {
 
-}
-console.log('yes');
-    return this.$store.state.displayFunctions.windowWidth;
-  },
+
+
+        return this.$store.state.displayFunctions.windowWidth;
+      },
+
+
+
+
+
       showingMessages() {
 
         this.userData = this.$store.state.users[this.userName];
@@ -568,7 +713,6 @@ console.log('yes');
         }
 
         this.chattedUsersList = chattedUsersList;
-
 
 
 
