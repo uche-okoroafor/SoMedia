@@ -595,7 +595,6 @@
         if (this.userData.userProfileImage === undefined || !this.userData.userProfileImage) {
 
           return " https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png"
-          // require('./assets/userProfileImage/original1.jpg')
 
         }
 
