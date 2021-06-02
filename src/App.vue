@@ -40,7 +40,7 @@
 
 
         <span ref="userImageMobileView" class="userImage  username-header"
-          @click="handleUserOwnMenu('userImageMobileView')"> <img :src="handleUserIcon()" alt="">
+          @click="handleUserOwnMenu('userImageMobileView')"> <img :src="userData.userProfileImage" alt="">
           {{userData.userName}}
           <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
           <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
@@ -315,7 +315,7 @@
 
 
         <span ref="userImageFullNav" class="userImage" @click="handleUserOwnMenu('userImageFullNav')"> <img
-            :src="handleUserIcon()" alt=""> <span>
+            :src="userData.userProfileImage" alt=""> <span>
             {{userData.userName}}</span>
           <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
           <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
@@ -493,7 +493,7 @@
     <div class="user-icon">
 
 
-      <span ref="userImage" class="userImage" @click="handleUserOwnMenu"> <img :src="handleUserIcon()" alt=""> <span>
+      <span ref="userImage" class="userImage" @click="handleUserOwnMenu"> <img :src="userData.userProfileImage" alt=""> <span>
           {{userData.userName}}</span>
         <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
         <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
@@ -633,24 +633,19 @@
 
     unmounted() {
 
-      // window.removeEventListener('click', (event) => this.handleCloseDropDown(event))
+      window.removeEventListener('click', (event) => this.handleCloseDropDown(event))
     },
 
     mounted() {
 
       window.addEventListener('scroll', () => this.handleCollapseNav());
-      //  window.addEventListener('scroll',this.$store.commit('setWindowWidth'))
+       window.addEventListener('scroll',this.$store.commit('setWindowWidth'))
     },
     beforeUnmount() {
 
       window.removeEventListener('scroll', () => this.handleCollapseNav());
     },
-    // mounted() {
-    //   this.loadData();
-    // },
-    // beforeUnmount() {
-    //   this.loadData();
-    // },
+    
 
     methods: {
 
@@ -718,16 +713,6 @@
 
       },
 
-      handleUserIcon() {
-        if (this.userData.userProfileImage === undefined || !this.userData.userProfileImage) {
-
-          return " https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png"
-
-        }
-
-        return this.userData.userProfileImage
-
-      },
 
 
       handleCloseDropDown(e) {
@@ -1090,7 +1075,6 @@
           userName: this.userData.userName,
         });
 
-        console.log(this.notifications);
 
 
         let messageStatus = {}
@@ -1113,6 +1097,8 @@
 
 
         }
+console.log(1,this.$store.state);
+console.log(2,this.$store.state.userData);
 
         this.newMessageCount = Object.keys(messageStatus).length
 
