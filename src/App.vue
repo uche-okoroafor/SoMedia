@@ -338,13 +338,15 @@
 
     </div>
 
-
+<div class="back-drop" v-if="backDrop" @click="handleCloseDropDown"></div>
   </nav>
 
 
 
   <div class="collapsed-nav" ref="collapsedNav" style="display: none;"
     v-if="$store.state.displayFunctions.loginPageUnmounted">
+<div class="back-drop" v-if="backDrop" @click="handleCloseDropDown"></div>
+
     <div class="logo-container">
       <h3>SoMedia</h3>
 
@@ -622,24 +624,25 @@
         notificationLink: '',
         activeLink: "background-color: var(--pink);color:var(--nave-blue)!important;font-weight: 600;",
         inActiveLink: "background-color: var(--nave-blue);color:#3aa1dd;font-weight: 600;",
+backDrop:false,
       }
     },
     created() {
       // window.addEventListener('click', (event) => this.handleCloseDropDown(event))
-      window.addEventListener('resize', this.$store.commit('setWindowWidth'))
+      // window.addEventListener('resize', this.$store.commit('setWindowWidth'))
 
     },
 
 
     unmounted() {
 
-      window.removeEventListener('click', (event) => this.handleCloseDropDown(event))
+      // window.removeEventListener('click', (event) => this.handleCloseDropDown(event))
     },
 
     mounted() {
 
       window.addEventListener('scroll', () => this.handleCollapseNav());
-       window.addEventListener('scroll',this.$store.commit('setWindowWidth'))
+      //  window.addEventListener('scroll',this.$store.commit('setWindowWidth'))
     },
     beforeUnmount() {
 
@@ -716,43 +719,54 @@
 
 
       handleCloseDropDown(e) {
-
-        let ownMenuMobileView = this.$refs.userImageMobileView
+  let ownMenuMobileView = this.$refs.userImageMobileView
         let noticeMenuFullNav = this.$refs.notificationsFullNav
         let ownMenuFullNav = this.$refs.userImageFullNav
         let noticeMenu = this.$refs.notifications
         let ownMenu = this.$refs.userImage
         let target = e.target
-        if (ownMenu !== undefined && ownMenu !== target && !ownMenu.contains(target) && this.userOwnMenu === true) {
-          this.handleUserOwnMenu()
+ if (ownMenu === target && this.userOwnMenu === true) {
+           this.handleUserOwnMenu()
 
-        }
+         }
 
-
-        if (ownMenuMobileView !== undefined && ownMenuMobileView !== target && !ownMenuMobileView.contains(target) && this.userOwnMenuMobileView === true) {
-          this.handleUserOwnMenu('userImageMobileView')
-
-
-        }
-
-
-
-        if (ownMenu !== undefined && ownMenuFullNav !== target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
+  if (ownMenuFullNav === target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
           this.handleUserOwnMenu('userImageFullNav')
 
 
         }
 
 
+this.backDrop = false
+//  this.handleUserOwnMenu()
+      
+        
 
-        if (noticeMenu !== target && !noticeMenu.contains(target) && this.notificationState === true) {
-          this.handleNotifications()
 
-        }
+        // if (ownMenuMobileView !== undefined && ownMenuMobileView !== target && !ownMenuMobileView.contains(target) && this.userOwnMenuMobileView === true) {
+        //   this.handleUserOwnMenu('userImageMobileView')
 
-        if (noticeMenuFullNav !== target && !noticeMenuFullNav.contains(target) && this.notificationStateFullNav === true) {
-          this.handleNotifications("notificationsFullNav")
-        }
+
+        // }
+
+
+
+        // if (ownMenu !== undefined && ownMenuFullNav !== target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
+        //   this.handleUserOwnMenu('userImageFullNav')
+
+
+        // }
+
+
+
+        // if (noticeMenu !== target && !noticeMenu.contains(target) && this.notificationState === true) {
+        //   this.handleNotifications()
+
+        // }
+
+        // if (noticeMenuFullNav !== target && !noticeMenuFullNav.contains(target) && this.notificationStateFullNav === true) {
+        //   this.handleNotifications("notificationsFullNav")
+        // }
 
 
 
@@ -784,7 +798,7 @@
         }
 
 
-
+this.backDrop = true
 
       },
       handleActiveLink(activeLink) {
