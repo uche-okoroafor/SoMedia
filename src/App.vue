@@ -191,11 +191,11 @@
               </li>
 
 
-  <li ref="lists"
+              <li ref="lists"
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === userData.userName && notification.posterUserName !== userData.userName && notification.posterUserName !== notification.userName && notification.commenterUserName === notification.userName">
-                <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}} comment on <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
+                <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}}
+                comment on <span class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -231,7 +231,7 @@
 
 
 
- <li ref="lists"
+              <li ref="lists"
                 @click="showNotificationDetails('comment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName && notification.userName !== userData.userName">
                 <span class="names-Bold">{{notification.userName}}</span> commented on your post <br>
@@ -240,7 +240,7 @@
               </li>
 
 
-  <li ref="lists"
+              <li ref="lists"
                 @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
                 v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName !== notification.posterUserName">
                 Your friend
@@ -250,16 +250,17 @@
                 <hr>
               </li>
 
-  <li ref="lists"
+              <li ref="lists"
                 @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
                 v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName !== notification.posterUserName">
                 Your friend
-                <span class="names-Bold">{{notification.userName}}</span> commented on {{handleGender(notification.userName)}} post <br>
+                <span class="names-Bold">{{notification.userName}}</span> commented on
+                {{handleGender(notification.userName)}} post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
 
-<li ref="lists"
+              <li ref="lists"
                 @click="showNotificationDetails('follow',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'follow' && notification.notificationStatus === 'unRead' && notification.userName !== userData.userName">
                 <span class="names-Bold">{{notification.userName}}</span> started following you <br>
@@ -267,7 +268,7 @@
                 <hr>
               </li>
 
-  <!-- <li ref="lists"
+              <!-- <li ref="lists"
                 @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
                 v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName !== notification.posterUserName">
                 Your friend
@@ -338,14 +339,14 @@
 
     </div>
 
-<div class="back-drop" v-if="backDrop" @click="handleCloseDropDown"></div>
+    <div class="back-drop" v-if="backDrop" @click=" handleUserOwnMenu(clickedMenu)"></div>
   </nav>
 
 
 
   <div class="collapsed-nav" ref="collapsedNav" style="display: none;"
     v-if="$store.state.displayFunctions.loginPageUnmounted">
-<div class="back-drop" v-if="backDrop" @click="handleCloseDropDown"></div>
+    <div class="back-drop" v-if="backDrop" @click="handleUserOwnMenu(clickedMenu)"></div>
 
     <div class="logo-container">
       <h3>SoMedia</h3>
@@ -495,7 +496,8 @@
     <div class="user-icon">
 
 
-      <span ref="userImage" class="userImage" @click="handleUserOwnMenu"> <img :src="userData.userProfileImage" alt=""> <span>
+      <span ref="userImage" class="userImage" @click="handleUserOwnMenu"> <img :src="userData.userProfileImage" alt="">
+        <span>
           {{userData.userName}}</span>
         <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
         <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
@@ -624,7 +626,8 @@
         notificationLink: '',
         activeLink: "background-color: var(--pink);color:var(--nave-blue)!important;font-weight: 600;",
         inActiveLink: "background-color: var(--nave-blue);color:#3aa1dd;font-weight: 600;",
-backDrop:false,
+        backDrop: false,
+        clickedMenu: "",
       }
     },
     created() {
@@ -648,7 +651,7 @@ backDrop:false,
 
       window.removeEventListener('scroll', () => this.handleCollapseNav());
     },
-    
+
 
     methods: {
 
@@ -664,6 +667,7 @@ backDrop:false,
 
           this.$refs.nav.style = "display:none"
           this.$refs.collapsedNav.style = "display:flex"
+// if(!this.$refs.nav.style ==="display:none"){ this.handleUserOwnMenu(this.clickedMenu)}
         } else {
 
 
@@ -675,6 +679,7 @@ backDrop:false,
 
           this.$refs.nav.style = "display:block"
           this.$refs.collapsedNav.style = "display:none"
+// this.handleUserOwnMenu(this.clickedMenu)
 
         }
 
@@ -690,7 +695,11 @@ backDrop:false,
         this.login = true
         this.logout = false
         this.$router.push({ name: "Login" });
-        this.$store.dispatch("updateUserData", {
+
+
+setTimeout(() => {
+  
+this.$store.dispatch("updateUserData", {
           Guest: {
             userName: "Guest",
             emailAddress: "",
@@ -713,34 +722,41 @@ backDrop:false,
         });
 
 
+}, 100);
+
+
+        
+
+
 
       },
 
 
 
-      handleCloseDropDown(e) {
-  let ownMenuMobileView = this.$refs.userImageMobileView
-        let noticeMenuFullNav = this.$refs.notificationsFullNav
-        let ownMenuFullNav = this.$refs.userImageFullNav
-        let noticeMenu = this.$refs.notifications
-        let ownMenu = this.$refs.userImage
-        let target = e.target
- if (ownMenu === target && this.userOwnMenu === true) {
-           this.handleUserOwnMenu()
+      // handleCloseDropDown(e) {
+      //   let ownMenuMobileView = this.$refs.userImageMobileView
+      //   let noticeMenuFullNav = this.$refs.notificationsFullNav
+      //   let ownMenuFullNav = this.$refs.userImageFullNav
+      //   let noticeMenu = this.$refs.notifications
+      //   let ownMenu = this.$refs.userImage
+      //   let target = e.target
+      //   if (ownMenu === target && this.userOwnMenu === true) {
+      //     this.handleUserOwnMenu()
 
-         }
+      //   }
 
-  if (ownMenuFullNav === target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
-          this.handleUserOwnMenu('userImageFullNav')
-
-
-        }
+      //   if (ownMenuFullNav === target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
+      //     this.handleUserOwnMenu('userImageFullNav')
 
 
-this.backDrop = false
-//  this.handleUserOwnMenu()
-      
-        
+      //   }
+
+
+      //   this.backDrop = false
+        //  this.handleUserOwnMenu()
+
+
+
 
 
         // if (ownMenuMobileView !== undefined && ownMenuMobileView !== target && !ownMenuMobileView.contains(target) && this.userOwnMenuMobileView === true) {
@@ -770,10 +786,14 @@ this.backDrop = false
 
 
 
-      },
+      // },
 
       handleUserOwnMenu(params) {
+        this.clickedMenu = params
         if (params === 'userImageFullNav') {
+          // if(this.backDrop){
+
+          // this.backDrop=false}
           this.userOwnMenuFullNav ? this.$refs.userOwnMenuFullNav.style = "display:none;height:0;transition:all 1s" : this.$refs.userOwnMenuFullNav.style = "display:flex;height:auto;transition:all 1s";
 
           this.dropIconDisplay = !this.dropIconDisplay
@@ -798,7 +818,7 @@ this.backDrop = false
         }
 
 
-this.backDrop = true
+        this.backDrop = !this.backDrop
 
       },
       handleActiveLink(activeLink) {
@@ -1111,8 +1131,7 @@ this.backDrop = true
 
 
         }
-console.log(1,this.$store.state);
-console.log(2,this.$store.state.userData);
+     
 
         this.newMessageCount = Object.keys(messageStatus).length
 
