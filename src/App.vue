@@ -9,9 +9,18 @@
         <span class="search-icon  search-items">{{''}}
           <font-awesome-icon :icon="['fas', 'search']" />
         </span>
-
-        <input type="text" placeholder=" Search for Friends..." v-model="searchInput" class="search-items">
-
+        <span class="search-container">
+          <input type="text" placeholder=" Search for Friends..." v-model="searchInput" @change="handleSearch"
+            class="search-items">
+          <div class="search-contents" v-if="displaySearchContents">
+            <ul v-for="user in filteredSearchList">
+              <li @click="showUserTimeline(user.userName)">
+                <img :src="$store.state.users[user.userName].userProfileImage" alt="">
+           &nbsp;  <span class="names-Bold">{{user.userName}}</span>
+              </li>
+            </ul>
+          </div>
+        </span>
 
       </div>
 
@@ -356,9 +365,18 @@
         <font-awesome-icon :icon="['fas', 'search']" />
       </span>
 
-      <input type="text" placeholder=" Search for Friends..." v-model="searchInput" class="search-items">
-
-
+     <span class="search-container">
+          <input type="text" placeholder=" Search for Friends..." v-model="searchInput" @change="handleSearch"
+            class="search-items">
+          <div class="search-contents" v-if="displaySearchContents">
+            <ul v-for="user in filteredSearchList">
+              <li @click="showUserTimeline(user.userName)">
+                <img :src="$store.state.users[user.userName].userProfileImage" alt="">
+            &nbsp; <span class="names-Bold">{{user.userName}}</span>
+              </li>
+            </ul>
+          </div>
+        </span>
     </div>
 
     <div class="nav-container-two">
@@ -628,6 +646,9 @@
         inActiveLink: "background-color: var(--nave-blue);color:#3aa1dd;font-weight: 600;",
         backDrop: false,
         clickedMenu: "",
+        allUsers: [],
+        filteredSearchList: [],
+displaySearchContents:false,
       }
     },
     created() {
@@ -667,7 +688,7 @@
 
           this.$refs.nav.style = "display:none"
           this.$refs.collapsedNav.style = "display:flex"
-// if(!this.$refs.nav.style ==="display:none"){ this.handleUserOwnMenu(this.clickedMenu)}
+          // if(!this.$refs.nav.style ==="display:none"){ this.handleUserOwnMenu(this.clickedMenu)}
         } else {
 
 
@@ -679,9 +700,22 @@
 
           this.$refs.nav.style = "display:block"
           this.$refs.collapsedNav.style = "display:none"
-// this.handleUserOwnMenu(this.clickedMenu)
+          // this.handleUserOwnMenu(this.clickedMenu)
 
         }
+
+      },
+
+     showUserTimeline(userName) {
+this.displaySearchContents = false;
+this.searchInput="";
+this.filteredSearchList=[];
+console.log("this.displaySearchContents");
+
+        this.$router.push({
+          name: "Timeline",
+          params: { userName: userName, Timeline: "Timeline" },
+        });
 
       },
 
@@ -697,37 +731,64 @@
         this.$router.push({ name: "Login" });
 
 
-setTimeout(() => {
-  
-this.$store.dispatch("updateUserData", {
-          Guest: {
-            userName: "Guest",
-            emailAddress: "",
-            password: "",
-            emailAddress: "419",
-            firstName: "",
-            lastName: "",
-            address: "",
-            emailAddress: "",
-            postCode: "",
-            country: "",
-            city: "",
-            aboutMe: "",
-            messages: [],
-            posts: [],
-            followers: [],
-            following: [],
-            friends: [],
-          },
-        });
+        setTimeout(() => {
+
+          this.$store.dispatch("updateUserData", {
+            Guest: {
+              userName: "Guest",
+              emailAddress: "",
+              password: "",
+              emailAddress: "419",
+              firstName: "",
+              lastName: "",
+              address: "",
+              emailAddress: "",
+              postCode: "",
+              country: "",
+              city: "",
+              aboutMe: "",
+              messages: [],
+              posts: [],
+              followers: [],
+              following: [],
+              friends: [],
+            },
+          });
 
 
-}, 100);
+        }, 100);
 
 
-        
 
 
+
+
+      },
+
+
+
+
+      handleSearch(e) {
+        console.log(this.allUsers)
+        let filteredSearchList = this.allUsers.sort(function (a, b) {
+          var nameA = a.userName.toUpperCase();
+          var nameB = b.userName.toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        }).filter((user) => {
+          return (
+            user.userName
+              .toLowerCase()
+              .indexOf(this.searchInput.toLowerCase()) !== -1
+          );
+        })
+        this.filteredSearchList = filteredSearchList
+this.displaySearchContents =true
 
       },
 
@@ -753,36 +814,36 @@ this.$store.dispatch("updateUserData", {
 
 
       //   this.backDrop = false
-        //  this.handleUserOwnMenu()
+      //  this.handleUserOwnMenu()
 
 
 
 
 
-        // if (ownMenuMobileView !== undefined && ownMenuMobileView !== target && !ownMenuMobileView.contains(target) && this.userOwnMenuMobileView === true) {
-        //   this.handleUserOwnMenu('userImageMobileView')
+      // if (ownMenuMobileView !== undefined && ownMenuMobileView !== target && !ownMenuMobileView.contains(target) && this.userOwnMenuMobileView === true) {
+      //   this.handleUserOwnMenu('userImageMobileView')
 
 
-        // }
-
-
-
-        // if (ownMenu !== undefined && ownMenuFullNav !== target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
-        //   this.handleUserOwnMenu('userImageFullNav')
-
-
-        // }
+      // }
 
 
 
-        // if (noticeMenu !== target && !noticeMenu.contains(target) && this.notificationState === true) {
-        //   this.handleNotifications()
+      // if (ownMenu !== undefined && ownMenuFullNav !== target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
+      //   this.handleUserOwnMenu('userImageFullNav')
 
-        // }
 
-        // if (noticeMenuFullNav !== target && !noticeMenuFullNav.contains(target) && this.notificationStateFullNav === true) {
-        //   this.handleNotifications("notificationsFullNav")
-        // }
+      // }
+
+
+
+      // if (noticeMenu !== target && !noticeMenu.contains(target) && this.notificationState === true) {
+      //   this.handleNotifications()
+
+      // }
+
+      // if (noticeMenuFullNav !== target && !noticeMenuFullNav.contains(target) && this.notificationStateFullNav === true) {
+      //   this.handleNotifications("notificationsFullNav")
+      // }
 
 
 
@@ -940,15 +1001,6 @@ this.$store.dispatch("updateUserData", {
 
 
 
-
-      showUserTimeline(userName) {
-        this.$router.push({
-          name: "Timeline",
-          params: { userName: userName, Timeline: "Timeline" },
-        });
-
-      },
-
       showNotificationDetails(notificationType, notificationId, userName, posterUserName) {
 
         switch (notificationType) {
@@ -1071,6 +1123,16 @@ this.$store.dispatch("updateUserData", {
       updateUserData() {
         const userData = this.$store.state.userData
         this.userData = this.$store.state.userData
+        let allUsers = []
+
+        for (let userName in this.$store.state.allUsers) {
+          allUsers = [...allUsers, { userName }]
+
+
+        }
+
+        this.allUsers = allUsers
+
         let notifications = []
         let counter = 0;
         let unDubilcatedNotifications = this.userData.notifications
@@ -1131,7 +1193,7 @@ this.$store.dispatch("updateUserData", {
 
 
         }
-     
+
 
         this.newMessageCount = Object.keys(messageStatus).length
 
