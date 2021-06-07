@@ -6,11 +6,11 @@
         <h3>SoMedia</h3>
 
 
-        <span class="search-icon  search-items">{{''}}
+        <span class="search-icon  search-items" :style="searchZIndex">{{''}}
           <font-awesome-icon :icon="['fas', 'search']" />
         </span>
-        <span class="search-container">
-          <input type="text" placeholder=" Search for Friends..." v-model="searchInput" @change="handleSearch"
+        <span class="search-container" :style="searchZIndex">
+          <input type="text" placeholder=" Search for Friends..." v-model="searchInput"  @click="handleSearchBackDrop('open')" 
             class="search-items">
           <div class="search-contents" v-if="displaySearchContents">
             <ul v-for="user in filteredSearchList">
@@ -19,6 +19,7 @@
            &nbsp;  <span class="names-Bold">{{user.userName}}</span>
               </li>
             </ul>
+<div v-if="searchNotFound" style="text-align:center">User Not Found</div>
           </div>
         </span>
 
@@ -50,7 +51,7 @@
 
         <span ref="userImageMobileView" class="userImage  username-header"
           @click="handleUserOwnMenu('userImageMobileView')"> <img :src="userData.userProfileImage" alt="">
-          {{userData.userName}}
+          {{userData.userName}} &nbsp;
           <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
           <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
           <div class="dropdown-OwnMenu" ref="userOwnMenuMobileView">
@@ -349,6 +350,7 @@
     </div>
 
     <div class="back-drop" v-if="backDrop" @click=" handleUserOwnMenu(clickedMenu)"></div>
+<div class="search-back-drop" v-if="searchBackDrop" @click=" handleSearchBackDrop('close')"></div>
   </nav>
 
 
@@ -356,17 +358,18 @@
   <div class="collapsed-nav" ref="collapsedNav" style="display: none;"
     v-if="$store.state.displayFunctions.loginPageUnmounted">
     <div class="back-drop" v-if="backDrop" @click="handleUserOwnMenu(clickedMenu)"></div>
+<div class="search-back-drop" v-if="searchBackDrop" @click=" handleSearchBackDrop('close')"></div>
 
     <div class="logo-container">
       <h3>SoMedia</h3>
 
 
-      <span class="search-icon search-items">{{''}}
+      <span class="search-icon search-items" :style="searchZIndex">{{''}}
         <font-awesome-icon :icon="['fas', 'search']" />
       </span>
 
-     <span class="search-container">
-          <input type="text" placeholder=" Search for Friends..." v-model="searchInput" @change="handleSearch"
+     <span class="search-container" :style="searchZIndex">
+          <input type="text" placeholder=" Search for Friends..." v-model="searchInput" @click="handleSearchBackDrop('open')" 
             class="search-items">
           <div class="search-contents" v-if="displaySearchContents">
             <ul v-for="user in filteredSearchList">
@@ -375,6 +378,7 @@
             &nbsp; <span class="names-Bold">{{user.userName}}</span>
               </li>
             </ul>
+<div v-if="searchNotFound" style="text-align:center">User Not Found</div>
           </div>
         </span>
     </div>
@@ -515,7 +519,7 @@
 
 
       <span ref="userImage" class="userImage" @click="handleUserOwnMenu"> <img :src="userData.userProfileImage" alt="">
-        <span>
+         &nbsp;<span>
           {{userData.userName}}</span>
         <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
         <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
@@ -620,7 +624,7 @@
       return {
 
         userData: {
-          userName: "Guest"
+        
         },
         login: true,
         logout: false,
@@ -645,10 +649,12 @@
         activeLink: "background-color: var(--pink);color:var(--nave-blue)!important;font-weight: 600;",
         inActiveLink: "background-color: var(--nave-blue);color:#3aa1dd;font-weight: 600;",
         backDrop: false,
+searchBackDrop:false,
         clickedMenu: "",
         allUsers: [],
-        filteredSearchList: [],
+        filteredSearchLists: [],
 displaySearchContents:false,
+searchZIndex:"z-index:1",
       }
     },
     created() {
@@ -707,10 +713,7 @@ displaySearchContents:false,
       },
 
      showUserTimeline(userName) {
-this.displaySearchContents = false;
-this.searchInput="";
-this.filteredSearchList=[];
-console.log("this.displaySearchContents");
+this.handleSearchBackDrop("close")
 
         this.$router.push({
           name: "Timeline",
@@ -768,29 +771,22 @@ console.log("this.displaySearchContents");
 
 
 
-      handleSearch(e) {
-        console.log(this.allUsers)
-        let filteredSearchList = this.allUsers.sort(function (a, b) {
-          var nameA = a.userName.toUpperCase();
-          var nameB = b.userName.toUpperCase();
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-          return 0;
-        }).filter((user) => {
-          return (
-            user.userName
-              .toLowerCase()
-              .indexOf(this.searchInput.toLowerCase()) !== -1
-          );
-        })
-        this.filteredSearchList = filteredSearchList
-this.displaySearchContents =true
 
-      },
+handleSearchBackDrop(params){
+
+if(params === "open"){
+this.searchZIndex="z-index:500"
+return this.searchBackDrop=true
+}
+this.searchInput="";
+this.displaySearchContents = false;
+this.filteredSearchList=[];
+this.searchZIndex="z-index:1"
+ return this.searchBackDrop=false
+
+
+
+},
 
 
 
@@ -1118,12 +1114,49 @@ this.displaySearchContents =true
 
 
     },
+ watch: {
+  
+        },
+
+
     computed: {
+
+     filteredSearchList() {
+        let filteredSearchList = this.allUsers.sort(function (a, b) {
+          var nameA = a.userName.toUpperCase();
+          var nameB = b.userName.toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        }).filter((user) => {
+          return (
+            user.userName
+              .toLowerCase()
+              .indexOf(this.searchInput.toLowerCase()) !== -1
+          );
+        })
+this.filteredSearchLists =filteredSearchList
+return filteredSearchList
+      },
+
+searchNotFound(){
+
+if(this.filteredSearchLists.length){
+return false
+
+}
+return true
+},
 
       updateUserData() {
         const userData = this.$store.state.userData
         this.userData = this.$store.state.userData
         let allUsers = []
+this.searchInput.length?this.displaySearchContents = true:this.displaySearchContents = false
 
         for (let userName in this.$store.state.allUsers) {
           allUsers = [...allUsers, { userName }]
