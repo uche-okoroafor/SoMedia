@@ -1,6 +1,6 @@
 <template>
 
-  <nav ref="nav" v-if="$store.state.displayFunctions.loginPageUnmounted">
+  <nav :style="navStyle" v-if="$store.state.displayFunctions.loginPageUnmounted">
     <div class="nav-container-one">
       <div class="logo-container">
         <h3>SoMedia</h3>
@@ -10,16 +10,16 @@
           <font-awesome-icon :icon="['fas', 'search']" />
         </span>
         <span class="search-container" :style="searchZIndex">
-          <input type="text" placeholder=" Search for Friends..." v-model="searchInput"  @click="handleSearchBackDrop('open')" 
-            class="search-items">
+          <input type="text" placeholder=" Search for Friends..." v-model="searchInput"
+            @click="handleSearchBackDrop('open')" class="search-items">
           <div class="search-contents" v-if="displaySearchContents">
-            <ul v-for="user in filteredSearchList">
+            <ul v-for="user in filteredSearchList" :key="user.userName">
               <li @click="showUserTimeline(user.userName)">
                 <img :src="$store.state.users[user.userName].userProfileImage" alt="">
-           &nbsp;  <span class="names-Bold">{{user.userName}}</span>
+                <span class="names-Bold"> {{user.userName}}</span>
               </li>
             </ul>
-<div v-if="searchNotFound" style="text-align:center">User Not Found</div>
+            <div v-if="searchNotFound" style="text-align:center">User Not Found</div>
           </div>
         </span>
 
@@ -50,8 +50,8 @@
 
 
         <span ref="userImageMobileView" class="userImage  username-header"
-          @click="handleUserOwnMenu('userImageMobileView')"> <img :src="userData.userProfileImage" alt="">
-          {{userData.userName}} &nbsp;
+          @click="handleUserOwnMenu('userImageMobileView')"> <img :src="userData.userProfileImage" alt="">&nbsp;
+          <span class="names-Bold">{{userData.userName}}</span> &nbsp;
           <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
           <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
           <div class="dropdown-OwnMenu" ref="userOwnMenuMobileView">
@@ -141,7 +141,7 @@
               <li ref="lists"
                 @click="showNotificationDetails('Accepted Friend Request',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'Accepted Friend Request' && notification.notificationStatus === 'unRead'">
-                <span class="names-Bold">{{notification.userName}}</span> accpted Your Friend request
+                <span class="names-Bold">{{notification.userName}}</span> Accpted Your Friend request
                 <br> <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -172,15 +172,6 @@
                 <hr>
               </li>
 
-              <!-- <li ref="lists"
-                @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== notification.posterUserName && notification.posterUserName !== userData.userName
-&& !friendsList.includes(notification.userName)">
-<span class="names-Bold">{{notification.userName}}</span> likes <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li> -->
 
               <li ref="lists"
                 @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
@@ -190,6 +181,11 @@
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
+
+
+
+
+
 
               <li ref="lists"
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
@@ -203,7 +199,7 @@
 
               <li ref="lists"
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === userData.userName && notification.posterUserName !== userData.userName && notification.posterUserName !== notification.userName && notification.commenterUserName === notification.userName">
+                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === notification.userName && notification.userName !== userData.userName  && notification.posterUserName !== notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}}
                 comment on <span class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
@@ -231,7 +227,7 @@
 
               <li ref="lists"
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === userData.userName && notification.posterUserName !== userData.userName && notification.posterUserName === notification.userName">
+                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === notification.userName && notification.posterUserName !== userData.userName && notification.posterUserName === notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}}
                 comment on {{handleGender(notification.userName)}} post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
@@ -252,7 +248,7 @@
 
               <li ref="lists"
                 @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName !== notification.posterUserName">
+                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName !== notification.posterUserName && userData.userName !== notification.posterUserName">
                 Your friend
                 <span class="names-Bold">{{notification.userName}}</span> commented on <span
                   class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
@@ -262,7 +258,7 @@
 
               <li ref="lists"
                 @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName !== notification.posterUserName">
+                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName === notification.posterUserName">
                 Your friend
                 <span class="names-Bold">{{notification.userName}}</span> commented on
                 {{handleGender(notification.userName)}} post <br>
@@ -270,6 +266,8 @@
                 <hr>
               </li>
 
+
+
               <li ref="lists"
                 @click="showNotificationDetails('follow',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'follow' && notification.notificationStatus === 'unRead' && notification.userName !== userData.userName">
@@ -278,38 +276,7 @@
                 <hr>
               </li>
 
-              <!-- <li ref="lists"
-                @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName !== notification.posterUserName">
-                Your friend
-                <span class="names-Bold">{{notification.userName}}</span> commented on {{handleGender(notification.userName)}} post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li> -->
-              <!-- 
-           
-   
 
-
- <li ref="lists"
-                @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                Your friend <span class="names-Bold">{{notification.userName}}</span> likes <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
-            
-             
-            
-
-              <li ref="lists"
-                @click="showNotificationDetails('follow',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'follow' && notification.notificationStatus === 'unRead' && notification.userName !== userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> started following you <br>
-                <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li> -->
             </ul>
             <span v-if="!notificationCount? true:false">You have no new Notification</span>
 
@@ -326,8 +293,8 @@
 
 
         <span ref="userImageFullNav" class="userImage" @click="handleUserOwnMenu('userImageFullNav')"> <img
-            :src="userData.userProfileImage" alt=""> <span>
-            {{userData.userName}}</span>
+            :src="userData.userProfileImage" alt="">&nbsp;<span class="names-Bold">
+            {{userData.userName}}</span>&nbsp;
           <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
           <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
           <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
@@ -349,16 +316,27 @@
 
     </div>
 
-    <div class="back-drop" v-if="backDrop" @click=" handleUserOwnMenu(clickedMenu)"></div>
-<div class="search-back-drop" v-if="searchBackDrop" @click=" handleSearchBackDrop('close')"></div>
+    <div class="back-drop" v-if="backDrop" @click="handleUserOwnMenu(clickedMenu)"></div>
+    <div class="search-back-drop" v-if="searchBackDrop" @click="handleSearchBackDrop('close')"></div>
+    <div class="notify-back-drop" v-if="notificationBackDrop" @click="handleNotifyBackDrop"></div>
+    <!-- <div class="restrict-Guest">
+
+      <div class="restrict-Guest-contents">
+        <span>Login Or Create an Account to Have Access to this Link !</span>
+
+      </div> </div>-->
+
   </nav>
 
 
 
-  <div class="collapsed-nav" ref="collapsedNav" style="display: none;"
-    v-if="$store.state.displayFunctions.loginPageUnmounted">
+  <div class="collapsed-nav" :style="collapsedNav" v-if="$store.state.displayFunctions.loginPageUnmounted">
     <div class="back-drop" v-if="backDrop" @click="handleUserOwnMenu(clickedMenu)"></div>
-<div class="search-back-drop" v-if="searchBackDrop" @click=" handleSearchBackDrop('close')"></div>
+    <div class="search-back-drop" v-if="searchBackDrop" @click=" handleSearchBackDrop('close')"></div>
+    <div class="notify-back-drop" v-if="notificationBackDrop" @click="handleNotifyBackDrop"></div>
+
+
+
 
     <div class="logo-container">
       <h3>SoMedia</h3>
@@ -368,19 +346,19 @@
         <font-awesome-icon :icon="['fas', 'search']" />
       </span>
 
-     <span class="search-container" :style="searchZIndex">
-          <input type="text" placeholder=" Search for Friends..." v-model="searchInput" @click="handleSearchBackDrop('open')" 
-            class="search-items">
-          <div class="search-contents" v-if="displaySearchContents">
-            <ul v-for="user in filteredSearchList">
-              <li @click="showUserTimeline(user.userName)">
-                <img :src="$store.state.users[user.userName].userProfileImage" alt="">
-            &nbsp; <span class="names-Bold">{{user.userName}}</span>
-              </li>
-            </ul>
-<div v-if="searchNotFound" style="text-align:center">User Not Found</div>
-          </div>
-        </span>
+      <span class="search-container" :style="searchZIndex">
+        <input type="text" placeholder=" Search for Friends..." v-model="searchInput"
+          @click="handleSearchBackDrop('open')" class="search-items">
+        <div class="search-contents" v-if="displaySearchContents">
+          <ul v-for="user in filteredSearchList">
+            <li @click="showUserTimeline(user.userName)">
+              <img :src="$store.state.users[user.userName].userProfileImage" alt="">&nbsp;
+              <span class="names-Bold">{{user.userName}}</span>
+            </li>
+          </ul>
+          <div v-if="searchNotFound" style="text-align:center">User Not Found</div>
+        </div>
+      </span>
     </div>
 
     <div class="nav-container-two">
@@ -420,84 +398,157 @@
             v-if="newMessageCount? true:false">{{newMessageCount}}</span>
         </li>
         <li class="lists  collapsed-nav-notification" ref="notifications" @click="handleNotifications('notifications')">
-          <span class="collapsed-nav-text"> Notifications </span>
+          <span @click="handleNotifications('notifications')" class="collapsed-nav-text"> Notifications </span>
 
           <font-awesome-icon :icon="['fas', 'bell']" ref="notificationIcon" />
           <span class="show-counter-notification" v-if="notificationCount? true:false">{{notificationCount}}</span>
 
-          <div class="dropdown-notifications" ref="notificationMenu">
+          <div class="dropdown-notifications  collapsed-dropdown" ref="notificationMenu">
             <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
             <ul v-for="notification in notifications">
+              <li ref="lists" @click="showNotificationDetails('post',notification.notificationId,notification.userName)"
+                v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'">
+                Your friend <span class="names-Bold">{{notification.userName}}</span> just made a new
+                {{notification.notificationType}} <br> <span>{{showDate(notification.notificationDate)}}</span>
+                <hr>
+              </li>
+
               <li ref="lists"
                 @click="showNotificationDetails('friend request',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'friend request' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
+                v-if="notification.notificationType === 'friend request' && notification.notificationStatus === 'unRead'">
                 <span class="names-Bold">{{notification.userName}}</span> sent you a {{notification.notificationType}}
                 <br> <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
               <li ref="lists"
+                @click="showNotificationDetails('Accepted Friend Request',notification.notificationId,notification.userName)"
+                v-if="notification.notificationType === 'Accepted Friend Request' && notification.notificationStatus === 'unRead'">
+                <span class="names-Bold">{{notification.userName}}</span> Accpted Your Friend request
+                <br> <span>{{showDate(notification.notificationDate)}}</span>
+                <hr>
+              </li>
+              <li ref="lists"
                 @click="showNotificationDetails('message',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'message' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
+                v-if="notification.notificationType === 'message' && notification.notificationStatus === 'unRead'">
                 You have a new {{notification.notificationType}} from <span
                   class="names-Bold">{{notification.userName}}</span> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
-              <li ref="lists" @click="showNotificationDetails('post',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
-                Your friend <span class="names-Bold">{{notification.userName}}</span> just made a new
-                {{notification.notificationType}} <br> <span>{{showDate(notification.notificationDate)}}</span>
-                <hr>
-              </li>
+
               <li ref="lists"
                 @click="showNotificationDetails('likes',notification.notificationId,notification.posterUserName)"
-                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName">
+                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName ">
                 <span class="names-Bold">{{notification.userName}}</span> likes your post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
+
+
               <li ref="lists"
                 @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== notification.posterUserName">
+                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== notification.posterUserName && notification.posterUserName !== userData.userName">
                 Your friend <span class="names-Bold">{{notification.userName}}</span> likes <span
                   class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
 
+
               <li ref="lists"
                 @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName === notification.posterUserName">
+                v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName === notification.posterUserName && notification.posterUserName !== userData.userName">
                 Your friend <span class="names-Bold">{{notification.userName}}</span> likes <span
                   class="names-Bold">{{handleGender(notification.userName)}}</span> post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
 
+
+
+
+
+
               <li ref="lists"
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.userName === userData.userName">
+                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === userData.userName && notification.posterUserName !== userData.userName && notification.posterUserName !== notification.userName && notification.commenterUserName !== notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes your comment on <span
                   class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
+
+
+              <li ref="lists"
+                @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
+                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === notification.userName && notification.userName !== userData.userName  && notification.posterUserName !== notification.userName">
+                <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}}
+                comment on <span class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
+                <span>{{showDate(notification.notificationDate)}}</span>
+                <hr>
+              </li>
+
+
+              <li ref="lists"
+                @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
+                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === userData.userName && notification.posterUserName === userData.userName && notification.posterUserName !== notification.userName">
+                <span class="names-Bold">{{notification.userName}}</span> likes your comment on Your post <br>
+                <span>{{showDate(notification.notificationDate)}}</span>
+                <hr>
+              </li>
+
+
+              <li ref="lists"
+                @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
+                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName !== userData.userName && notification.posterUserName === userData.userName && notification.posterUserName !== notification.userName">
+                <span class="names-Bold">{{notification.userName}}</span> likes {{notification.commenterUserName}}
+                comment on Your post <br>
+                <span>{{showDate(notification.notificationDate)}}</span>
+                <hr>
+              </li>
+
+              <li ref="lists"
+                @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
+                v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === notification.userName && notification.posterUserName !== userData.userName && notification.posterUserName === notification.userName">
+                <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}}
+                comment on {{handleGender(notification.userName)}} post <br>
+                <span>{{showDate(notification.notificationDate)}}</span>
+                <hr>
+              </li>
+
+
+
+
               <li ref="lists"
                 @click="showNotificationDetails('comment',notification.notificationId,notification.userName)"
-                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName">
+                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName && notification.userName !== userData.userName">
                 <span class="names-Bold">{{notification.userName}}</span> commented on your post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
+
+
               <li ref="lists"
                 @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
-                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName">
+                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName !== notification.posterUserName && userData.userName !== notification.posterUserName">
                 Your friend
                 <span class="names-Bold">{{notification.userName}}</span> commented on <span
                   class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
+
+              <li ref="lists"
+                @click="showNotificationDetails('comment',notification.notificationId,notification.userName,notification.posterUserName)"
+                v-if="notification.notificationType === 'comment' && notification.notificationStatus === 'unRead'&& notification.userName !== userData.userName && notification.userName === notification.posterUserName">
+                Your friend
+                <span class="names-Bold">{{notification.userName}}</span> commented on
+                {{handleGender(notification.userName)}} post <br>
+                <span>{{showDate(notification.notificationDate)}}</span>
+                <hr>
+              </li>
+
+
 
               <li ref="lists"
                 @click="showNotificationDetails('follow',notification.notificationId,notification.userName)"
@@ -518,15 +569,16 @@
     <div class="user-icon">
 
 
-      <span ref="userImage" class="userImage" @click="handleUserOwnMenu"> <img :src="userData.userProfileImage" alt="">
-         &nbsp;<span>
+      <span ref="userImage" class="userImage" @click="handleUserOwnMenu"> <img :src="userData.userProfileImage"
+          alt="">&nbsp;
+        <span class="names-Bold">
           {{userData.userName}}</span>
         <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
         <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
         <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
 
 
-        <div class="dropdown-OwnMenu" ref="userOwnMenu">
+        <div class="dropdown-OwnMenu" :style="userOwnMenuStyle">
           <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
 
           <ul>
@@ -610,8 +662,23 @@
 
 
 
+  <div class="restrict-Guest" v-if="restrictGuest" @click="closeRestrictMessage">
 
+    <div class="restrict-Guest-contents">
+      <div class="close-restrict-message " @click="closeRestrictMessage">
+        <font-awesome-icon :icon="['fas', 'times-circle']" class="color-danger" />
+      </div>
+      <span class="mt-3">Login Or Create an Account to Have Access to this Link !
+        <br>
+        <br>
+        <span class="signin-button btn btn-success h-1 mb-1" @click="handleLogin('login')">Sign In
+          <font-awesome-icon :icon="['fas', 'sign-in-alt']" />
+        </span>
+      </span>
 
+    </div>
+
+  </div>
   <router-view />
 </template>
 
@@ -624,12 +691,10 @@
       return {
 
         userData: {
-        
+
         },
         login: true,
         logout: false,
-        notificationState: false,
-        notificationStateFullNav: false,
         userOwnMenu: false,
         userOwnMenuFullNav: false,
         userOwnMenuMobileView: false,
@@ -649,12 +714,17 @@
         activeLink: "background-color: var(--pink);color:var(--nave-blue)!important;font-weight: 600;",
         inActiveLink: "background-color: var(--nave-blue);color:#3aa1dd;font-weight: 600;",
         backDrop: false,
-searchBackDrop:false,
+        searchBackDrop: false,
         clickedMenu: "",
         allUsers: [],
         filteredSearchLists: [],
-displaySearchContents:false,
-searchZIndex:"z-index:1",
+        displaySearchContents: false,
+        searchZIndex: "z-index:0",
+        notificationBackDrop: false,
+        navStyle: "display:block",
+        collapsedNav: "display:none",
+        userOwnMenuStyle: "display:none;height:0;transition:all 1s",
+        restrictGuest: false,
       }
     },
     created() {
@@ -692,8 +762,8 @@ searchZIndex:"z-index:1",
             params: "collapseNav"
           });
 
-          this.$refs.nav.style = "display:none"
-          this.$refs.collapsedNav.style = "display:flex"
+          this.navStyle = "display:none"
+          this.collapsedNav = "display:flex"
           // if(!this.$refs.nav.style ==="display:none"){ this.handleUserOwnMenu(this.clickedMenu)}
         } else {
 
@@ -704,16 +774,22 @@ searchZIndex:"z-index:1",
             params: "collapseNav"
           });
 
-          this.$refs.nav.style = "display:block"
-          this.$refs.collapsedNav.style = "display:none"
+          this.navStyle = "display:block"
+          this.collapsedNav = "display:none"
           // this.handleUserOwnMenu(this.clickedMenu)
 
         }
 
       },
 
-     showUserTimeline(userName) {
-this.handleSearchBackDrop("close")
+      showUserTimeline(userName) {
+
+        if (this.userData.userName === "Guest") {
+
+          return this.restrictGuest = true
+        }
+
+        this.handleSearchBackDrop("close")
 
         this.$router.push({
           name: "Timeline",
@@ -741,20 +817,33 @@ this.handleSearchBackDrop("close")
               userName: "Guest",
               emailAddress: "",
               password: "",
-              emailAddress: "419",
+              emailAddress: "",
               firstName: "",
               lastName: "",
+              age: "",
+              education: "",
+              gender: "",
+              photos: [""],
               address: "",
               emailAddress: "",
               postCode: "",
               country: "",
               city: "",
               aboutMe: "",
-              messages: [],
+              messages: {},
+              messageStatus: {},
+              notifications: {},
+              occupation: "",
+              status: "online",
               posts: [],
               followers: [],
               following: [],
               friends: [],
+              activities: {},
+              postCode: "",
+              userCoverImage: "",
+              userId: "",
+              userProfileImage: "",
             },
           });
 
@@ -772,78 +861,26 @@ this.handleSearchBackDrop("close")
 
 
 
-handleSearchBackDrop(params){
+      handleSearchBackDrop(params) {
 
-if(params === "open"){
-this.searchZIndex="z-index:500"
-return this.searchBackDrop=true
-}
-this.searchInput="";
-this.displaySearchContents = false;
-this.filteredSearchList=[];
-this.searchZIndex="z-index:1"
- return this.searchBackDrop=false
-
-
-
-},
+        if (params === "open") {
+          this.searchZIndex = "z-index:500"
+          return this.searchBackDrop = true
+        }
+        this.searchInput = "";
+        this.displaySearchContents = false;
+        this.filteredSearchList = [];
+        this.searchZIndex = "z-index:1"
+        return this.searchBackDrop = false
 
 
 
-      // handleCloseDropDown(e) {
-      //   let ownMenuMobileView = this.$refs.userImageMobileView
-      //   let noticeMenuFullNav = this.$refs.notificationsFullNav
-      //   let ownMenuFullNav = this.$refs.userImageFullNav
-      //   let noticeMenu = this.$refs.notifications
-      //   let ownMenu = this.$refs.userImage
-      //   let target = e.target
-      //   if (ownMenu === target && this.userOwnMenu === true) {
-      //     this.handleUserOwnMenu()
+      },
 
-      //   }
+      closeRestrictMessage() {
+        this.restrictGuest = false
 
-      //   if (ownMenuFullNav === target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
-      //     this.handleUserOwnMenu('userImageFullNav')
-
-
-      //   }
-
-
-      //   this.backDrop = false
-      //  this.handleUserOwnMenu()
-
-
-
-
-
-      // if (ownMenuMobileView !== undefined && ownMenuMobileView !== target && !ownMenuMobileView.contains(target) && this.userOwnMenuMobileView === true) {
-      //   this.handleUserOwnMenu('userImageMobileView')
-
-
-      // }
-
-
-
-      // if (ownMenu !== undefined && ownMenuFullNav !== target && !ownMenuFullNav.contains(target) && this.userOwnMenuFullNav === true) {
-      //   this.handleUserOwnMenu('userImageFullNav')
-
-
-      // }
-
-
-
-      // if (noticeMenu !== target && !noticeMenu.contains(target) && this.notificationState === true) {
-      //   this.handleNotifications()
-
-      // }
-
-      // if (noticeMenuFullNav !== target && !noticeMenuFullNav.contains(target) && this.notificationStateFullNav === true) {
-      //   this.handleNotifications("notificationsFullNav")
-      // }
-
-
-
-      // },
+      },
 
       handleUserOwnMenu(params) {
         this.clickedMenu = params
@@ -867,7 +904,7 @@ this.searchZIndex="z-index:1"
         }
 
         else {
-          this.userOwnMenu ? this.$refs.userOwnMenu.style = "display:none;height:0;transition:all 1s" : this.$refs.userOwnMenu.style = "display:flex;height:auto;transition:all 1s";
+          this.userOwnMenu ? this.userOwnMenuStyle = "display:none;height:0;transition:all 1s" : this.userOwnMenuStyle = "display:flex;height:auto;transition:all 1s";
 
 
           this.dropIconDisplay = !this.dropIconDisplay
@@ -896,6 +933,10 @@ this.searchZIndex="z-index:1"
             break;
 
           case "userProfile":
+            if (this.userData.userName === "Guest") {
+
+              return this.restrictGuest = true
+            }
             this.homeLink = this.inActiveLink
             this.profileLink = this.activeLink
             this.timelineLink = this.inActiveLink
@@ -909,6 +950,10 @@ this.searchZIndex="z-index:1"
 
             break;
           case "Messages":
+            if (this.userData.userName === "Guest") {
+
+              return this.restrictGuest = true
+            }
             this.homeLink = this.inActiveLink
             this.profileLink = this.inActiveLink
             this.timelineLink = this.inActiveLink
@@ -922,6 +967,10 @@ this.searchZIndex="z-index:1"
             break;
 
           case "Timeline":
+            if (this.userData.userName === "Guest") {
+
+              return this.restrictGuest = true
+            }
             this.homeLink = this.inActiveLink
             this.profileLink = this.inActiveLink
             this.timelineLink = this.activeLink
@@ -934,6 +983,10 @@ this.searchZIndex="z-index:1"
             // });
             break;
           case "Newsfeed":
+            if (this.userData.userName === "Guest") {
+
+              return this.restrictGuest = true
+            }
             this.homeLink = this.inActiveLink
             this.profileLink = this.inActiveLink
             this.timelineLink = this.inActiveLink
@@ -955,7 +1008,10 @@ this.searchZIndex="z-index:1"
 
 
       handlePushRoutes(linkName) {
+        if (this.userData.userName === "Guest") {
 
+          return this.restrictGuest = true
+        }
         this.$router.push({
           name: linkName,
           params: { userName: this.userData.userName },
@@ -968,31 +1024,53 @@ this.searchZIndex="z-index:1"
 
       handleNotifications(params) {
         if (params === "notificationsFullNav") {
-          this.notificationStateFullNav ? this.$refs.notificationMenuFullNav.style = "display:none;height:0;transition:all 1s" : this.$refs.notificationMenuFullNav.style = "display:flex;height:auto;transition:all 1s"
+          if (this.notificationStateFullNav) {
+            this.$refs.notificationMenuFullNav.style = "display:none;height:0;transition:all 1s"
+            this.notificationBackDrop = false
+          } else {
+            this.$refs.notificationMenuFullNav.style = "display:flex;height:auto;transition:all 1s"
+            this.notificationBackDrop = true
+          }
 
           this.notificationStateFullNav = !this.notificationStateFullNav
         }
         else {
-          this.notificationState ? this.$refs.notificationMenu.style = "display:none;height:0;transition:all 1s" : this.$refs.notificationMenu.style = "display:flex;height:auto;transition:all 1s"
-          this.notificationState = !this.notificationState
+          if (this.notificationState) {
+            this.$refs.notificationMenu.style = "display:none;height:0;transition:all 1s"
+            this.notificationBackDrop = false
+          }
+          else {
+            this.$refs.notificationMenu.style = "display:flex;height:auto;transition:all 1s"
+            this.notificationBackDrop = true
+          }
         }
+      },
+
+      handleNotifyBackDrop() {
+        this.notificationBackDrop = false
+        this.$refs.notificationMenuFullNav.style = "display:none;height:0;transition:all 1s"
+        this.$refs.notificationMenu.style = "display:none;height:0;transition:all 1s"
+      },
+
+      showMessages() {
+        if (this.userData.userName === "Guest") {
+
+          return this.restrictGuest = true
+        } this.$router.push({
+          name: "Messages",
+          params: { userName: this.userData.userName },
+        });
 
       },
-      showMessages() {
-        if (this.userData.userName !== "Guest") {
-          this.$router.push({
-            name: "Messages",
-            params: { userName: this.userData.userName },
-          });
-        }
-      },
       showFriends() {
-        if (this.userData.userName !== "Guest") {
-          this.$router.push({
-            name: "Friends",
-            params: { userName: this.userData.userName },
-          });
-        }
+        if (this.userData.userName === "Guest") {
+
+          return this.restrictGuest = true
+        } this.$router.push({
+          name: "Friends",
+          params: { userName: this.userData.userName },
+        });
+
       },
 
 
@@ -1114,14 +1192,17 @@ this.searchZIndex="z-index:1"
 
 
     },
- watch: {
-  
-        },
+    watch: {
+
+    },
 
 
     computed: {
 
-     filteredSearchList() {
+
+
+      filteredSearchList() {
+
         let filteredSearchList = this.allUsers.sort(function (a, b) {
           var nameA = a.userName.toUpperCase();
           var nameB = b.userName.toUpperCase();
@@ -1139,24 +1220,29 @@ this.searchZIndex="z-index:1"
               .indexOf(this.searchInput.toLowerCase()) !== -1
           );
         })
-this.filteredSearchLists =filteredSearchList
-return filteredSearchList
+
+        this.filteredSearchLists = filteredSearchList.filter((user) => user.userName !== this.$store.state.userData.userName)
+
+
+        return this.filteredSearchLists
       },
 
-searchNotFound(){
+      searchNotFound() {
 
-if(this.filteredSearchLists.length){
-return false
+        if (this.filteredSearchLists.length) {
+          return false
 
-}
-return true
-},
+        }
+        return true
+      },
 
       updateUserData() {
+        console.log(this.userData.notifications);
+
         const userData = this.$store.state.userData
         this.userData = this.$store.state.userData
         let allUsers = []
-this.searchInput.length?this.displaySearchContents = true:this.displaySearchContents = false
+        this.searchInput.length ? this.displaySearchContents = true : this.displaySearchContents = false
 
         for (let userName in this.$store.state.allUsers) {
           allUsers = [...allUsers, { userName }]
@@ -1168,18 +1254,23 @@ this.searchInput.length?this.displaySearchContents = true:this.displaySearchCont
 
         let notifications = []
         let counter = 0;
-        let unDubilcatedNotifications = this.userData.notifications
+        let unDuplicatedNotifications = this.userData.notifications
         for (const notificationId in this.userData.notifications) {
-          for (const noticeId in unDubilcatedNotifications) {
-            if (this.userData.notifications[notificationId].notificationType === unDubilcatedNotifications[noticeId].notificationType &&
-              this.userData.notifications[notificationId].posterUserName === unDubilcatedNotifications[noticeId].posterUserName &&
-              this.userData.notifications[notificationId].userName === unDubilcatedNotifications[noticeId].userName
+          for (const noticeId in unDuplicatedNotifications) {
+            if (this.userData.notifications[notificationId].notificationType === unDuplicatedNotifications[noticeId].notificationType &&
+              this.userData.notifications[notificationId].posterUserName === unDuplicatedNotifications[noticeId].posterUserName &&
+              this.userData.notifications[notificationId].userName === unDuplicatedNotifications[noticeId].userName &&
+              this.userData.notifications[notificationId].commenterUserName === unDuplicatedNotifications[noticeId].commenterUserName
+
             ) {
+
+
+
               counter++
               if (counter > 1) {
 
 
-                delete unDubilcatedNotifications[noticeId]
+                delete unDuplicatedNotifications[noticeId]
               }
 
             }
@@ -1189,7 +1280,7 @@ this.searchInput.length?this.displaySearchContents = true:this.displaySearchCont
         }
 
 
-        for (const notificationId in unDubilcatedNotifications) {
+        for (const notificationId in unDuplicatedNotifications) {
 
 
           notifications = [...notifications, this.userData.notifications[notificationId]]
@@ -1252,9 +1343,9 @@ this.searchInput.length?this.displaySearchContents = true:this.displaySearchCont
 
         this.notificationCount = notificationCount.length
 
-
-        this.friendsList = this.userData.friends.map((user) => user.userName)
-
+        if (this.userData.friends.length) {
+          this.friendsList = this.userData.friends.map((user) => user.userName)
+        }
 
 
         let login = true
