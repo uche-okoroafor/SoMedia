@@ -5,13 +5,22 @@
       <div class="logo-container">
         <h3>SoMedia</h3>
 
+        <div class="search-main-container">
 
-        <span class="search-icon  search-items" :style="searchZIndex">{{''}}
-          <font-awesome-icon :icon="['fas', 'search']" />
-        </span>
-        <span class="search-container" :style="searchZIndex">
-          <input type="text" placeholder=" Search for Friends..." v-model="searchInput"
-            @click="handleSearchBackDrop('open')" class="search-items">
+          <span class="search-icon-mobile-view" :style="searchZIndex" v-if="searchMobileView"
+            @click="showSearchInput">&nbsp;
+            <font-awesome-icon :icon="['fas', 'search']" />
+          </span>
+
+
+          <span class="search-icon  search-items" :style="searchZIndex">&nbsp;
+            <font-awesome-icon :icon="['fas', 'search']" />
+          </span>
+          <span class="search-container" :style="searchZIndex">
+            <input type="text" placeholder=" Search for Friends..." v-model="searchInput"
+              @click="handleSearchBackDrop('open')" class="search-items" :style="searchZIndex">
+
+          </span>
           <div class="search-contents" v-if="displaySearchContents">
             <ul v-for="user in filteredSearchList" :key="user.userName">
               <li @click="showUserTimeline(user.userName)">
@@ -21,8 +30,7 @@
             </ul>
             <div v-if="searchNotFound" style="text-align:center">User Not Found</div>
           </div>
-        </span>
-
+        </div>
       </div>
 
       <ul class="website-info">
@@ -46,7 +54,7 @@
       </ul>
 
 
-      <div class="user-icon">
+      <div class="user-icon" v-if="userIconMenu">
 
 
         <span ref="userImageMobileView" class="userImage  username-header"
@@ -319,6 +327,8 @@
     <div class="back-drop" v-if="backDrop" @click="handleUserOwnMenu(clickedMenu)"></div>
     <div class="search-back-drop" v-if="searchBackDrop" @click="handleSearchBackDrop('close')"></div>
     <div class="notify-back-drop" v-if="notificationBackDrop" @click="handleNotifyBackDrop"></div>
+    <div class="nav-menu-bar-drop" v-if="menuBarBackDrop" @click="handleMenuBarBackDropBackDrop"></div>
+
     <!-- <div class="restrict-Guest">
 
       <div class="restrict-Guest-contents">
@@ -334,6 +344,7 @@
     <div class="back-drop" v-if="backDrop" @click="handleUserOwnMenu(clickedMenu)"></div>
     <div class="search-back-drop" v-if="searchBackDrop" @click=" handleSearchBackDrop('close')"></div>
     <div class="notify-back-drop" v-if="notificationBackDrop" @click="handleNotifyBackDrop"></div>
+    <div class="nav-menu-bar-drop" v-if="menuBarBackDrop" @click="handleMenuBarBackDropBackDrop"></div>
 
 
 
@@ -341,14 +352,22 @@
     <div class="logo-container">
       <h3>SoMedia</h3>
 
+      <div class="search-main-container">
 
-      <span class="search-icon search-items" :style="searchZIndex">{{''}}
-        <font-awesome-icon :icon="['fas', 'search']" />
-      </span>
+        <span class="search-icon-mobile-view" :style="searchZIndex" v-if="searchMobileView"
+          @click="showSearchInput">&nbsp;
+          <font-awesome-icon :icon="['fas', 'search']" />
+        </span>
 
-      <span class="search-container" :style="searchZIndex">
-        <input type="text" placeholder=" Search for Friends..." v-model="searchInput"
-          @click="handleSearchBackDrop('open')" class="search-items">
+
+        <span class="search-icon search-items" :style="searchZIndex">&nbsp;
+          <font-awesome-icon :icon="['fas', 'search']" />
+        </span>
+
+        <span class="search-container search-items" :style="searchZIndex">
+          <input type="text" placeholder=" Search for Friends..." v-model="searchInput"
+            @click="handleSearchBackDrop('open')">
+        </span>
         <div class="search-contents" v-if="displaySearchContents">
           <ul v-for="user in filteredSearchList">
             <li @click="showUserTimeline(user.userName)">
@@ -358,13 +377,47 @@
           </ul>
           <div v-if="searchNotFound" style="text-align:center">User Not Found</div>
         </div>
-      </span>
+      </div>
     </div>
 
-    <div class="nav-container-two">
+    <div class="nav-container-two" v-if="displayNavTwo">
+      <div class="collapsed-nav-menu-bar">
+        <font-awesome-icon :icon="['fas', 'bars']" @click="handleShowMenuContents" />
+        <div class="collapsed-nav-menu-contents" v-if="menuContents">
+            <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
+
+          <ul>
+            <li class=""  
+              @click="()=>{handlePushRoutes('Newsfeed');handleActiveLink('Newsfeed')}"> <span
+                class="">Newsfeed </span>
+              <font-awesome-icon :icon="['fas', 'newspaper']"  />
+
+              <span class="show-counter" v-if="timelineCount? true:false">{{timelineCount}}</span>
+            </li>
+            <li class=" "   @click="handlePushRoutes('Timeline')">
+              <span class="">Timeline </span>
+              <font-awesome-icon :icon="['fas', 'user-clock']"  />
+            </li>
+            <li class="  "   @click="handlePushRoutes('userProfile')">
+
+
+              <span class=""> Profile </span>
+              <font-awesome-icon :icon="['fas', 'user']"  />
+            </li>
+            <li class=""   @click="handlePushRoutes('Messages')"> <span
+                class=""> Messages </span>
+              <font-awesome-icon :icon="['fas', 'envelope']"  /><span class="show-counter-messages  "
+                v-if="newMessageCount? true:false">{{newMessageCount}}</span>
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
       <ul class="home-list">
         <li ref="home" :style="homeLink" @click="()=>{handlePushRoutes('Home'); handleActiveLink('Home')}"
-          class="lists">
+          class="lists list-mobile-view">
           <span class="collapsed-nav-text">Home </span>
           <font-awesome-icon :icon="['fas', 'home']" ref="homeIcon" />
         </li>
@@ -392,8 +445,8 @@
           <font-awesome-icon :icon="['fas', 'user']" ref="profileIcon" />
           <!-- </router-link> -->
         </li>
-        <li class="lists" :style="messageLink" ref="messages" @click="handlePushRoutes('Messages')"> <span
-            class="collapsed-nav-text"> Messages </span>
+        <li class="lists list-mobile-view" :style="messageLink" ref="messages" @click="handlePushRoutes('Messages')">
+          <span class="collapsed-nav-text"> Messages </span>
           <font-awesome-icon :icon="['fas', 'envelope']" ref="messageIcon" /><span class="show-counter-messages  "
             v-if="newMessageCount? true:false">{{newMessageCount}}</span>
         </li>
@@ -711,8 +764,8 @@
         messageLink: '',
         newsFeedLink: '',
         notificationLink: '',
-        activeLink: "background-color: var(--pink);color:var(--nave-blue)!important;font-weight: 600;",
-        inActiveLink: "background-color: var(--nave-blue);color:#3aa1dd;font-weight: 600;",
+        activeLink: "background-color: var(--pink);color:var(--nave-blue)!important;font-weight: bolder;",
+        inActiveLink: "background-color: var(--nave-blue);color:#3aa1dd;",
         backDrop: false,
         searchBackDrop: false,
         clickedMenu: "",
@@ -725,6 +778,11 @@
         collapsedNav: "display:none",
         userOwnMenuStyle: "display:none;height:0;transition:all 1s",
         restrictGuest: false,
+        userIconMenu: true,
+        searchMobileView: true,
+        displayNavTwo: true,
+        menuContents: false,
+        menuBarBackDrop:false,
       }
     },
     created() {
@@ -753,7 +811,6 @@
     methods: {
 
       handleCollapseNav() {
-        // console.log(this.$router.currentRoute._rawValue.name);
 
         if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
 
@@ -844,6 +901,7 @@
               userCoverImage: "",
               userId: "",
               userProfileImage: "",
+
             },
           });
 
@@ -857,20 +915,33 @@
 
       },
 
+      handleShowMenuContents() {
+this.menuBarBackDrop = true
+        this.menuContents = true
 
+      },
 
+handleMenuBarBackDropBackDrop(){
+this.menuBarBackDrop = false
+        this.menuContents = false
+
+},
 
 
       handleSearchBackDrop(params) {
 
         if (params === "open") {
-          this.searchZIndex = "z-index:500"
+          !this.searchMobileView ? this.searchZIndex = "z-index:500;display:inline" : this.searchZIndex = "z-index:500"
+
           return this.searchBackDrop = true
         }
         this.searchInput = "";
         this.displaySearchContents = false;
         this.filteredSearchList = [];
         this.searchZIndex = "z-index:1"
+        this.userIconMenu = true
+        this.searchMobileView = true
+        this.displayNavTwo = true
         return this.searchBackDrop = false
 
 
@@ -880,6 +951,14 @@
       closeRestrictMessage() {
         this.restrictGuest = false
 
+      },
+
+      showSearchInput() {
+        this.searchZIndex = "display:inline;z-index:500"
+        this.searchMobileView = false
+        this.searchBackDrop = true
+        this.userIconMenu = false
+        this.displayNavTwo = false
       },
 
       handleUserOwnMenu(params) {
@@ -1237,8 +1316,6 @@
       },
 
       updateUserData() {
-        console.log(this.userData.notifications);
-
         const userData = this.$store.state.userData
         this.userData = this.$store.state.userData
         let allUsers = []
