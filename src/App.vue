@@ -384,29 +384,27 @@
       <div class="collapsed-nav-menu-bar">
         <font-awesome-icon :icon="['fas', 'bars']" @click="handleShowMenuContents" />
         <div class="collapsed-nav-menu-contents" v-if="menuContents">
-            <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
+          <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
 
           <ul>
-            <li class=""  
-              @click="()=>{handlePushRoutes('Newsfeed');handleActiveLink('Newsfeed')}"> <span
+            <li class="" @click="()=>{handlePushRoutes('Newsfeed');handleActiveLink('Newsfeed')}"> <span
                 class="">Newsfeed </span>
-              <font-awesome-icon :icon="['fas', 'newspaper']"  />
+              <font-awesome-icon :icon="['fas', 'newspaper']" />
 
               <span class="show-counter" v-if="timelineCount? true:false">{{timelineCount}}</span>
             </li>
-            <li class=" "   @click="handlePushRoutes('Timeline')">
+            <li class=" " @click="handlePushRoutes('Timeline')">
               <span class="">Timeline </span>
-              <font-awesome-icon :icon="['fas', 'user-clock']"  />
+              <font-awesome-icon :icon="['fas', 'user-clock']" />
             </li>
-            <li class="  "   @click="handlePushRoutes('userProfile')">
+            <li class="  " @click="handlePushRoutes('userProfile')">
 
 
               <span class=""> Profile </span>
-              <font-awesome-icon :icon="['fas', 'user']"  />
+              <font-awesome-icon :icon="['fas', 'user']" />
             </li>
-            <li class=""   @click="handlePushRoutes('Messages')"> <span
-                class=""> Messages </span>
-              <font-awesome-icon :icon="['fas', 'envelope']"  /><span class="show-counter-messages  "
+            <li class="" @click="handlePushRoutes('Messages')"> <span class=""> Messages </span>
+              <font-awesome-icon :icon="['fas', 'envelope']" /><span class="show-counter-messages  "
                 v-if="newMessageCount? true:false">{{newMessageCount}}</span>
             </li>
 
@@ -782,7 +780,7 @@
         searchMobileView: true,
         displayNavTwo: true,
         menuContents: false,
-        menuBarBackDrop:false,
+        menuBarBackDrop: false,
       }
     },
     created() {
@@ -874,13 +872,14 @@
               userName: "Guest",
               emailAddress: "",
               password: "",
-              emailAddress: "",
+              emailAddress: "419",
               firstName: "",
               lastName: "",
               age: "",
               education: "",
               gender: "",
-              photos: [""],
+              videos: [],
+              photos: [],
               address: "",
               emailAddress: "",
               postCode: "",
@@ -898,9 +897,9 @@
               friends: [],
               activities: {},
               postCode: "",
-              userCoverImage: "",
-              userId: "",
-              userProfileImage: "",
+        //  userCoverImage: require('../assets/coverImages/defaultBg.jpg'),
+        //     userId: "uuid.v1()",
+        //     userProfileImage: require('../assets/userThumbnail/User.png'),
 
             },
           });
@@ -916,16 +915,16 @@
       },
 
       handleShowMenuContents() {
-this.menuBarBackDrop = true
+        this.menuBarBackDrop = true
         this.menuContents = true
 
       },
 
-handleMenuBarBackDropBackDrop(){
-this.menuBarBackDrop = false
+      handleMenuBarBackDropBackDrop() {
+        this.menuBarBackDrop = false
         this.menuContents = false
 
-},
+      },
 
 
       handleSearchBackDrop(params) {
