@@ -52,13 +52,13 @@
     </div>
 
     <div class="posts-container">
-      <div class="form-field mb-5" ref="formField" >
+      <div class="form-field mb-5" ref="formField">
         <span><img :src="userData.userProfileImage" class="user-image-icon" alt="" />
           <span v-if="showUserName" class="username-header"> &nbsp; {{ userData.userName }}</span>
         </span>
         <form @submit.prevent="handlePublishPost()" ref="form">
-          <textarea name="posttextarea" v-model="postTextArea" cols="30" rows="3" :style="textAreaStyle" :class="postStyle" placeholder=" Make a post"
-            @click="handleMakePost('text')" ref="textArea" ></textarea>
+          <textarea name="posttextarea" v-model="postTextArea" cols="30" rows="3" :style="textAreaStyle"
+            :class="postStyle" placeholder=" Make a post" @click="handleMakePost('text')" ref="textArea"></textarea>
 
           <br />
           <div class="filepreview" v-if="previewImage||previewVideo">
@@ -134,15 +134,14 @@
       </div>
 
 
-      <section class="post-container" v-for="post in newsFeeds" :key="post.postId" :ref=" post.userName + post.postId">
+      <div class="post-container" v-for="post in newsFeeds" :key="post.postId" :ref="post.postId">
 
 
         <div class="userImage" @click="showUserTimeline(post.userName, post.userId)">
           <img :src="handleUserIcon($store.state.users[post.userName].userProfileImage)" class="user-image-icon"
             alt="" />
           <span class="userName-Timeposted"><span class="username-header">{{ post.userName }}</span><span
-              class="comment"> Posted {{
-              showDate(post.datePosted)
+              class="comment"> Posted {{showDate(post.datePosted)
               }}</span>
           </span>
         </div>
@@ -154,8 +153,9 @@
         <div v-for="image in post.postImages" class="post-images" :key="post.postImages" v-if="post.postImages.length">
           <img :src="image.imageUrl" alt="">
         </div>
-        <div class="post-Video" v-if="post.postVideos.videoId" :ref="post.userName + post.postId" >
-          <video width="500" max-height="300" controls  :options="videoOptions"  >
+        <div class="post-Video" v-if="post.postVideos.videoId" :ref="post.postVideos.videoId">
+          <video width="500" max-height="300" controls :autoplay="post.postVideos.videoAutoplay">
+            <!-- :autoplay="post.postVideos.videoAutoplay"  > -->
             <source :src="post.postVideos.videoUrl" type="video/mp4">
             <source :src="post.postVideos.videoUrl" type="video/ogg">
             Your browser does not support HTML video.
@@ -257,7 +257,7 @@
           </form>
         </div>
         <hr />
-      </section>
+      </div>
     </div>
     <div class="container-sidebar-two">
       <div class="sidebar-list">
@@ -276,8 +276,8 @@
       </div>
     </div>
   </div>
-<div ref="check" style="background-color: blue;" id="checks">yesbffhhf</div>
-<div class="post-back-drop" v-if="PostBackDrop" :style="PostBackDropZIndex" @click="handleCloseTextarea"></div>
+  <div ref="check" style="background-color: blue;" id="checks">yesbffhhf</div>
+  <div class="post-back-drop" v-if="PostBackDrop" :style="PostBackDropZIndex" @click="handleCloseTextarea"></div>
 </template>
 
 <script>
@@ -330,14 +330,16 @@
         previewVideo: false,
         previewImage: false,
         loadFileAddress: false,
-textAreaStyle:"",
-PostBackDrop:false,
-PostBackDropZIndex:"z-index:600",
-postVideoRefs:[],
-  videoOptions: {
-          autoplay:true,
-                      }
+        textAreaStyle: "",
+        PostBackDrop: false,
+        PostBackDropZIndex: "z-index:600",
+        
+        // videoAutoplay:{},
+        videoAutoplay: false,
+
       };
+
+
     },
 
     mounted() {
@@ -355,9 +357,8 @@ postVideoRefs:[],
       loadData() {
         this.newsFeed = this.$store.state.newsFeed;
         this.userData = this.$store.state.userData;
-        this.$store.dispatch("handlePostViews", {
-          userName: this.userData.userName,
-        });
+
+
       },
 
 
@@ -421,12 +422,12 @@ postVideoRefs:[],
       handleTheme(theme) {
 
         this.postStyle = theme;
-this.textAreaStyle="height:15rem;border-radius:2px;width:100%;"
+        this.textAreaStyle = "height:15rem;border-radius:2px;width:100%;"
 
       },
 
       handleMakePost(params) {
-this.PostBackDrop=true
+        this.PostBackDrop = true
 
         if (params !== "text") {
           if (params === "video") {
@@ -445,7 +446,7 @@ this.PostBackDrop=true
 
         this.$refs.formField.style = "flex-flow:column;transition:all 0.4s;z-index:650";
         this.$refs.textArea.classList.add("textarea-input")
-        this.$refs.textareaIcons.style ="flex-flow:column;font-size:1.5rem;transition:all 0.4s";
+        this.$refs.textareaIcons.style = "flex-flow:column;font-size:1.5rem;transition:all 0.4s";
         this.$refs.themeContainer.style = "display:flex;width:auto;transition:all 0.4s";
         this.$refs.editContainer.style = "display:flex";
         this.$refs.chevronRight.style = "display:inline";
@@ -453,9 +454,9 @@ this.PostBackDrop=true
       },
 
       handleCloseTextarea() {
-this.PostBackDrop=false
+        this.PostBackDrop = false
 
-   this.$refs.textArea.classList.remove("textarea-input")
+        this.$refs.textArea.classList.remove("textarea-input")
         this.textAreaStyle = ""
         this.$refs.formField.style = "flex-flow:row;height:auto;transition:all 0.4s";
         this.$refs.textareaIcons.style = "flex-flow:row;";
@@ -509,7 +510,7 @@ this.PostBackDrop=false
               comments: [],
               postStyle: this.postStyle,
               postImages: [{ imageUrl: this.tempUrl, imageId }],
-              postVideos: { videoUrl: this.tempUrl, videoId },
+              postVideos: { videoUrl: this.tempUrl, videoId, videoAutoplay: false },
 
 
 
@@ -641,68 +642,70 @@ this.PostBackDrop=false
         })
 
       },
-      // handlePostViews(posterUserName){
-      //  this.$store.dispatch("handlePostViews", {
-      //           userName: this.userData.userName,
-      // posterUserName,
-      //         });
 
-      // },
-
-        onScroll(ref) {
-this.postVideoRefs.forEach(video => {
-
-this.isElementInViewport(ref.video) && (this.videoOptions.autoplay =true)
-  
-});
-
-          },
-
-       isElementInViewport(el) {
-            var rect = el.getBoundingClientRect();
-            return (
-              rect.top >= 0 &&
-              rect.left >= 0 &&
-              rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-              rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
-          },
+      handlePostViews(postId) {
+        this.$store.dispatch("handlePostViews", {
+          userName: this.userData.userName,
+          postId,
+        });
+        console.log("yes");
+      },
 
 
 
+      onScroll(ref) {
+        let refObject = Object.keys(ref)
 
-      //    data () {
-      //         return {
-      //             video: {
-      //                 sources: [{
-      //                     src: 'http://covteam.u.qiniudn.com/oceans.mp4',
-      //                     type: 'video/mp4'
-      //                 }],
-      //                 options: {
-      //                     autoplay: true,
-      //                     volume: 0.6,
-      //                     poster: 'http://covteam.u.qiniudn.com/poster.png'
-      //                 }
-      //             }
-      //         }
-      //     },
-      //     components: {
-      //         myVideo
-      //     }
-      // }
+        for (let newsFeedId in this.newsFeed) {
 
-      // <template>
-      //     <div id="app">
-      //         <div class="container">
-      //             <my-video :sources="video.sources" :options="video.options"></my-video>
-      //         </div>
-      //     </div>
-      // </template>
+      
+
+
+
+          if (refObject.includes(newsFeedId)) {
+
+console.log("yes");
+console.log(newsFeedId);
+            // this.isElementInViewport(ref[newsFeedId]) && this.handlePostViews(this.newsFeed[newsFeedId].userName)
+
+
+            if (this.isElementInViewport(ref[newsFeedId])) {
+              this.handlePostViews(newsFeedId)
+              this.PostBackDrop = true
+            }
+
+          }
 
 
 
 
+    if (refObject.includes(this.newsFeed[newsFeedId].postVideos.videoId)) {
+            if (this.isElementInViewport(ref[this.newsFeed[newsFeedId].postVideos.videoId])) {
+              this.newsFeed[newsFeedId].postVideos.videoAutoplay = true
 
+            } else {
+
+              this.newsFeed[newsFeedId].postVideos.videoAutoplay = false
+            }
+
+
+          }
+
+
+
+        }
+
+      },
+
+      isElementInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+      },
 
 
 
@@ -798,18 +801,17 @@ this.isElementInViewport(ref.video) && (this.videoOptions.autoplay =true)
 
 
         }
-let postVideoRefs = []
 
 
         let newsFeeds = [];
 
         for (const newsFeedId in this.newsFeed) {
           newsFeeds.push(this.newsFeed[newsFeedId]);
-postVideoRefs =[...postVideoRefs,this.newsFeed[newsFeedId].userName + this.newsFeed[newsFeedId].postId  ]
 
 
         }
-console.log(postVideoRefs);
+
+
         return newsFeeds.sort((a, b) => a.datePosted - b.datePosted).reverse();
       },
     },
