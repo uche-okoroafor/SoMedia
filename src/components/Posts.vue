@@ -1,33 +1,33 @@
 <template>
-  <div class="form-field mb-5" ref="formField">
-    <span><img :src="userData.userThumbnail" class="user-image-icon" alt="" />
-      <span v-if="showUserName" class="username-header"> {{ userData.userName }}</span>
+  <div class="form-field mb-5" ref="formField" v-if="displayMakePost">
+    <span><img :src="userData.userProfileImage" class="user-image-icon" alt="" />
+      &nbsp;<span v-if="showUserName" class="username-header"> {{ userData.userName }}</span>
     </span>
     <form @submit.prevent="handlePublishPost()" ref="form">
       <textarea name="posttextarea" v-model="postTextArea" cols="30" rows="3" :class="postStyle"
-        placeholder=" Make a post" @click="handleMakePost('text')" ref="textArea"></textarea>
+        placeholder=" Make a post" @click="handleMakePost('text')" :style="textAreaStyle" ref="textArea"></textarea>
 
       <br />
 
- <div class="filepreview" v-if="previewImage||previewVideo">
+      <div class="filepreview" v-if="previewImage||previewVideo">
 
-            <img :src="tempUrl" alt="" v-if="previewImage">
-
-
-
-
-            <div class="post-Video" v-if="previewVideo && loadFileAddress">
-              <video width="500" heigth="100" controls>
-                <source :src="tempUrl" type="video/mp4">
-                <source :src="tempUrl" type="video/ogg">
-                Your browser does not support HTML video.
-              </video>
-            </div>
+        <img :src="tempUrl" alt="" v-if="previewImage">
 
 
 
 
-          </div>
+        <div class="post-Video" v-if="previewVideo && loadFileAddress">
+          <video width="500" heigth="100" controls>
+            <source :src="tempUrl" type="video/mp4">
+            <source :src="tempUrl" type="video/ogg">
+            Your browser does not support HTML video.
+          </video>
+        </div>
+
+
+
+
+      </div>
 
 
 
@@ -41,9 +41,9 @@
             </span>
           </span>
 
-          <span class="text-theme-container" ref="themeContainer">
-            <div @click="handleTheme('text-theme-default')" class="text-theme text-theme-default ml-4"
-              style="padding: 0"></div>
+          <span class="text-theme-container themes-icons-container" ref="themeContainer">
+            <div @click="handleTheme('text-theme-default')" class="text-theme text-theme-default" style="padding: 0">
+            </div>
             <div @click="handleTheme('text-themeOne')" class="text-theme text-themeOne" style="padding: 0"></div>
             <div @click="handleTheme('text-themeTwo')" class="text-theme text-themeTwo" style="padding: 0"></div>
             <div @click="handleTheme('text-themeThree')" class="text-theme text-themeThree" style="padding: 0"></div>
@@ -64,58 +64,70 @@
         </span>
       </div>
       <button type="submit" class="btn btn-success">Post</button>
+      <input type="file" name="fileUpload" accept="image/png,image/jpeg,video/mp4" ref="filesUploadVideo"
+        @change="localFiles" v-show="false">
+      <input type="file" name="fileUpload" accept="image/png,image/jpeg" ref="filesUploadImages" @change="localFiles"
+        v-show="false">
     </form>
   </div>
+  <div v-if="emptyPost" class="empty-Post">
+    <span class="comment">Make Your first Post</span>
+  </div>
+  <div class="post-container" v-for="post in posts" :key="post.postId">
 
-  <section class="post-container" v-for="post in posts" :key="post.postId" :ref="post.userName">
-    <div class="userImage" @click="showUserTimeline(post.userName, post.userId)">
-      <img :src="handleUserIcon($store.state.users[post.userName].userThumbnail)" class="user-image-icon" alt="" />
-      <span class="userName-Timeposted"><span class="username-header">{{ post.userName }}</span><span> Posted {{ showDate(post.datePosted)
+    <div class="userImage" @click="showUserTimeline(post.userName, post.userId)" :ref="post.postId">
+      <img :src="handleUserIcon($store.state.users[post.userName].userProfileImage)" class="user-image-icon" alt="" />
+      <span class="userName-Timeposted"><span class="username-header">{{ post.userName }}</span><span class="comment">
+          Posted {{
+          showDate(post.datePosted)
           }}</span>
       </span>
     </div>
 
     <div class="post rounded mt-3" :class="post.postStyle" v-if="post.posts.length"
-:style="handlePostThemes(post.postStyle)" ref="post">
+      :style="handlePostThemes(post.postStyle)" ref="post">
       <span> {{ post.posts }}</span>
     </div>
 
- <div v-for="image in post.postImages" class="post-images" :key="post.postImages" v-if="post.postImages.length">
-          <img :src="image.imageUrl" alt="">
-        </div>
-        <div class="post-Video" v-if="post.postVideos.videoId">
-          <video width="500" max-height="300" controls>
-            <source :src="post.postVideos.videoUrl" type="video/mp4">
-            <source :src="post.postVideos.videoUrl" type="video/ogg">
-            Your browser does not support HTML video.
-          </video>
-        </div>
+    <div v-for="image in post.postImages" class="post-images" :key="post.postImages" v-if="post.postImages.length">
+      <img :src="image.imageUrl" alt="">
+    </div>
+    <div class="post-Video" v-if="post.postVideos.videoId" :ref="post.postVideos.videoId">
+      <video width="500" max-height="300" controls :autoplay="post.postVideos.videoAutoplay"
+        :id="post.postVideos.videoId">
+        <source :src="post.postVideos.videoUrl" type="video/mp4">
+        <source :src="post.postVideos.videoUrl" type="video/ogg">
+        Your browser does not support HTML video.
+      </video>
+    </div>
 
     <div class="post-comments">
       <span @click="
-          handleLikes(
-            'postLikes',
-            'incrementPostLikes',
-            post.postId,
-            userData.userId,
-            post.userName,
-            post.postId
-          )
-        " class="m-2 text-success comment-like">
-        Likes
+              handleLikes(
+                'postLikes',
+                'incrementPostLikes',
+                post.postId,
+                userData.userId,
+                post.userName,
+                post.postId
+              )
+            " class="m-2  comment-like" :class="handleLikeStyle(post.likes,'likes')"><span
+          class="text-success">Likes</span>
+        &nbsp;
         <font-awesome-icon :icon="['fas', 'thumbs-up']" />
         {{ post.likes.length }}
       </span>
       <span @click="
-          handleLikes(
-            'postLikes',
-            'decrementPostLikes',
-            post.postId,
-            userData.userId,
-            post.userName,
-            post.postId
-          )
-        " class="m-2 text-danger comment-unlike">unlikes
+              handleLikes(
+                'postLikes',
+                'decrementPostLikes',
+                post.postId,
+                userData.userId,
+                post.userName,
+                post.postId
+              )
+            " class="m-2  comment-unlike" :class="handleLikeStyle(post.unLikes,'unlikes')"> <span class="text-danger">
+          unlikes</span> &nbsp;
         <font-awesome-icon :icon="['fas', 'thumbs-down']" />
         {{ post.unLikes.length }}
       </span>
@@ -123,162 +135,71 @@
       <span class="m-2">{{ Object.keys(post.comments).length }} comments</span>
     </div>
     <hr />
-    <h6 class="ml-5">Comments</h6>
+    <h6 class="m-3 ml-5 font-weight-bold">Comments</h6>
 
-    <div class="ml-5 pt-2 comments" v-for="comment in post.comments" :key="comment.commentId">
+    <div class=" comments" v-for="comment in post.comments" :key="comment.commentId">
       <div class="userImage ml-5" @click="showUserTimeline(comment.userName, comment.userId)">
-        <img :src="handleUserIcon($store.state.users[comment.userName].userThumbnail)" class="user-image-icon" alt="" />
-        <span class="userName-Timeposted"><span class="username-header">{{ comment.userName }}</span><span> commented {{
+        <img :src="handleUserIcon($store.state.users[comment.userName].userProfileImage)" class="user-image-icon"
+          alt="" />
+        <span class="userName-Timeposted"><span class="username-header">{{ comment.userName }}</span><span
+            class="comment"> commented {{
             showDate(comment.dateCommented) }}</span>
         </span>
       </div>
 
       <p class="ml-5 comments-text">{{ comment.comment }}</p>
-      <span @click="
-          handleLikes(
-            'commentLikes',
-            'incrementCommentLikes',
-            post.postId,
-            userData.userId,
-            post.userName,
-            comment
-          )
-        " class="comment-like m-2 p-5 text-success  " >
-        Likes
-        <font-awesome-icon :icon="['fas', 'thumbs-up']" />
-        {{ comment.likes.length }}
-      </span>
-      <span @click="
-          handleLikes(
-            'commentLikes',
-            'decrementCommentLikes',
-            post.postId,
-            userData.userId,
-            post.userName,
-            comment
-          )
-        " class="comment-unlike m-2 p-5 text-danger ">
-        Unlikes
-        <font-awesome-icon :icon="['fas', 'thumbs-down']" />
-        {{ comment.unLikes.length }}
-      </span>
+      <div class="comment-like-container">
+
+
+        <span @click="
+              handleLikes(
+                'commentLikes',
+                'incrementCommentLikes',
+                post.postId,
+                userData.userId,
+                post.userName,
+                comment
+              )
+            " class="comment-mobile-view comment-like" :class="handleLikeStyle(comment.likes,'likes')"><span
+            class="text-success">Likes</span>
+          &nbsp;
+          <font-awesome-icon :icon="['fas', 'thumbs-up']" />
+          {{ comment.likes.length }}
+        </span>
+        <span @click="
+              handleLikes(
+                'commentLikes',
+                'decrementCommentLikes',
+                post.postId,
+                userData.userId,
+                post.userName,
+                comment
+              )
+            " class="comment-mobile-view  comment-unlike" :class="handleLikeStyle(comment.unLikes,'unlikes')">
+          <span class="text-danger">Unikes</span>
+          &nbsp;
+          <font-awesome-icon :icon="['fas', 'thumbs-down']" />
+          {{ comment.unLikes.length }}
+        </span>
+      </div>
     </div>
     <div class="comment-input-field">
-      <span><img :src="handleUserIcon(userData.userThumbnail)" class="user-image-icon" alt="" /></span>
+      <span><img :src="handleUserIcon(userData.userProfileImage)" class="user-image-icon" alt="" /></span>
       <form @submit.prevent="
           handlePosterComment(post.posterComment, post.postId, post.userName)
         ">
         <input type="text" class="input" placeholder=" Post a comment" v-model="post.posterComment" />
 
-
-      <input type="file" id="s" name="fileUpload" accept="image/png, image/jpeg,video/mp4" ref="filesUpload"
-            @change="localFiles" v-show="false">
-
-
         <button type="submit" class="btn btn-info">Comment</button>
       </form>
     </div>
     <hr />
-  </section>
 
-  <!-- <div v-for="post in userDatas.posts" :key="post.id">
-
-
-            <h5
-              class="bg-success"
-              @click="showUserTimeline(post.userName, post.userId)"
-            >
-              {{ post.userName }}
-            </h5>
-         
-          <div class="posted m-5 rounded">
-            {{ post.posts }}
-          </div>
-          <p>{{ showDate(post.datePosted) }}</p>
-          <span
-            @click="
-              handleLikes(
-                'postLikes',
-                'incrementPostLikes',
-                post.postId,
-                userData.userId
-              )
-            "
-            class="m-2 p-5 text-success"
-            ><i class="fa fa-thumbs-up"></i>{{ post.likes.length }}</span
-          >
-          <span
-            @click="
-              handleLikes(
-                'postLikes',
-                'decrementPostLikes',
-                post.postId,
-                userData.userId
-              )
-            "
-            class="m-2 p-5"
-            ><i class="fa fa-thumbs-down text-danger"></i
-            >{{ post.unLikes.length }}</span
-          >
+  </div>
+  <div class="post-back-drop" v-if="PostBackDrop" :style="PostBackDropZIndex" @click="handleCloseTextarea"></div>
 
 
 
-
-
-
-  <div v-for="comment in post.comments" :key="comment.commentId">
-           
-              <span
-                @click="showUserTimeline(comment.userName, comment.userId)"
-                >{{ comment.userName }}</span
-              >
-           
-            <p>{{ comment.comment }}</p>
- <p>{{ showDate(comment.dateCommented) }}</p>
-            <span
-              @click="
-                handleLikes(
-                  'commentLikes',
-                  'incrementCommentLikes',
-                  post.postId,
-                  userData.userId,
-                  comment.commentId
-                )
-              "
-              class="m-2 p-5 text-success"
-              ><i class="fa fa-thumbs-up"></i>{{ comment.likes.length }}</span
-            >
-            <span
-              @click="
-                handleLikes(
-                  'commentLikes',
-                  'decrementCommentLikes',
-                  post.postId,
-                  userData.userId,
-                  comment.commentId
-                )
-              "
-              class="m-2 p-5"
-              ><i class="fa fa-thumbs-down text-danger"></i
-              >{{ comment.unLikes.length }}</span
-            >
- 
-          </div>
- <form
-            @submit.prevent="
-              handlePosterComment(post.posterComment, post.postId)
-            "
-            class="m-5"
-          >
-            <input
-              type="text"
-              placeholder="Post a comment"
-              v-model="post.posterComment"
-            />
-
-            <button type="submit">Comment</button>
-          </form>
-</div> -->
 </template>
 
 <script>
@@ -294,50 +215,46 @@
         postTextArea: "",
         showUserName: false,
         postStyle: "text-theme-default",
- tempUrl: '',
+        tempUrl: '',
         previewVideo: false,
         previewImage: false,
         loadFileAddress: false,
-      };
-    },
+        emptyPost: true,
+        displayMakePost: true,
+        textAreaStyle: "",
+        PostBackDrop: false,
+        PostBackDropZIndex: "z-index:600",
 
-    created() {
-      window.addEventListener("click", (event) => {
-        if (this.showUserName) {
-          return this.handleCloseTextarea(event);
-        }
-      });
-    },
-    unmounted() {
-      window.removeEventListener("click", (event) => {
-        if (this.showUserName) {
-          return this.handleCloseTextarea(event);
-        }
-      });
+      };
     },
 
     mounted() {
       this.loadUserData();
+      document.addEventListener('scroll', () => this.onScroll(this.$refs));
+
     },
     beforeUnmount() {
       this.loadUserData();
+      document.addEventListener('scroll', () => this.onScroll(this.$refs));
+
     },
 
     methods: {
       loadUserData() {
         this.userData = this.$store.state.userData;
+        this.$store.state.userData.userName !== this.userName ? this.displayMakePost = false : this.displayMakePost = true
 
-        this.$store.dispatch("handlePostViews", {
-          userName: this.userData.userName,
-        });
+
       },
 
       handleTheme(theme) {
         this.postStyle = theme;
+        this.textAreaStyle = "height:15rem;border-radius:2px;width:100%;"
+
       },
 
 
-  handlePostThemes(theme) {
+      handlePostThemes(theme) {
         if (theme !== "text-theme-default") {
 
           return "min-height:200px"
@@ -347,65 +264,93 @@
 
       },
 
-    localFiles(e) {
+      handleLikeStyle(likes, params) {
+
+        switch (params) {
+          case "likes":
+            if (likes.includes(this.userData.userName)) {
+
+
+
+              return "text-success"
+
+            }
+            return "comment-like"
+            break;
+
+          case "unlikes":
+            if (likes.includes(this.userData.userName)) {
+
+
+
+              return "text-danger"
+
+            }
+            return "comment-like"
+            break;
+
+          default:
+            break;
+        }
+
+      },
+
+      localFiles(e) {
 
         this.tempUrl = URL.createObjectURL(e.target.files[0]);
 
       },
 
       handleMakePost(params) {
-             if (params !== "text") {
+        this.PostBackDrop = true
+        if (params !== "text") {
           if (params === "video") {
             this.previewVideo = true;
             this.previewImage = false;
             this.loadFileAddress = false;
             this.tempUrl = "";
+            this.$refs.filesUploadVideo.click()
           } else {
             this.previewImage = true;
             this.previewVideo = false;
+            this.$refs.filesUploadImages.click()
           }
-          this.$refs.filesUpload.click()
+
         }
-
-
-        this.previewImage || this.previewVideo  ? this.$refs.formField.style = "flex-flow:column;height:auto;transition:all 0.4s" :
-          this.$refs.formField.style = "flex-flow:column;height:32rem;transition:all 0.4s";
-        this.$refs.textArea.style =
-          "width:100%;height:15rem;transition:all 0.4s;border-radius:0";
-        this.$refs.textareaIcons.style =
-          "flex-flow:column;font-size:1.5rem;transition:all 0.4s";
+        this.$refs.formField.style = "flex-flow:column;transition:all 0.4s;z-index:650";
+        this.$refs.textArea.classList.add("textarea-input")
+        this.$refs.textareaIcons.style = "flex-flow:column;font-size:1.5rem;transition:all 0.4s";
         this.$refs.themeContainer.style = "display:flex;width:auto;transition:all 0.4s";
         this.$refs.editContainer.style = "display:flex";
         this.$refs.chevronRight.style = "display:inline";
         this.showUserName = true;
       },
 
-      CloseTextArea() {
+      handleCloseTextarea() {
+        this.PostBackDrop = false
+        this.textAreaStyleZIndex = ""
+        this.$refs.textArea.classList.remove("textarea-input")
+        this.textAreaStyle = ""
         this.$refs.formField.style = "flex-flow:row;height:auto;transition:all 0.4s";
-        this.$refs.textArea.style =
-          "width:95%;height:2.5rem;transition:all 0.4s;border-radius:15px";
         this.$refs.textareaIcons.style = "flex-flow:row;";
         this.$refs.themeContainer.style = "display:none;";
         this.$refs.editContainer.style = "display:inline";
         this.$refs.chevronRight.style = "display:none";
         this.postStyle = "text-theme-default";
         this.showUserName = false;
+        this.previewVideo = false;
+        this.previewImage = false;
+        this.tempUrl = ""
       },
 
-      handleCloseTextarea(e) {
-        let formField = this.$refs.formField;
-        let target = e.target;
-        if (formField !== target && !formField.contains(target)) {
-          this.CloseTextArea();
-        }
-      },
 
-      handleUserIcon(userThumbnail) {
-        if (userThumbnail === undefined) {
+
+      handleUserIcon(userProfileImage) {
+        if (userProfileImage === undefined) {
           return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png";
-          // require('./assets/userThumbnail/original1.jpg')
+          // require('./assets/userProfileImage/original1.jpg')
         }
-        return userThumbnail;
+        return userProfileImage;
       },
 
       handleLikes(condition, params, postId, userId, posterUserName, comment) {
@@ -437,7 +382,7 @@
             notificationDate: Date.now(),
           });
 
-          this.$store.dispatch("handleActivities", {
+          this.$store.dispatch("handle", {
             userName: this.userData.userName,
             posterUserName,
             activity: "liked",
@@ -469,6 +414,7 @@
       },
 
       showDate(date) {
+
         const currentDate = Date.now();
         const dateStatus = currentDate - date;
         const minutes = Math.round(dateStatus / (1000 * 60));
@@ -549,13 +495,13 @@
         let videoId = '';
         let imageId = '';
 
-        this.previewVideo ? videoId = uuid.v1() : imageId = uuid.v1();
+        this.previewVideo && this.tempUrl ? videoId = uuid.v1() : imageId = uuid.v1();
 
         if (this.postTextArea.length || this.tempUrl.length) {
           this.$store.dispatch("handlePublishPost", {
             [postId]: {
               userName: this.userData.userName,
-                userId: this.userData.userId,
+              userId: this.userData.userId,
               views: [],
               postId,
               datePosted: Date.now(),
@@ -566,12 +512,32 @@
               comments: [],
               postStyle: this.postStyle,
               postImages: [{ imageUrl: this.tempUrl, imageId }],
-              postVideos: { videoUrl: this.tempUrl, videoId },
+              postVideos: { videoUrl: this.tempUrl, videoId, videoAutoplay: false },
             },
           });
+          if (this.tempUrl.length && this.previewVideo) {
+            this.$store.dispatch("handleAddImageVideo", {
+              userName: this.userData.userName,
+              videoUrl: this.tempUrl,
+              videoId: uuid.v1(),
+              fileType: "video",
+              videoAutoplay: false,
+            });
+          }
+          else if (this.tempUrl.length && this.previewImage) {
+            this.$store.dispatch("handleAddImageVideo", {
+              userName: this.userData.userName,
+              imageUrl: this.tempUrl,
+              imageId: uuid.v1(),
+              fileType: "image",
+
+            });
+
+
+          }
           this.postTextArea = "";
-          this.CloseTextArea();
-this.tempUrl=""
+          this.handleCloseTextarea();
+          this.tempUrl = ""
           // this.loadData();
         }
 
@@ -590,12 +556,68 @@ this.tempUrl=""
           activityId: uuid.v1(),
         });
       },
+
+      handlePostViews(postId) {
+        this.$store.dispatch("handlePostViews", {
+          userName: this.userData.userName,
+          postId,
+        });
+      },
+
+
+
+      onScroll(ref) {
+        let refObject = Object.keys(ref)
+        for (let postId in this.posts) {
+          if (refObject.includes(this.posts[postId].postId)) {
+            if (ref[this.posts[postId]] !== null) {
+
+              if (this.isElementInViewport(ref[this.posts[postId].postId])) {
+                this.handlePostViews(this.posts[postId].postId)
+
+              }
+            }
+
+          }
+
+          if (refObject.includes(this.posts[postId].postVideos.videoId)) {
+
+            if (ref[this.posts[postId].postVideos.videoId] !== null) {
+
+              if (this.isElementInViewport(ref[this.posts[postId].postVideos.videoId])) {
+                // this.posts[postId].postVideos.videoAutoplay = true
+                document.getElementById(this.posts[postId].postVideos.videoId).play()
+
+              } else {
+                document.getElementById(this.posts[postId].postVideos.videoId).pause()
+              }
+
+            }
+          }
+
+
+
+        }
+
+
+      },
+
+
+      isElementInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+      },
     },
     computed: {
       userDatas() {
 
 
-    if (this.previewVideo && this.tempUrl.length || this.previewImage && this.tempUrl.length) {
+        if (this.previewVideo && this.tempUrl.length || this.previewImage && this.tempUrl.length) {
           this.loadFileAddress = true
 
 
@@ -607,6 +629,8 @@ this.tempUrl=""
       },
 
       posts() {
+
+
         let posts = [];
 
         for (let newsfeedId in this.$store.state.newsFeed) {
@@ -619,6 +643,9 @@ this.tempUrl=""
             // }
           }
         }
+        !posts.length ? this.emptyPost = true : this.emptyPost = false
+
+
 
         posts.sort((a, b) => a.datePosted - b.datePosted).reverse();
 
