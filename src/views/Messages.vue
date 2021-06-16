@@ -4,20 +4,30 @@
 
       <div class="list-container-left container-mobile-view  " ref="chatList">
 
-
-
-
         <div class="chat-list">
           <div class="header-chat-list">
             <h5>Chats</h5>
-            <input type="text" placeholder="Search Messages">
+            <div class="search-chat-list">
+              <input type="text" placeholder="Search Chats..."  v-model="searchInput"
+                @click="handleSearchBackDrop('open')">
+              <div class="search-contents" v-if="displaySearchContents">
+                <ul v-for="user in filteredSearchList" :key="user.userName">
+                  <li @click="showMessage(user.userName, 'Read')">
+                    <img :src="$store.state.users[user.userName].userProfileImage" alt="">
+                    <span class="names-Bold"> {{user.userName}}</span>
+                  </li>
+                </ul>
+                <div v-if="searchNotFound" style="text-align:center">User Not Found</div>
+              </div>
+            </div>
+
+            <div class="chat-list-backDrop" v-if="chatListBackDrop" @click="handleSearchBackDrop('close')"></div>
           </div>
 
 
 
-          <div v-for="user in chattedUsersList" :key="chattedUsersInfo[user.userName].userName"
-            @click="showMessage(user.userName, 'Read')" :style="activeChattedUser(user.showMessage)"
-            v-if="messagesEmpty">
+          <div v-for="user in chattedUsersList" :key="user.userName" @click="showMessage(user.userName, 'Read')"
+            :style="activeChattedUser(user.showMessage)" v-if="messagesEmpty">
 
             <div class="user-MessageDetails-container">
 
@@ -40,8 +50,7 @@
 
 
                 <div class="side-user-message">
-                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName"
-                    class="shortMessage">You:&nbsp<span
+                  <span v-if="user.userName === userData.userName" class="shortMessage">You:&nbsp<span
                       class="message-ellipsis">{{handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
                   </span>
                   <span class="sideMessageCheck">
@@ -55,9 +64,7 @@
 
 
 
-                  <!-- <span v-if="chattedUsersInfo[user.userName].userName !== userData.userName" class="message-ellipsis2">
-                    {{chattedUsersInfo[user.userName].message}}
-                  </span> -->
+
                 </div>
               </div>
 
@@ -83,7 +90,32 @@
         <div class="chat-list">
           <div class="header-chat-list">
             <h5>Chats</h5>
-            <input type="text" placeholder="Search Messages">
+
+
+            <div class="search-chat-list">
+              <input type="text" placeholder="Search Chats..." v-model="searchInput"
+                @click="handleSearchBackDrop('open')">
+              <div class="search-contents" v-if="displaySearchContents">
+                <ul v-for="user in filteredSearchList" :key="user.userName">
+                  <li @click="showMessage(user.userName, 'Read')">
+                    <img :src="$store.state.users[user.userName].userProfileImage" alt="">
+                    <span class="names-Bold"> {{user.userName}}</span>
+                  </li>
+                </ul>
+                <div v-if="searchNotFound" style="text-align:center">User Not Found</div>
+              </div>
+            </div>
+
+            <div class="chat-list-backDrop" v-if="chatListBackDrop" @click="handleSearchBackDrop('close')"></div>
+
+
+
+
+
+
+
+
+
 
 
           </div>
@@ -95,9 +127,8 @@
 
           </div>
 
-          <div v-for="user in chattedUsersList" :key="chattedUsersInfo[user.userName].userName"
-            @click="showMessage(user.userName, 'Read')" :style="activeChattedUser(user.showMessage)"
-            v-if="messagesEmpty">
+          <div v-for="user in chattedUsersList" :key="user.userName" @click="showMessage(user.userName, 'Read')"
+            :style="activeChattedUser(user.showMessage)" v-if="messagesEmpty">
 
             <div class="user-MessageDetails-container">
 
@@ -120,9 +151,8 @@
 
 
                 <div class="side-user-message">
-                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName"
-                    class="shortMessage">You:&nbsp<span
-                      class="message-ellipsis">{{handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
+                  <span v-if="user.userName === userData.userName" class="shortMessage">You:&nbsp<span
+                      class="message-ellipsis">{{ handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
                   </span>
                   <span class="sideMessageCheck">
                     <font-awesome-icon :icon="['fas', 'check']" class="check-side"
@@ -135,9 +165,7 @@
 
 
 
-                  <!-- <span v-if="chattedUsersInfo[user.userName].userName !== userData.userName" class="message-ellipsis2">
-                    {{chattedUsersInfo[user.userName].message}}
-                  </span> -->
+
                 </div>
               </div>
 
@@ -172,14 +200,13 @@
           </span>
         </div>
         <div class="trysrcoll" id="messageBody">
-<div class="empty-chat-list" v-if="!messagesEmpty">
+          <div class="empty-chat-list" v-if="!messagesEmpty">
             <span>You Have No Messages</span>
           </div>
           <div v-for="message in showingMessages" :key="message.messageId"
             class="message-body  message-body-disktopView" :class="handleUserChatBoxStyle(message.userName)"
-v-if="messagesEmpty"
->
- 
+            v-if="messagesEmpty">
+
             <img :src="handleImages(message.userName)" v-if="message.messageStatus.length" alt="">
             <div class="message-Box" v-if="message.messageStatus.length">
               <font-awesome-icon :icon="['fas', 'caret-right']" class="caret-right" />
@@ -241,13 +268,12 @@ v-if="messagesEmpty"
 
           </span>
         </div>
-        <div class="trysrcoll" id="messageBody"> <div class="empty-chat-list" v-if="!messagesEmpty">
+        <div class="trysrcoll" id="messageBody">
+          <div class="empty-chat-list" v-if="!messagesEmpty">
             <span>You Have No Messages</span>
           </div>
           <div v-for="message in showingMessages" :key="message.messageId" class="message-body"
-            :class="handleUserChatBoxStyle(message.userName)"
-v-if="messagesEmpty"
->
+            :class="handleUserChatBoxStyle(message.userName)" v-if="messagesEmpty">
 
             <img :src="handleImages(message.userName)" v-if="message.messageStatus.length" alt="">
             <div class="message-Box" v-if="message.messageStatus.length">
@@ -304,7 +330,7 @@ v-if="messagesEmpty"
           <div class="friends-listHeader">
             <h5>Friends</h5>
           </div>
-<div class="empty-chat-list" v-if="!userData.friends.length">
+          <div class="empty-chat-list" v-if="!userData.friends.length">
             <span>You Have No Friends</span>
           </div>
           <div v-for="friend in userData.friends" :key="friend.userName" v-if="userData.friends.length">
@@ -342,7 +368,6 @@ v-if="messagesEmpty"
         showingMessageStatus: [],
         chattedUsersList: [],
         messageUserProfilePicture: '',
-
         userProfilePicture: '',
         messageUserName: '',
         statusClass: "check-double",
@@ -350,7 +375,10 @@ v-if="messagesEmpty"
         displayChatList: '',
         filUpStyle: '',
         messagesEmpty: true,
-
+        searchInput: "",
+        displaySearchContents: false,
+        filteredSearchLists: [],
+        chatListBackDrop: false
       };
     },
 
@@ -375,15 +403,20 @@ v-if="messagesEmpty"
           activeLink: "",
           params: "activeLink"
         })
- 
+        // document.getElementById('messageBody').scrollTo=document.getElementById('messageBody').scrollHeight 
+
+
+        // setTimeout(() => {
+        // document.getElementById('messageBody').scrollTo=document.getElementById('messageBody').scrollHeight  
+        // }, 100);
 
         let messageStatus = [];
 
-        for (const message in this.userData.messageStatus) {
-          messageStatus.push(this.userData.messageStatus[message]);
+        for (const userName in this.userData.messageStatus) {
+          messageStatus.push(this.userData.messageStatus[userName]);
         }
         if (messageStatus.length) {
-          this.showingMessageStatus = messageStatus.filter((message) => message.showMessage === 'on');
+          this.showingMessageStatus = messageStatus.filter((message) => message.showMessage);
 
           this.showingMessage = this.userData.messages[this.showingMessageStatus[0].friendMessaged];
 
@@ -410,54 +443,11 @@ v-if="messagesEmpty"
           });
 
         }
-
+        this.handleChatList()
 
       },
 
 
-     handleChattedUsersList() {
-      let messageStatusList = []
-        for (let userName in this.userData.messageStatus) {
-          messageStatusList = [...messageStatusList, { userName, showMessage: this.userData.messageStatus[userName].showMessage }]
-
-
-        }
-
-
-
-        let chattedUsersList = []
-        for (let userName in this.userData.messageStatus) {
-
-          if (this.userData.messageStatus[userName].showMessage === "on") {
-            let filteredUserList = messageStatusList.filter((user) => user.userName === userName)
-            chattedUsersList = messageStatusList.filter((user) => user.userName !== userName)
-            chattedUsersList.splice(0, 0, ...filteredUserList)
-
-          }
-        }
-
-        this.chattedUsersList = chattedUsersList;
-      },
-
-
-handleChattedUsersInfo(){
-       let chattedUsersInfo = {};
-
-
-        for (const chatUserName in this.userData.messageStatus) {
-
-          let messageObjects = []
-          for (const messageId in this.userData.messages[chatUserName]) {
-            messageObjects = [...messageObjects, this.userData.messages[chatUserName][messageId]]
-              .sort((a, b) => a.messageDate - b.messageDate)
-
-          }
-          chattedUsersInfo = { ...chattedUsersInfo, [chatUserName]: messageObjects[messageObjects.length - 1] }
-
-        }
-
-        this.chattedUsersInfo = chattedUsersInfo;
-},
 
 
       scrollToBottom() {
@@ -483,7 +473,7 @@ handleChattedUsersInfo(){
       },
 
       activeChattedUser(show) {
-        if (show === "on") {
+        if (show) {
 
           return "background-color:rgba(232, 62, 140, 0.52)"
         }
@@ -492,9 +482,21 @@ handleChattedUsersInfo(){
       },
 
 
+      handleSearchBackDrop(params) {
+        if (params === "open") {
 
+
+          return this.chatListBackDrop = true
+        }
+        this.searchInput = "";
+        this.displaySearchContents = false;
+        this.filteredSearchLists = [];
+        return this.chatListBackDrop = false
+
+      },
 
       handleMessageSlice(message) {
+console.log(1,message);
         if (message.length > 15) {
           let slicedMessage = message.slice(0, 14) + "...."
           return slicedMessage
@@ -568,9 +570,10 @@ handleChattedUsersInfo(){
 
         this.userProfilePicture = this.handleImages(userName);
         this.friendMessaged = userName;
-        let chattedUsersList = this.chattedUsersList.map((user) => user.userName)
+        // let chattedUsersList = this.chattedUsersList.map((user) => user.userName)
+        let chatList = Object.keys(this.userData.messageStatus)
 
-        if (!chattedUsersList.includes(userName) && status === "newMessage") {
+        if (!chatList.includes(userName) && status === "newMessage") {
           this.showingMessage = {
             'none': {
               messageId: "none",
@@ -595,7 +598,7 @@ handleChattedUsersInfo(){
             messageOnScreen,
             userName: this.userName,
             messageViewStatus: status,
-            showMessage: "on",
+            showMessage: false,
 
           });
           this.showingMessage = this.userData.messages[userName];
@@ -608,7 +611,8 @@ handleChattedUsersInfo(){
 
         // }
 
-
+        this.handleSearchBackDrop('close')
+        this.handleChatList()
 
 
       },
@@ -616,7 +620,6 @@ handleChattedUsersInfo(){
       showChatList() {
         this.$refs.containerMessage.classList.add("container-mobileView")
         this.$refs.chatList.classList.remove("container-mobileView")
-        console.log(this.$refs.chatList.classList);
       },
 
 
@@ -725,7 +728,29 @@ handleChattedUsersInfo(){
 
       },
 
+      handleChatList() {
+let chattedUsersList=[]
+        let messageStatusList = Object.keys(this.userData.messageStatus)
+        let messageStatusList1 = []
+        let messageStatusList2 = []
 
+        messageStatusList.forEach(chat => {
+          if (this.userData.messageStatus[chat].showMessage) {
+            messageStatusList1.push({ userName: chat, showMessage: this.userData.messageStatus[chat].showMessage })
+
+          } else {
+
+            messageStatusList2.push({ userName: chat, showMessage: this.userData.messageStatus[chat].showMessage })
+
+
+          }
+        });
+
+  
+
+        this.chattedUsersList = messageStatusList1.concat(messageStatusList2)
+
+      }
 
 
 
@@ -735,11 +760,79 @@ handleChattedUsersInfo(){
 
     },
     computed: {
+      filteredSearchList() {
+        let filteredSearchList = this.chattedUsersList.sort(function (a, b) {
+          var nameA = a.userName.toUpperCase();
+          var nameB = b.userName.toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        }).filter((user) => {
+          return (
+            user.userName
+              .toLowerCase()
+              .indexOf(this.searchInput.toLowerCase()) !== -1
+          );
+        })
+
+        this.filteredSearchLists = filteredSearchList
+
+        return this.filteredSearchLists
+      },
+      searchNotFound() {
+
+        if (this.filteredSearchLists.length) {
+          return false
+
+        }
+        return true
+      },
+
+
+
 
       showingMessages() {
-this.handleChattedUsersList()
-this.handleChattedUsersInfo()
+
         this.userData = this.$store.state.users[this.userName];
+        this.searchInput.length ? this.displaySearchContents = true : this.displaySearchContents = false
+// console.log(this.displaySearchContents);
+
+
+
+        let chattedUsersInfo = {};
+
+
+        for (const chatUserName in this.userData.messageStatus) {
+
+          let messageObjects = []
+          for (const messageId in this.userData.messages[chatUserName]) {
+            messageObjects = [...messageObjects, this.userData.messages[chatUserName][messageId]]
+              .sort((a, b) => a.messageDate - b.messageDate)
+
+          }
+          chattedUsersInfo = { ...chattedUsersInfo, [chatUserName]: messageObjects[messageObjects.length - 1] }
+
+        }
+
+
+
+        this.chattedUsersInfo = chattedUsersInfo;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         let showingMessages = [];
