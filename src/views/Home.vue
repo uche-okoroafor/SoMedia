@@ -4,47 +4,32 @@
       <div class="sidebar-list" :style="handleDisplayFunctions()">
         <ul>
 
-          <li>
-            <router-link :to="{
-                name: 'Messages',
-                params: { userName: userData.userName },
-              }">
-              <span> Messages </span>
-              <font-awesome-icon class="ml-2" :icon="['fas', 'envelope']" />
-            </router-link>
+          <li @click="handleClickedLinks('Messages')">
+
+            <span> Messages </span>
+            <font-awesome-icon class="ml-2" :icon="['fas', 'envelope']" />
           </li>
 
 
-          <li>
-            <router-link :to="{
-                name: 'Friends',
-                params: { userName: userData.userName, Timeline: 'friends' },
-              }">
-              <span>Friends </span>
-              <font-awesome-icon class="ml-2" :icon="['fas', 'user-friends']" />
-            </router-link>
+          <li @click="handleClickedLinks('Friends')">
+
+            <span>Friends </span>
+            <font-awesome-icon class="ml-2" :icon="['fas', 'user-friends']" />
+
           </li>
 
 
-          <li>
-            <router-link :to="{
-                name: 'Friends',
-                params: { userName: userData.userName, Timeline: 'friends' },
-              }">
-              <span> Following </span>
-              <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
-            </router-link>
+          <li @click="handleClickedLinks('Friends')">
+
+            <span> Following </span>
+            <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
           </li>
 
 
-          <li>
-            <router-link :to="{
-                name: 'Friends',
-                params: { userName: userData.userName, Timeline: 'friends' },
-              }">
-              <span>Followers </span>
-              <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
-            </router-link>
+          <li @click="handleClickedLinks('Friends')">
+
+            <span>Followers </span>
+            <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
           </li>
 
         </ul>
@@ -134,10 +119,9 @@
       </div>
 
 
-      <div class="post-container" v-for="post in newsFeeds" :key="post.postId" :ref="post.postId">
-
-
-        <div class="userImage" @click="showUserTimeline(post.userName, post.userId)">
+      <div class="post-container" v-for="post in newsFeeds" :key="post.postId+'key'">
+        <!-- <span ></span> -->
+        <div class="userImage" @click="showUserTimeline(post.userName, post.userId)" :ref="post.postId">
           <img :src="handleUserIcon($store.state.users[post.userName].userProfileImage)" class="user-image-icon"
             alt="" />
           <span class="userName-Timeposted"><span class="username-header">{{ post.userName }}</span><span
@@ -154,8 +138,8 @@
           <img :src="image.imageUrl" alt="">
         </div>
         <div class="post-Video" v-if="post.postVideos.videoId" :ref="post.postVideos.videoId">
-          <video width="500" max-height="300" controls :autoplay="post.postVideos.videoAutoplay">
-            <!-- :autoplay="post.postVideos.videoAutoplay"  > -->
+          <video width="500" max-height="300" controls :autoplay="post.postVideos.videoAutoplay"
+            :id="post.postVideos.videoId">
             <source :src="post.postVideos.videoUrl" type="video/mp4">
             <source :src="post.postVideos.videoUrl" type="video/ogg">
             Your browser does not support HTML video.
@@ -171,8 +155,8 @@
                 post.userName,
                 post.postId
               )
-            " class="m-2  comment-like" :class="handleLikeStyle(post.likes,'likes')"><span
-              class="text-success">Likes</span>
+            " class="m-2  comment-like font-weight-bold" :class="handleLikeStyle(post.likes,'likes')"><span
+              class="text-success ">Likes</span>
             &nbsp;
             <font-awesome-icon :icon="['fas', 'thumbs-up']" />
             {{ post.likes.length }}
@@ -186,13 +170,14 @@
                 post.userName,
                 post.postId
               )
-            " class="m-2  comment-unlike" :class="handleLikeStyle(post.unLikes,'unlikes')"> <span class="text-danger">
+            " class="m-2  comment-unlike  font-weight-bold" :class="handleLikeStyle(post.unLikes,'unlikes')"> <span
+              class="text-danger font-weight-bold">
               unlikes</span> &nbsp;
             <font-awesome-icon :icon="['fas', 'thumbs-down']" />
             {{ post.unLikes.length }}
           </span>
 
-          <div class="m-2">{{ Object.keys(post.comments).length }} comments</div>
+          <div class="m-2 ">{{ Object.keys(post.comments).length }} comments</div>
         </div>
         <hr />
         <h6 class="m-3 ml-5 font-weight-bold ">Comments</h6>
@@ -221,8 +206,8 @@
                 post.userName,
                 comment
               )
-            " class="comment-mobile-view comment-like" :class="handleLikeStyle(comment.likes,'likes')"><span
-                class="text-success">Likes</span>
+            " class="comment-mobile-view comment-like  font-weight-bold"
+              :class="handleLikeStyle(comment.likes,'likes')"><span class="text-success ">Likes</span>
               &nbsp;
               <font-awesome-icon :icon="['fas', 'thumbs-up']" />
               {{ comment.likes.length }}
@@ -236,7 +221,8 @@
                 post.userName,
                 comment
               )
-            " class="comment-mobile-view  comment-unlike" :class="handleLikeStyle(comment.unLikes,'unlikes')">
+            " class="comment-mobile-view  comment-unlike font-weight-bold"
+              :class="handleLikeStyle(comment.unLikes,'unlikes')">
               <span class="text-danger">Unikes</span>
               &nbsp;
               <font-awesome-icon :icon="['fas', 'thumbs-down']" />
@@ -258,6 +244,7 @@
         </div>
         <hr />
       </div>
+
     </div>
     <div class="container-sidebar-two">
       <div class="sidebar-list">
@@ -275,9 +262,29 @@
         </ul>
       </div>
     </div>
+
+    <div class="restrict-Guest" v-if="restrictGuest" @click="closeRestrictMessage">
+
+      <div class="restrict-Guest-contents">
+        <div class="close-restrict-message " @click="closeRestrictMessage">
+          <font-awesome-icon :icon="['fas', 'times-circle']" class="color-danger" />
+        </div>
+        <span class="mt-3">Login Or Create an Account to Have Access to this Link !
+          <br>
+          <br>
+          <span class="signin-button btn btn-success h-1 mb-1" @click="handleLogin('login')">Sign In
+            <font-awesome-icon :icon="['fas', 'sign-in-alt']" />
+          </span>
+        </span>
+
+      </div>
+
+    </div>
   </div>
-  <div ref="check" style="background-color: blue;" id="checks">yesbffhhf</div>
   <div class="post-back-drop" v-if="PostBackDrop" :style="PostBackDropZIndex" @click="handleCloseTextarea"></div>
+
+
+
 </template>
 
 <script>
@@ -333,8 +340,7 @@
         textAreaStyle: "",
         PostBackDrop: false,
         PostBackDropZIndex: "z-index:600",
-        
-        // videoAutoplay:{},
+        restrictGuest: false,
         videoAutoplay: false,
 
       };
@@ -352,7 +358,17 @@
       window.scrollTo(0, 0);
       document.removeEventListener('scroll', () => this.onScroll(this.$refs));
     },
+    watch: {
+      restrictGuest: {
+        handler(showin) {
+          console.log("yes", showin);
 
+        },
+        deep: true
+
+      }
+
+    },
     methods: {
       loadData() {
         this.newsFeed = this.$store.state.newsFeed;
@@ -376,11 +392,9 @@
       },
 
       handleLikeStyle(likes, params) {
-
         switch (params) {
           case "likes":
             if (likes.includes(this.userData.userName)) {
-
 
 
               return "text-success"
@@ -397,6 +411,7 @@
               return "text-danger"
 
             }
+
             return "comment-like"
             break;
 
@@ -427,6 +442,11 @@
       },
 
       handleMakePost(params) {
+
+        if (this.userData.userName === "Guest") {
+
+          return this.restrictGuest = true
+        }
         this.PostBackDrop = true
 
         if (params !== "text") {
@@ -479,15 +499,46 @@
         return userProfileImage;
       },
       showUserTimeline(userName) {
+        if (this.userData.userName === "Guest") {
+
+          return this.restrictGuest = true
+        }
+
         this.$router.push({
           name: "Timeline",
           params: { userName: userName, Timeline: "Timeline" },
         });
       },
 
+      handleClickedLinks(link) {
+        if (this.userData.userName === "Guest") {
 
+          return this.restrictGuest = true
+        }
+
+        if (link === "Friends") {
+          return this.$router.push({
+            name: 'Friends',
+            params: { userName: this.userData.userName, Timeline: 'friends' },
+          })
+
+
+        }
+
+        this.$router.push({
+          name: "Messages",
+          params: { userName: this.userData.userName },
+        })
+
+      },
 
       handlePublishPost() {
+
+        if (this.userData.userName === "Guest") {
+
+          return this.restrictGuest = true
+        }
+
         let postId = uuid.v1();
         let videoId = '';
         let imageId = '';
@@ -564,7 +615,15 @@
         });
       },
 
+
+
       handleLikes(condition, params, postId, userId, posterUserName, comment) {
+  if (this.userData.userName === "Guest") {
+
+          return this.restrictGuest = true
+        }
+
+
         this.$store.dispatch("handleLikes", {
           condition,
           params,
@@ -623,14 +682,29 @@
             });
           }
         }
+
+      },
+
+
+      handleLogin(params) {
+        this.$router.push({ name: "Login" });
+
       },
 
 
 
+      closeRestrictMessage() {
+        this.restrictGuest = false
+
+      },
+
 
 
       showMessage(userName, status) {
+        if (this.userData.userName === "Guest") {
 
+          return this.restrictGuest = true
+        }
 
         this.$store.dispatch("handleDisplayFunctions", {
           userName,
@@ -648,7 +722,6 @@
           userName: this.userData.userName,
           postId,
         });
-        console.log("yes");
       },
 
 
@@ -657,37 +730,25 @@
         let refObject = Object.keys(ref)
 
         for (let newsFeedId in this.newsFeed) {
-
-      
-
-
-
           if (refObject.includes(newsFeedId)) {
 
-console.log("yes");
-console.log(newsFeedId);
-            // this.isElementInViewport(ref[newsFeedId]) && this.handlePostViews(this.newsFeed[newsFeedId].userName)
-
-
-            if (this.isElementInViewport(ref[newsFeedId])) {
-              this.handlePostViews(newsFeedId)
-              this.PostBackDrop = true
+            if (ref[newsFeedId] !== null) {
+              if (this.isElementInViewport(ref[newsFeedId])) {
+                this.handlePostViews(newsFeedId)
+              }
             }
-
           }
 
+          if (refObject.includes(this.newsFeed[newsFeedId].postVideos.videoId)) {
+            if (ref[this.newsFeed[newsFeedId].postVideos.videoId] !== null) {
+              if (this.isElementInViewport(ref[this.newsFeed[newsFeedId].postVideos.videoId])) {
+                // this.newsFeed[newsFeedId].postVideos.videoAutoplay = true
+                document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).play()
 
-
-
-    if (refObject.includes(this.newsFeed[newsFeedId].postVideos.videoId)) {
-            if (this.isElementInViewport(ref[this.newsFeed[newsFeedId].postVideos.videoId])) {
-              this.newsFeed[newsFeedId].postVideos.videoAutoplay = true
-
-            } else {
-
-              this.newsFeed[newsFeedId].postVideos.videoAutoplay = false
+              } else {
+                document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).pause()
+              }
             }
-
 
           }
 
@@ -710,6 +771,10 @@ console.log(newsFeedId);
 
 
       handlePosterComment(comment, postId, posterUserName) {
+        if (this.userData.userName === "Guest") {
+
+          return this.restrictGuest = true
+        }
         let commentId = uuid.v1();
         if (comment.length) {
           this.$store.dispatch("handlePosterComment", {
@@ -798,10 +863,7 @@ console.log(newsFeedId);
 
         if (this.previewVideo && this.tempUrl.length || this.previewImage && this.tempUrl.length) {
           this.loadFileAddress = true
-
-
         }
-
 
         let newsFeeds = [];
 
@@ -810,8 +872,6 @@ console.log(newsFeedId);
 
 
         }
-
-
         return newsFeeds.sort((a, b) => a.datePosted - b.datePosted).reverse();
       },
     },
@@ -819,46 +879,5 @@ console.log(newsFeedId);
 </script>
 
 <style scoped>
-  /* h3 {
-    text-align: left;
-  }
 
-  .container {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-  }
-
-  .container ul li {
-    list-style: none;
-    padding: 10px;
-    text-align: left;
-    background-color: blueviolet;
-    margin: 2px;
-    cursor: pointer;
-  }
-
-  .container3 {
-    background-color: cornflowerblue;
-  }
-
-  h5 {
-    text-align: left;
-  }
-
-  .container2 {
-    width: 40%;
-  }
-
-  .posted {
-    width: 200px;
-    height: 100px;
-    border: 2px solid black;
-    margin: 0 auto;
-  }
-
-  h5 {
-    cursor: pointer;
-
-  } */
 </style>
