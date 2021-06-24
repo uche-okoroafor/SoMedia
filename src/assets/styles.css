@@ -567,6 +567,7 @@ nav {
     width: 30px;
     height: 30px;
     border-radius: 50%;
+border: 2px solid var(--pink);
 }
 
 .nav-container-one {
@@ -810,7 +811,7 @@ top: 0;
 
 
 .restrict-Guest-contents{
-height: 11rem;
+height: 12rem;
 width: 40%;
 background-color:white ;
 z-index:750;
@@ -821,8 +822,17 @@ display: flex;
 align-items: center;
 justify-content: center;
 padding: 20px;
+padding-top: 40px;
 position: relative;
 }
+@media only screen and (max-width:900px) {
+ .restrict-Guest-contents{
+width: 90%
+
+ }  
+}
+
+
 
 
 
@@ -2158,9 +2168,11 @@ display:none;
     .userPhotos-container {
         margin: 0 auto;
         left: auto;
-        width: 80%;
+        width: 90%;
     }
 }
+
+
 
 .userPhotos {
     padding: 20px;
@@ -3745,9 +3757,18 @@ hr {
 
 .profile-card {
     background-color: var(--cyann);
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+@media only screen and (max-width:578px) {
+
+.profile-card {
+
+width: 95%;
+
+}
 }
 
 .profile-card .card-view-profile {
