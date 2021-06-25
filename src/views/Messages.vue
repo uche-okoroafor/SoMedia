@@ -4,11 +4,11 @@
 
       <div class="list-container-left container-mobile-view  " ref="chatList">
 
-        <div class="chat-list">
+         <div class="chat-list">
           <div class="header-chat-list">
             <h5>Chats</h5>
             <div class="search-chat-list">
-              <input type="text" placeholder="Search Chats..."  v-model="searchInput"
+              <input type="text" placeholder="Search Chats..." v-model="searchInput"
                 @click="handleSearchBackDrop('open')">
               <div class="search-contents" v-if="displaySearchContents">
                 <ul v-for="user in filteredSearchList" :key="user.userName">
@@ -44,21 +44,24 @@
 
                 <div class="side-userName">
                   <span class="username-header">{{user.userName}}</span>
-                  <span>{{showDateInWords(chattedUsersInfo[user.userName].messageDate)}}</span>
+                  <span>{{showDateInWords(chattedUsersInfo[user.userName].messageDate,user.userName)}}</span>
 
                 </div>
 
 
                 <div class="side-user-message">
-                  <span v-if="user.userName === userData.userName" class="shortMessage">You:&nbsp<span
+                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName"
+                    class="shortMessage "> <span  style="font-weight: 600;">You:&nbsp</span> <span
                       class="message-ellipsis">{{handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
                   </span>
+                  <span v-else class="shortMessage">
+                    {{ handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
                   <span class="sideMessageCheck">
                     <font-awesome-icon :icon="['fas', 'check']" class="check-side"
                       v-if="handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)" />
                     <font-awesome-icon :icon="['fas', 'check-double']" class="check-double-side"
                       v-if="!handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)"
-                      :class="statusClass" />
+                      :class="handleCheckStyle(chattedUsersInfo[user.userName].messageStatus)" />
 
                   </span>
 
@@ -80,12 +83,11 @@
 
 
         </div>
+      
       </div>
 
+
       <div class="list-container-left  container-desktop-view">
-
-
-
 
         <div class="chat-list">
           <div class="header-chat-list">
@@ -151,20 +153,20 @@
 
 
                 <div class="side-user-message">
-                  <span v-if="user.userName === userData.userName" class="shortMessage">You:&nbsp<span
-                      class="message-ellipsis">{{ handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
+                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName"
+                    class="shortMessage">  <span style="font-weight: 600;">You:&nbsp</span>  <span class="message-ellipsis">{{
+                      handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
                   </span>
+                  <span v-else class="shortMessage">
+                    {{ handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
                   <span class="sideMessageCheck">
                     <font-awesome-icon :icon="['fas', 'check']" class="check-side"
                       v-if="handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)" />
                     <font-awesome-icon :icon="['fas', 'check-double']" class="check-double-side"
                       v-if="!handleMessageStatus(chattedUsersInfo[user.userName].messageStatus, chattedUsersInfo[user.userName].messageId)"
-                      :class="statusClass" />
+                      :class="handleCheckStyle(chattedUsersInfo[user.userName].messageStatus)" />
 
                   </span>
-
-
-
 
                 </div>
               </div>
@@ -232,7 +234,8 @@
                 <font-awesome-icon :icon="['fas', 'check']" class="check"
                   v-if="handleMessageStatus(message.messageStatus, message.messageId)" />
                 <font-awesome-icon :icon="['fas', 'check-double']" class="check-double"
-                  v-if="!handleMessageStatus(message.messageStatus, message.messageId)" :class="statusClass" />
+                  v-if="!handleMessageStatus(message.messageStatus, message.messageId)"
+                  :class="handleCheckStyle(message.messageStatus)" />
               </span>
             </div>
             <!-- <p>  {{moment().format('LT')}} </p> -->
@@ -300,7 +303,8 @@
                 <font-awesome-icon :icon="['fas', 'check']" class="check"
                   v-if="handleMessageStatus(message.messageStatus, message.messageId)" />
                 <font-awesome-icon :icon="['fas', 'check-double']" class="check-double"
-                  v-if="!handleMessageStatus(message.messageStatus, message.messageId)" :class="statusClass" />
+                  v-if="!handleMessageStatus(message.messageStatus, message.messageId)"
+                  :class="handleCheckStyle(message.messageStatus)" />
               </span>
             </div>
             <!-- <p>  {{moment().format('LT')}} </p> -->
@@ -370,7 +374,6 @@
         messageUserProfilePicture: '',
         userProfilePicture: '',
         messageUserName: '',
-        statusClass: "check-double",
         displayMessage: '',
         displayChatList: '',
         filUpStyle: '',
@@ -378,22 +381,38 @@
         searchInput: "",
         displaySearchContents: false,
         filteredSearchLists: [],
-        chatListBackDrop: false
+        chatListBackDrop: false,
+
       };
     },
+    //   watch: {
+    //      messageStatus:{
+    //         handler(update) {
+
+    // this.$store.dispatch("handleUpdateChatList", {
+    //         userName:this.userName,
+    //          update,
+    //         })
+
+    //           console.log("yes", update);
+
+    //         },
+    //         deep: true
+
+    //       }
+
+    //     },
 
     mounted() {
       this.loadData("on");
-      // document.addEventListener('scroll', () => this.onScroll(document.getElementById("messageBox")));
 
     },
     beforeUnmount() {
       this.loadData("off");
-      // document.removeEventListener('scroll', () => this.onScroll(document.getElementById("messageBox")));
 
     },
     methods: {
-      loadData(messageOnScreen) {
+   loadData(messageOnScreen) {
         this.userData = this.$store.state.users[this.userName];
 
         messageOnScreen === "on" ? this.$store.dispatch("handleDisplayFunctions", {
@@ -403,17 +422,11 @@
           activeLink: "",
           params: "activeLink"
         })
-        // document.getElementById('messageBody').scrollTo=document.getElementById('messageBody').scrollHeight 
-
-
-        // setTimeout(() => {
-        // document.getElementById('messageBody').scrollTo=document.getElementById('messageBody').scrollHeight  
-        // }, 100);
 
         let messageStatus = [];
 
-        for (const userName in this.userData.messageStatus) {
-          messageStatus.push(this.userData.messageStatus[userName]);
+        for (const message in this.userData.messageStatus) {
+          messageStatus.push(this.userData.messageStatus[message]);
         }
         if (messageStatus.length) {
           this.showingMessageStatus = messageStatus.filter((message) => message.showMessage);
@@ -443,7 +456,6 @@
           });
 
         }
-        this.handleChatList()
 
       },
 
@@ -496,7 +508,6 @@
       },
 
       handleMessageSlice(message) {
-console.log(1,message);
         if (message.length > 15) {
           let slicedMessage = message.slice(0, 14) + "...."
           return slicedMessage
@@ -519,7 +530,6 @@ console.log(1,message);
 
 
       handleImages(userName) {
-
         if (this.$store.state.users[userName].userProfileImage.length) {
           return this.$store.state.users[userName].userProfileImage
 
@@ -562,7 +572,6 @@ console.log(1,message);
           this.showingMessage = this.userData.messages[this.friendMessaged];
         }
         this.scrollToBottom()
-
       },
 
       showMessage(userName, status, messageOnScreen) {
@@ -570,9 +579,7 @@ console.log(1,message);
 
         this.userProfilePicture = this.handleImages(userName);
         this.friendMessaged = userName;
-        // let chattedUsersList = this.chattedUsersList.map((user) => user.userName)
         let chatList = Object.keys(this.userData.messageStatus)
-
         if (!chatList.includes(userName) && status === "newMessage") {
           this.showingMessage = {
             'none': {
@@ -603,17 +610,9 @@ console.log(1,message);
           });
           this.showingMessage = this.userData.messages[userName];
         }
-
-        // if(  this.windowWidth < 778){
         this.$refs.chatList.classList.add("container-mobileView")
         this.$refs.containerMessage.classList.remove("container-mobileView")
-
-
-        // }
-
         this.handleSearchBackDrop('close')
-        this.handleChatList()
-
 
       },
 
@@ -627,27 +626,26 @@ console.log(1,message);
 
       handleMessageStatus(messageStatus, messageId) {
 
-        this.$store.dispatch("handleMessageStatus", {
-          friendMessaged: this.friendMessaged,
-          userName: this.userData.userName,
-        });
-
         if (messageStatus === "sent") {
           return true;
         } else if (messageStatus === "received") {
 
-          this.statusClass = "check-double"
 
           return false;
         } else if (messageStatus === "Read") {
-
-
-          this.statusClass = "check-double-read"
           return false;
         }
       },
+      handleCheckStyle(messageStatus) {
+        if (messageStatus === "received") {
+          return "check-double";
+        }
+        return "check-double-read"
 
-      showDateInWords(date) {
+      },
+
+
+      showDateInWords(date, userName) {
         const currentDate = Date.now();
         const dateStatus = currentDate - date;
         const minutes = Math.round(dateStatus / (1000 * 60));
@@ -729,7 +727,8 @@ console.log(1,message);
       },
 
       handleChatList() {
-let chattedUsersList=[]
+
+      let chattedUsersList = []
         let messageStatusList = Object.keys(this.userData.messageStatus)
         let messageStatusList1 = []
         let messageStatusList2 = []
@@ -746,7 +745,6 @@ let chattedUsersList=[]
           }
         });
 
-  
 
         this.chattedUsersList = messageStatusList1.concat(messageStatusList2)
 
@@ -783,6 +781,7 @@ let chattedUsersList=[]
 
         return this.filteredSearchLists
       },
+
       searchNotFound() {
 
         if (this.filteredSearchLists.length) {
@@ -799,9 +798,8 @@ let chattedUsersList=[]
 
         this.userData = this.$store.state.users[this.userName];
         this.searchInput.length ? this.displaySearchContents = true : this.displaySearchContents = false
-// console.log(this.displaySearchContents);
 
-
+        this.handleChatList()
 
         let chattedUsersInfo = {};
 
@@ -823,18 +821,6 @@ let chattedUsersList=[]
         this.chattedUsersInfo = chattedUsersInfo;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         let showingMessages = [];
 
         for (const message in this.showingMessage) {
@@ -845,7 +831,3 @@ let chattedUsersList=[]
     },
   };
 </script>
-
-<style scoped>
-
-</style>
