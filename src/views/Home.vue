@@ -1,7 +1,7 @@
 <template>
   <div class="newsfeed-container" id="newsfeed-container">
     <div class="container-sidebar-one">
-      <div class="sidebar-list" :style="handleDisplayFunctions()">
+      <div class="sidebar-list" :style="handleDisplayFunctions()" v-if="handleFooterOnScreen">
         <ul>
 
           <li @click="handleClickedLinks('Messages')">
@@ -53,7 +53,7 @@
 
 
 
-            <div class="post-Video" v-if="previewVideo && loadFileAddress">
+            <div class="post-Video stackItem" v-if="previewVideo && loadFileAddress">
               <video width="500" heigth="100" controls>
                 <source :src="tempUrl" type="video/mp4">
                 <source :src="tempUrl" type="video/ogg">
@@ -85,20 +85,30 @@
 
               <span class="text-theme-container themes-icons-container" ref="themeContainer">
                 <div @click="handleTheme('text-theme-default')" class="text-theme text-theme-default "
-                  style="padding: 0"></div>
-                <div @click="handleTheme('text-themeOne')" class="text-theme text-themeOne" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeTwo')" class="text-theme text-themeTwo" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeThree')" class="text-theme text-themeThree" style="padding: 0">
+                  :style="handleThemeStyle('text-theme-default')"></div>
+                <div @click="handleTheme('text-themeOne')" class="text-theme text-themeOne"
+                  :style="handleThemeStyle('text-themeOne')"></div>
+                <div @click="handleTheme('text-themeTwo')" class="text-theme text-themeTwo"
+                  :style="handleThemeStyle('text-themeTwo')"></div>
+                <div @click="handleTheme('text-themeThree')" class="text-theme text-themeThree"
+                  :style="handleThemeStyle('text-themeThree')">
                 </div>
-                <div @click="handleTheme('text-themeFour')" class="text-theme text-themeFour" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeFive')" class="text-theme text-themeFive" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeSix')" class="text-theme text-themeSix" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeSeven')" class="text-theme text-themeSeven" style="padding: 0">
+                <div @click="handleTheme('text-themeFour')" class="text-theme text-themeFour"
+                  :style="handleThemeStyle('text-themeFour')"></div>
+                <div @click="handleTheme('text-themeFive')" class="text-theme text-themeFive"
+                  :style="handleThemeStyle('text-themeFive')"></div>
+                <div @click="handleTheme('text-themeSix')" class="text-theme text-themeSix"
+                  :style="handleThemeStyle('text-themeSix')"></div>
+                <div @click="handleTheme('text-themeSeven')" class="text-theme text-themeSeven"
+                  :style="handleThemeStyle('text-themeSeven')">
                 </div>
-                <div @click="handleTheme('text-themeEight')" class="text-theme text-themeEight" style="padding: 0">
+                <div @click="handleTheme('text-themeEight')" class="text-theme text-themeEight"
+                  :style="handleThemeStyle('text-themeEight')">
                 </div>
-                <div @click="handleTheme('text-themeNine')" class="text-theme text-themeNine" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeTen')" class="text-theme text-themeTen" style="padding: 0"></div>
+                <div @click="handleTheme('text-themeNine')" class="text-theme text-themeNine"
+                  :style="handleThemeStyle('text-themeNine')"></div>
+                <div @click="handleTheme('text-themeTen')" class="text-theme text-themeTen"
+                  :style="handleThemeStyle('text-themeTen')"></div>
               </span>
             </span>
             <span>
@@ -114,7 +124,7 @@
 
 
 
-          <button type="submit" class="btn btn-success">Post</button>
+          <button type="submit" class="btn ">Post</button>
         </form>
       </div>
 
@@ -269,7 +279,8 @@
         <div class="close-restrict-message " @click="closeRestrictMessage">
           <font-awesome-icon :icon="['fas', 'times-circle']" class="color-danger" />
         </div>
-        <span class="mt-3">Login Or Create an Account to Have Access to this Link !
+        <span class="mt-3">Login Or Create an Account to Have Access to this <span style="white-space:nowrap;">Link
+            !</span>
           <br>
           <br>
           <span class="signin-button btn btn-success h-1 mb-1" @click="handleLogin('login')">Sign In
@@ -342,7 +353,6 @@
         PostBackDropZIndex: "z-index:600",
         restrictGuest: false,
         videoAutoplay: false,
-
       };
 
 
@@ -358,17 +368,7 @@
       window.scrollTo(0, 0);
       document.removeEventListener('scroll', () => this.onScroll(this.$refs));
     },
-    watch: {
-      restrictGuest: {
-        handler(showin) {
-          console.log("yes", showin);
 
-        },
-        deep: true
-
-      }
-
-    },
     methods: {
       loadData() {
         this.newsFeed = this.$store.state.newsFeed;
@@ -441,7 +441,19 @@
 
       },
 
+      handleThemeStyle(theme) {
+        console.log(this.postStyle);
+
+        if (theme === this.postStyle) {
+          return 'padding:0px;border:2px solid #e83e8c'
+        }
+
+        return 'padding:0px'
+      },
+
       handleMakePost(params) {
+
+
 
         if (this.userData.userName === "Guest") {
 
@@ -534,6 +546,11 @@
 
       handlePublishPost() {
 
+        this.$store.dispatch("handleDisplayFunctions", {
+          suspendMessageUpdate: true,
+          params: "suspendMessageUpdate"
+        })
+
         if (this.userData.userName === "Guest") {
 
           return this.restrictGuest = true
@@ -618,7 +635,7 @@
 
 
       handleLikes(condition, params, postId, userId, posterUserName, comment) {
-  if (this.userData.userName === "Guest") {
+        if (this.userData.userName === "Guest") {
 
           return this.restrictGuest = true
         }
@@ -727,6 +744,8 @@
 
 
       onScroll(ref) {
+
+
         let refObject = Object.keys(ref)
 
         for (let newsFeedId in this.newsFeed) {
@@ -849,13 +868,29 @@
 
       },
 
+    },
+    watch: {
+      restrictGuest: {
+        handler(showin) {
 
+        },
+        deep: true
 
+      }
 
     },
+
     computed: {
 
+      handleFooterOnScreen() {
+        if (this.$store.state.displayFunctions.footerOnScreen) {
 
+          return false
+        }
+
+        return true
+
+      },
 
       newsFeeds() {
 
