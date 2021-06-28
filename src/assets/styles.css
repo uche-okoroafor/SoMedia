@@ -3,15 +3,19 @@
     --indigo: #5603ad;
     --purple: #8965e0;
     --pink: #e83e8c;
-    --light-pink: #AF8AAF;
+    --light-pink: #F0B5F0;
     --red: #f5365c;
     --orange: #fb6340;
     --yellow: #ffd600;
     --green: #2dce89;
     --teal: #11cdef;
-    --cyan: #dbeede;
-    --cyann: #dbeede;
-    --cyann-hover: #bbddc0;
+    /* --cyan: #dbeede; */
+    /* --cyann: #dbeede; */
+    --cyann: #f0f2f5e5;
+
+    /* --cyann-hover: #bbddc0; */
+    --cyann-hover: #e6e8eb;
+
     --white: #fff;
     --gray: #8898aa;
     --navy-blue: #01022F;
@@ -145,6 +149,7 @@ section {
     display: block;
 }
 
+
 body {
     line-height: 1;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -173,6 +178,7 @@ a:hover{
     text-decoration:none !important;
 
 }
+
 
 
 input:focus,
@@ -401,7 +407,8 @@ box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 top: 100%;
 }
-.back-drop,.search-back-drop,.notify-back-drop,.chat-list-backDrop,.nav-menu-bar-drop,.post-back-drop{
+.back-drop,.search-back-drop,.notify-back-drop,.chat-list-backDrop,.nav-menu-bar-drop,
+.post-back-drop,.menu-bar-backdrop{
 position: fixed;
 height: 100vh;
 width: 100%;
@@ -586,6 +593,7 @@ border: 2px solid var(--pink);
     color: var(--pink);
     font-weight: bolder;
   font-size: 1.75rem;
+cursor: pointer;
 }
 
 @media only screen and (max-width:974px) {
@@ -659,7 +667,7 @@ margin-left: 5%;
 
 }
 
-@media only screen and (max-width: 396px) {
+@media only screen and (max-width: 96px) {
     .search-main-container {
      width: 55%;
     }
@@ -1085,7 +1093,9 @@ display: flex;
 padding: 20px;
 }
 
-@media only screen and (max-width:714px) {
+
+
+@media only screen and (max-width:1080px) {
 .nav-container-two .dropdown-notifications{
 right: 30%;
 
@@ -1093,27 +1103,35 @@ right: 30%;
 .nav-container-two .dropdown-notifications .pointer-part{
 right: 10%;
 }
-}
 
+}
 
 
 
 .collapsed-dropdown{
 
-left:-40%;
+left:-220%;
 
 }
 
 
 
 .collapsed-dropdown .pointer-part{
-right: 65% !important;
+right: 15% !important;
 }
 
-@media only screen and (max-width:1200px) {
+/* @media only screen and (max-width:1200px) {
 .collapsed-dropdown{
 
-left:-300%;
+left:-250%;
+
+}
+} */
+
+@media only screen and (max-width:1166px) {
+.collapsed-dropdown{
+right:auto !important;
+left:-510%;
 
 }
 
@@ -1125,6 +1143,33 @@ height: 2rem !important;
 }
 
 
+
+
+@media only screen and (max-width:860px) {
+
+.collapsed-dropdown .pointer-part{
+right: 5.5% !important;
+height: 2rem !important;
+}
+
+}
+
+
+
+
+@media only screen and (max-width:380px) {
+.collapsed-dropdown{
+/* right: !important; */
+left:-350%;
+
+}
+
+.collapsed-dropdown .pointer-part{
+right: 22% !important;
+height: 2rem !important;
+}
+
+}
 
 
 
@@ -1443,13 +1488,29 @@ bottom: 70%;*/
     cursor: pointer;
 }
 
+
+.newsfeed-container button,.timeline-layout button,.card-set-profile button{
+background-color: var(--nave-blue) !important;
+color: var(--white) !important;
+border-color: var(--nave-blue) !important;
+}
+
+
+.newsfeed-container  button:hover,.timeline-layout button:hover{
+/* background-color: #02032B !important; */
+/* border-color: var(--pink) !important; */
+color: var(--pink) !important;
+}
+
 .textarea-icons svg {
     margin: 10px;
+color: var(--navy-blue);
+/* border:2px solid red */
 }
 
 .textarea-icons svg:hover {
     margin: 10px;
-    color: darkgreen;
+    color:var(--pink);
 }
 
 .edit-icon-container {
@@ -1491,7 +1552,7 @@ display: none;
 }
 
 .text-theme-container {
-    background-color: var(--cyann);
+    background-color: var(--cyann-hover);
     display: none;
     width: auto;
     transition: all 0.4s ease 0s;
@@ -1510,7 +1571,7 @@ display: none;
 }
 
 .text-theme-default {
-    background-color: rgb(237, 243, 237);
+    background-color: var(--cyann);
     height: auto;
 }
 
@@ -1633,6 +1694,10 @@ color: var(--white);
     display: flex;
     justify-content: space-around;
     margin: 10px 0;
+}
+
+.post-container .post-comments hr{
+margin: auto !important;
 }
 
 .post-container .post-comments span {
@@ -1775,9 +1840,9 @@ color: var(--text-color2);
 }
 
 .container-sidebar-one .sidebar-list ul li:hover {
-    background-color: var(--pink);
+    background-color: var(--nave-blue);
     transition: background 0.4s;
-    color: var(--navy-blue);
+    color: var(--white);
 }
 
 .container-sidebar-one .sidebar-list ul li a {
@@ -1822,6 +1887,10 @@ margin-top: 2rem;
 
 .container-sidebar-two .sidebar-list li:hover {
     background-color: var(--cyann-hover);
+}
+
+.container-sidebar-two .sidebar-list li:hover .btn-success{
+ color: var(--pink) !important;
 }
 
 .container-sidebar-two .sidebar-list img {
@@ -2123,6 +2192,13 @@ display:none;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
     padding-top: 6rem;
+}
+
+@media only screen and (max-width:852px) {
+   .timeline-friends-container .friends-content-grid {
+
+    grid-template-columns: repeat(1, 1fr);
+   } 
 }
 
 .timeline-friends-container-header {
@@ -3316,6 +3392,7 @@ width: 12rem;
 right: 80%;
 top: 50%;
 z-index: 150;
+color: black;
 }
 
 
@@ -3341,10 +3418,10 @@ z-index: 150;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     height: 14rem;
 }
-hr{
+/* hr{
 margin: 0 !important;
 
-}
+} */
 
 
 .friends-container .friend-main-content {
@@ -3352,7 +3429,8 @@ margin: 0 !important;
     padding: 10px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 min-height: 15rem;
-/* width: 240px; */
+position: relative;
+z-index: -1;
 flex-basis: 240px;
 
 }
@@ -3398,7 +3476,7 @@ padding: 0 20px;
     background-color: var(--cyann);
     transition: background 0.5s;
     padding: 10px;
-    text-align: center;
+text-align: center;
     cursor: pointer;
 }
 
@@ -3529,8 +3607,17 @@ margin-left: 5%;
 
 .card-set-profile  h6 {
    padding-top:1rem;
+padding-left: 10px;
 font-weight: 600;
+color: var(--navy-blue);
 }
+
+.card-set-profile  hr{
+margin: auto !important;
+
+
+}
+
 
 .info-form h6 {
     padding-top: 5rem;
@@ -3784,4 +3871,13 @@ width: 95%;
 .profile-card img {
     width: 12rem;
     height: 12rem;
+}
+
+@media only screen and (max-width:370px) {
+
+.stackItem{
+margin: 0 auto !important;
+width: 70% !important;
+
+}
 }
