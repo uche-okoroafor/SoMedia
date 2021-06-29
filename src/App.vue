@@ -3,7 +3,7 @@
   <nav :style="navStyle" v-if="$store.state.displayFunctions.loginPageUnmounted">
     <div class="nav-container-one">
       <div class="logo-container">
-        <h3>SoMedia</h3>
+        <h3 @click=" handleActiveLink('Home')">SoMedia</h3>
 
         <div class="search-main-container">
 
@@ -34,10 +34,10 @@
       </div>
 
       <ul class="website-info">
-        <li> <a href="#about">About</a>&nbsp;
+        <li> <a href="https://www.linkedin.com/in/uche-okoroafor-a9286b19b" target="_blank">About</a>&nbsp;
           <font-awesome-icon :icon="['fas', 'info']" />
         </li>
-        <li> <a href="#contact">Contact</a>&nbsp;
+        <li> <a href="https://www.linkedin.com/in/uche-okoroafor-a9286b19b" target="_blank">Contact</a>&nbsp;
           <font-awesome-icon :icon="['fas', 'phone-square-alt']" />
         </li>
         <li>
@@ -99,33 +99,30 @@
 
       <ul class="home-list">
         <li ref="home" @click="()=>{handlePushRoutes('Home'); handleActiveLink('Home')}" :style="homeLink"
-          class="lists">Home&nbsp;
-          <font-awesome-icon :icon="['fas', 'home']" ref="homeIcon" />
+          class="lists"><span :class="handleTextHover('Home')">Home
+          <font-awesome-icon :icon="['fas', 'home']" ref="homeIcon" /> &nbsp; </span>
         </li>
         <li class="lists nav-newsFeed" :style="newsFeedLink" ref="newsFeed"
-          @click="()=>{handlePushRoutes('Newsfeed');handleActiveLink('Newsfeed')}">Newsfeed&nbsp;
-          <font-awesome-icon :icon="['fas', 'newspaper']" ref="newsFeedIcon" /><span class="show-counter"
+          @click="()=>{handlePushRoutes('Newsfeed');handleActiveLink('Newsfeed')}"><span :class="handleTextHover('Newsfeed')">Newsfeed
+          <font-awesome-icon :icon="['fas', 'newspaper']" ref="newsFeedIcon" />&nbsp;</span><span class="show-counter"
             v-if="timelineCount? true:false">{{timelineCount}}</span>
         </li>
 
-        <li class="lists" :style="timelineLink" ref="timeline" @click="handlePushRoutes('Timeline')">Timeline&nbsp;
-          <font-awesome-icon :icon="['fas', 'user-clock']" ref="timelineIcon" />
+        <li class="lists" :style="timelineLink" ref="timeline" @click="handlePushRoutes('Timeline')"><span :class="handleTextHover('Timeline')">Timeline
+          <font-awesome-icon :icon="['fas', 'user-clock']" ref="timelineIcon" />&nbsp;</span>
         </li>
         <li class="lists nav-profile" :style="profileLink" ref="profile" @click="handlePushRoutes('userProfile')">
-
-          Profile
-
-          &nbsp;
-          <font-awesome-icon :icon="['fas', 'user']" ref="profileIcon" />
+<span :class="handleTextHover('userProfile')">Profile
+                  <font-awesome-icon :icon="['fas', 'user']" ref="profileIcon" />&nbsp;</span>
         </li>
-        <li class="lists" :style="messageLink" ref="messages" @click="handlePushRoutes('Messages')">Messages
-          <font-awesome-icon :icon="['fas', 'envelope']" ref="messageIcon" /><span class="show-counter-messages"
+        <li class="lists" :style="messageLink" ref="messages" @click="handlePushRoutes('Messages')"> <span :class="handleTextHover('Messages')">Messages
+          <font-awesome-icon :icon="['fas', 'envelope']" ref="messageIcon" /></span> <span class="show-counter-messages"
             v-if="newMessageCount? true:false">{{newMessageCount}}</span>
         </li>
         <li class="lists collapsed-nav-notification" ref="notificationsFullNav"
           @click="handleNotifications('notificationsFullNav')">
-          Notifications
-          <font-awesome-icon :icon="['fas', 'bell']" ref="notificationIcon" />
+          <span class="nav-notification-hover">Notifications
+          <font-awesome-icon :icon="['fas', 'bell']" ref="notificationIcon" /></span> 
           <span class="show-counter-notification" v-if="notificationCount? true:false">{{notificationCount}}</span>
 
           <div class="dropdown-notifications" ref="notificationMenuFullNav">
@@ -350,7 +347,7 @@
 
 
     <div class="logo-container">
-      <h3>SoMedia</h3>
+      <h3 @click=" handleActiveLink('Home')">SoMedia</h3>
 
       <div class="search-main-container">
 
@@ -416,21 +413,21 @@
       <ul class="home-list">
         <li ref="home" :style="homeLink" @click="()=>{handlePushRoutes('Home'); handleActiveLink('Home')}"
           class="lists list-mobile-view">
-          <span class="collapsed-nav-text">Home </span>
-          <font-awesome-icon :icon="['fas', 'home']" ref="homeIcon" />
+          <span class="collapsed-nav-text "  :class="handleTextHover('Home')">Home 
+          <font-awesome-icon :icon="['fas', 'home']" ref="homeIcon" /></span>
         </li>
         <li class="lists list-mobile-view" :style="newsFeedLink" ref="newsFeed"
           @click="()=>{handlePushRoutes('Newsfeed');handleActiveLink('Newsfeed')}">
           <!-- <router-link  :style="newsFeedLink"  :to="{ name: 'Home' }">  -->
-          <span class="collapsed-nav-text list-mobile-view">Newsfeed </span>
-          <font-awesome-icon :icon="['fas', 'newspaper']" ref="newsFeedIcon" />
+          <span class="collapsed-nav-text list-mobile-view " :class="handleTextHover('Newsfeed')">Newsfeed 
+          <font-awesome-icon :icon="['fas', 'newspaper']" ref="newsFeedIcon" /></span>
           <!-- </router-link> -->
           <span class="show-counter" v-if="timelineCount? true:false">{{timelineCount}}</span>
         </li>
 
         <li class="lists  list-mobile-view" :style="timelineLink" ref="timeline" @click="handlePushRoutes('Timeline')">
-          <span class="collapsed-nav-text">Timeline </span>
-          <font-awesome-icon :icon="['fas', 'user-clock']" ref="timelineIcon" />
+          <span class="collapsed-nav-text " :class="handleTextHover('Timeline')">Timeline 
+          <font-awesome-icon :icon="['fas', 'user-clock']" ref="timelineIcon" /></span>
         </li>
         <li class="lists   list-mobile-view" :style="profileLink" ref="profile"
           @click="handlePushRoutes('userProfile')">
@@ -439,19 +436,19 @@
                 params: { userName: userData.userName },
               }"> -->
 
-          <span class="collapsed-nav-text nav-profile"> Profile </span>
-          <font-awesome-icon :icon="['fas', 'user']" ref="profileIcon" />
+          <span class="collapsed-nav-text nav-profile " :class="handleTextHover('userProfile')">Profile 
+          <font-awesome-icon :icon="['fas', 'user']" ref="profileIcon" /></span>
           <!-- </router-link> -->
         </li>
         <li class="lists list-mobile-view" :style="messageLink" ref="messages" @click="handlePushRoutes('Messages')">
-          <span class="collapsed-nav-text"> Messages </span>
-          <font-awesome-icon :icon="['fas', 'envelope']" ref="messageIcon" /><span class="show-counter-messages  "
+          <span class="collapsed-nav-text " :class="handleTextHover('Messages')"> Messages 
+          <font-awesome-icon :icon="['fas', 'envelope']" ref="messageIcon" /></span><span class="show-counter-messages  "
             v-if="newMessageCount? true:false">{{newMessageCount}}</span>
         </li>
         <li class="lists  collapsed-nav-notification" ref="notifications" @click="handleNotifications('notifications')">
-          <span @click="handleNotifications('notifications')" class="collapsed-nav-text"> Notifications </span>
+          <span @click="handleNotifications('notifications')" class="collapsed-nav-text  nav-notification-hover"> Notifications 
 
-          <font-awesome-icon :icon="['fas', 'bell']" ref="notificationIcon" />
+          <font-awesome-icon :icon="['fas', 'bell']" ref="notificationIcon" /></span>
           <span class="show-counter-notification" v-if="notificationCount? true:false">{{notificationCount}}</span>
 
           <div class="dropdown-notifications  collapsed-dropdown" ref="notificationMenu">
@@ -680,46 +677,14 @@
   </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <div class="restrict-Guest" v-if="restrictGuest" @click="closeRestrictMessage">
 
     <div class="restrict-Guest-contents">
       <div class="close-restrict-message " @click="closeRestrictMessage">
         <font-awesome-icon :icon="['fas', 'times-circle']" class="color-danger" />
       </div>
-      <span class="mt-3">Login Or Create an Account to Have Access to this Link !
+      <span class="mt-4">Login Or Create an Account to Have Access to this<span style="white-space:nowrap;"> Link
+          !</span>
         <br>
         <br>
         <span class="signin-button btn btn-success h-1 mb-1" @click="handleLogin('login')">Sign In
@@ -731,13 +696,16 @@
 
   </div>
   <router-view />
+  <Footer v-if="handleFooterDisplay()" />
+
 </template>
 
 <script>
   import moment from "moment"
-
+  import Footer from "./components/Footer.vue"
   export default {
     name: "App",
+    components: { Footer },
     data() {
       return {
 
@@ -781,35 +749,58 @@
         displayNavTwo: true,
         menuContents: false,
         menuBarBackDrop: false,
+        userIsActive: "",
+clickedLink:"Home",
       }
     },
-    created() {
-      // window.addEventListener('click', (event) => this.handleCloseDropDown(event))
-      // window.addEventListener('resize', this.$store.commit('setWindowWidth'))
-
-    },
 
 
-    unmounted() {
 
-      // window.removeEventListener('click', (event) => this.handleCloseDropDown(event))
-    },
+
 
     mounted() {
-
       window.addEventListener('scroll', () => this.handleCollapseNav());
-      //  window.addEventListener('scroll',this.$store.commit('setWindowWidth'))
+      this.handleUserData()
+      window.addEventListener('mousemove', () => this.userIsActive = Date.now()
+      )
     },
     beforeUnmount() {
-
       window.removeEventListener('scroll', () => this.handleCollapseNav());
+      this.handleUserData()
+      window.addEventListener('mousemove', () => this.userIsActive = Date.now())
+
     },
 
 
     methods: {
 
-      handleCollapseNav() {
+      handleUserData() {
+        let userData = JSON.parse(localStorage.userData)
+        const onlineTime = Date.now() - this.userIsActive;
+        const onlineMinutes = Math.round(onlineTime / (1000 * 60));
+        if (userData.userName && onlineMinutes >= 5) {
+          this.$store.dispatch("handleLogin", {
+            userName: userData.userName, status: "online"
+          })
+          this.$store.dispatch("handleDisplayFunctions", {
+            loginPageUnmounted: true,
+            params: "loginPageUnMount"
+          });
+        }
+        else {
+          let userData = {
+            userName: '',
+            loginTime: ''
+          }
+          localStorage.userData = JSON.stringify(userData)
+          this.$router.push({ name: "Login" });
 
+
+        }
+      },
+
+
+      handleCollapseNav() {
         if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
 
           this.$store.dispatch("handleDisplayFunctions", {
@@ -819,7 +810,6 @@
 
           this.navStyle = "display:none"
           this.collapsedNav = "display:flex"
-          // if(!this.$refs.nav.style ==="display:none"){ this.handleUserOwnMenu(this.clickedMenu)}
         } else {
 
 
@@ -831,7 +821,6 @@
 
           this.navStyle = "display:block"
           this.collapsedNav = "display:none"
-          // this.handleUserOwnMenu(this.clickedMenu)
 
         }
 
@@ -856,14 +845,23 @@
       handleLogin(params) {
         if (params) {
 
-
+          this.handleActiveLink("Home")
           return this.$router.push({ name: "Login" });
         }
+
+
+let userData = {
+            userName: '',
+            loginTime: ''
+          }
+          localStorage.userData = JSON.stringify(userData)
+          this.$router.push({ name: "Login" });
 
         this.login = true
         this.logout = false
         this.$router.push({ name: "Login" });
-
+        this.handleActiveLink("Home")
+       
 
         setTimeout(() => {
 
@@ -897,9 +895,6 @@
               friends: [],
               activities: {},
               postCode: "",
-        //  userCoverImage: require('../assets/coverImages/defaultBg.jpg'),
-        //     userId: "uuid.v1()",
-        //     userProfileImage: require('../assets/userThumbnail/User.png'),
 
             },
           });
@@ -971,7 +966,7 @@
           this.dropIconDisplay = !this.dropIconDisplay
           this.userOwnMenuFullNav = !this.userOwnMenuFullNav
         }
-        else if (params === "userImageMobileView") {
+        else if (params === "userImageMobileView" && this.$refs.userOwnMenuMobileView !== null) {
 
           this.userOwnMenuMobileView ? this.$refs.userOwnMenuMobileView.style = "display:none;height:0;transition:all 1s" : this.$refs.userOwnMenuMobileView.style = "display:flex;height:auto;transition:all 1s";
 
@@ -1005,8 +1000,7 @@
             this.notificationLink = this.inActiveLink
             // this.$router.push({
             //   name: "Home",
-            //   params: { userName: this.userData.userName },
-            // });
+            // })
 
             break;
 
@@ -1021,10 +1015,6 @@
             this.messageLink = this.inActiveLink
             this.newsFeedLink = this.inActiveLink
             this.notificationLink = this.inActiveLink
-            // this.$router.push({
-            //   name: "userProfile",
-            //   params: { userName: this.userData.userName },
-            // });
 
             break;
           case "Messages":
@@ -1038,10 +1028,7 @@
             this.messageLink = this.activeLink
             this.newsFeedLink = this.inActiveLink
             this.notificationLink = this.inActiveLink
-            // this.$router.push({
-            //   name: "Messages",
-            //   params: { userName: this.userData.userName },
-            // });
+
             break;
 
           case "Timeline":
@@ -1055,10 +1042,7 @@
             this.messageLink = this.inActiveLink
             this.newsFeedLink = this.inActiveLink
             this.notificationLink = this.inActiveLink
-            // this.$router.push({
-            //   name: "Timeline",
-            //   params: { userName: this.userData.userName },
-            // });
+
             break;
           case "Newsfeed":
             if (this.userData.userName === "Guest") {
@@ -1071,10 +1055,7 @@
             this.messageLink = this.inActiveLink
             this.newsFeedLink = this.activeLink
             this.notificationLink = this.inActiveLink
-            // this.$router.push({
-            //   name: "Home",
-            //   params: { userName: this.userData.userName },
-            // });
+
             break;
 
           default:
@@ -1085,7 +1066,9 @@
       },
 
 
+
       handlePushRoutes(linkName) {
+this.clickedLink =linkName
         if (this.userData.userName === "Guest") {
 
           return this.restrictGuest = true
@@ -1098,9 +1081,23 @@
 
       },
 
+handleTextHover(params){
+console.log(this.clickedLink);
+console.log(params);
+if(this.clickedLink === params){
 
+return ""
+}
+
+return "nav-notification-hover"
+},
 
       handleNotifications(params) {
+this.clickedLink ="Notifications"
+      if (this.userData.userName === "Guest") {
+
+          return this.restrictGuest = true
+        }
         if (params === "notificationsFullNav") {
           if (this.notificationStateFullNav) {
             this.$refs.notificationMenuFullNav.style = "display:none;height:0;transition:all 1s"
@@ -1170,7 +1167,7 @@
               friendMessaged: userName,
               userName: this.userData.userName,
               messageViewStatus: "Read",
-              showMessage: "on"
+              showMessage: true
             });
 
 
@@ -1267,6 +1264,25 @@
           return years === 1 ? "1 year ago" : years + " years ago";
         }
       },
+      handleFooterDisplay() {
+
+        if (this.$store.state.displayFunctions.activeLink === "Messages") {
+          return false
+        }
+        else if (this.$store.state.displayFunctions.activeLink === "Timeline" && this.$store.state.displayFunctions.photosCompOnScreen) {
+
+          return false
+
+        }
+        else if (!this.$store.state.displayFunctions.loginPageUnmounted) {
+
+          return false
+
+        }
+
+        return true
+      },
+
 
 
     },
@@ -1276,7 +1292,6 @@
 
 
     computed: {
-
 
 
       filteredSearchList() {
@@ -1369,8 +1384,8 @@
 
         this.$store.dispatch("handleMessageStatus", {
           userName: this.userData.userName,
+          params: "received"
         });
-
 
 
         let messageStatus = {}
@@ -1394,25 +1409,22 @@
 
         }
 
-
         this.newMessageCount = Object.keys(messageStatus).length
-
 
         if (this.$store.state.displayFunctions.activeLink.length) {
           this.handleActiveLink(this.$store.state.displayFunctions.activeLink)
 
         }
 
-        let timelineCounter = {};
+        let timelineCounter = [];
 
-        for (const userKey in this.$store.state.newsFeed) {
-          if (!this.$store.state.newsFeed[userKey].views.includes(this.userData.userName)) {
-            timelineCounter = { ...timelineCounter, [userKey]: { userName: this.$store.state.newsFeed[userKey].userName } }
-
+        for (const postId in this.$store.state.newsFeed) {
+          if (!this.$store.state.newsFeed[postId].views.includes(this.userData.userName)) {
+            timelineCounter = [...timelineCounter, { userName: this.$store.state.newsFeed[postId].userName }]
           }
         }
 
-        this.timelineCount = Object.keys(timelineCounter).length
+        this.timelineCount = timelineCounter.length
 
 
         const notificationCount = this.notifications.filter((noticeStatus) => noticeStatus.notificationStatus === "unRead")
