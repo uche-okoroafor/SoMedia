@@ -1,7 +1,7 @@
 <template>
 
     <body>
-        <div class="footer-dark">
+        <div class="">
             <footer>
                 <div class="container">
                     <div class="row">
