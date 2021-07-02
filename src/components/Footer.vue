@@ -1,7 +1,7 @@
 <template>
 
     <body>
-        <div class="">
+        <div class="footer-dark">
             <footer>
                 <div class="container">
                     <div class="row">
@@ -32,7 +32,7 @@
                             <a href="https://m.facebook.com/uche.okoroafor" target="_blank">
                                 <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'facebook-f' }" />
 
-                            </a><a href="https://twitter.com/Uchman101"   target="_blank" >
+                            </a><a href="https://twitter.com/Uchman101"   target="_blank" :style="updateStore" >
                                 <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'twitter' }" />
 
                             </a><a href="https://github.com/uche-okoroafor"   target="_blank" >
@@ -62,9 +62,25 @@
 
         data() {
             return {
+storeData:{}
+
             }
         },
 
+
+
+ watch: {
+     storeData: {
+        handler(state) {
+    this.$store.dispatch("handleUpdateLocalStorage", {
+        params:"updateData"     
+                    });
+        },
+        deep: true
+
+      }
+
+    },
         mounted() {
 
             document.addEventListener('scroll', () => this.onScroll(this.$refs));
@@ -121,6 +137,13 @@
                 );
             },
         },
+computed: {
+    updateStore(){
+
+this.storeData=this.$store.state
+return ""
+}
+},
     }
 </script>
 <style>
