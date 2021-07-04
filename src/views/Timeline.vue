@@ -1,227 +1,245 @@
 <template>
-  <div class="mai-container">
-    <div class="cover-container" :style="HandleUserCoverImage()">
-      <div class="welcome-message">
-        <h1> Hello&nbsp;{{ userData.userName }}</h1>
-        <span>Welcome to your Profile &nbsp;</span>
-        <!-- <span>Update Your Cover Picture</span> -->
-        <span class="update-cover-img">
-          <font-awesome-icon :icon="['fas', 'folder-plus']" @click="handleImageUpdate" />&nbsp;
+  <div class="timeline-layout">
 
-          <span class="update-cover-text">Update Your Cover Picture
-          </span>
-
-          <input type="file" name="fileUpload" accept="image/png, image/jpeg,video/mp4" ref="uploadCoverImage"
-            @change="getLocalCoverImgAddress" v-show="false">
-          <input type="file" name="fileUploadprofile" accept="image/png, image/jpeg,video/mp4" ref="uploadProfileImage"
-            @change="getLocalProfileImgAddress" v-show="false">
-        </span>
-
-
+    <div class="profile-cover-container" :style="userCoverImage">
+      <!-- 
+    <h2>{{ userData.userName }}</h2>
+  <h2>{{handleUserNames}}</h2> -->
+      <div class="cover-Links">
+        <ul>
+          <li @click="toggleDisplay('displayPosts')">
+            <router-link :to="{
+            name: 'Timeline',
+            params: { userName: userData.userName, Timeline: 'Timeline' },
+          }" :style="displayPosts && activeLink">Posts</router-link>
+          </li>
+          <li @click="toggleDisplay('displayProfile')">
+            <router-link :to="{
+            name: 'Timeline',
+            params: { userName: userData.userName, Timeline: 'Profile' },
+          }" :style="displayProfile && activeLink">Profile</router-link>
+          </li>
+          <li @click="toggleDisplay('displayPhotos')">
+            <router-link :to="{
+            name: 'Timeline',
+            params: { userName: userData.userName, Timeline: 'Photos' },
+          }" :style="displayPhotos && activeLink">Photos</router-link>
+          </li>
+          <li @click="handleShowFriends( userData.userName)">
+            <a :style="displayFriends && activeLink" ref="timelineFriendsLink">
+              Friends</a>
+          </li>
+        </ul>
       </div>
-      <!--  <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae <br />
-        facere sit quidem nobis accusantium illo explicabo doloribus laudantium omnis
-        veritatis totam libero in laborum amet, doloremque, delectus magni! Totam,
-        perferendis!
-      </p> -->
-    </div>
-    <div class="body-container">
-      <div class="card-set-profile">
-        <form @submit.prevent="handleUserDetailsUpDate">
-          <div class="card-set-profile-header">
-            <h3>My account</h3>
-
-            <input type="button" class="btn btn-info  editBtn" @click="handleEnableEdit" value="Edit" />
-          </div>
-
-          <div class="info-form">
-            <h4>User information</h4>
-            <div class="your-info">
-              <div>
-                <label for="UserName">UserName</label>
-                <input type="text" v-model="userDetails.userName" placeholder="UserName" :disabled="inputState" />
-              </div>
-
-              <div>
-                <label for="Email"> Email</label>
-                <input type="text" v-model="userDetails.emailAddress" placeholder="Email" :disabled="inputState" />
-              </div>
-
-              <div>
-                <label for="FirstName">First Name</label>
-                <input type="text" v-model="userDetails.firstName" placeholder="First Name" :disabled="inputState" />
-              </div>
-
-              <div>
-                <label for="LastName">Last Name</label>
-                <input type="text" v-model="userDetails.lastName" placeholder="Last Name" :disabled="inputState" />
-              </div>
-
-              <div>
-                <label for="age">Age</label>
-                <input type="text" v-model="userDetails.age" placeholder="age" :disabled="inputState" />
-              </div>
-
-              <div>
-                <label for="education">Education</label>
-                <input type="text" v-model="userDetails.education" placeholder="Education" :disabled="inputState" />
-              </div>
-
-              <div class="age">
-                <label for="occupation">Occupation</label>
-                <input type="text" v-model="userDetails.occupation" placeholder="Occupation" :disabled="inputState" />
-              </div>
-            </div>
-            <hr />
-          </div>
-          <h4>Contact information</h4>
-          <div class="contact-info">
-            <div class="Home-Address">
-              <div>
-                <label for="Address">Address</label>
-              </div>
-              <input type="text" placeholder="Home Address" v-model="userDetails.Address" :disabled="inputState" />
-            </div>
-            <div class="">
-              <label for="City">City</label>
-              <input type="text" placeholder="City" v-model="userDetails.city" :disabled="inputState" />
-            </div>
-            <div class="">
-              <label for="Country">Country</label>
-              <input type="text" placeholder="Country" v-model="userDetails.country" :disabled="inputState" />
-            </div>
-            <div class="">
-              <label for="postCode">postCode</label>
-              <input type="text" placeholder="postCode" v-model="userDetails.postCode" :disabled="inputState" />
-            </div>
-          </div>
-          <hr />
-
-          <div class="about-me">
-            <h4>About me</h4>
-
-            <div class="textarea-container">
-              <label for="About-me">About Me</label>
-              <textarea name="About-me" cols="30" rows="5" placeholder="About me" v-model="userDetails.aboutMe"
-                :disabled="inputState"></textarea>
-            </div>
-          </div>
-          <div class="submitbtn">
-            <button type="submit" class="btn btn-success mt-5 " @click="handleuserDetailsUpDate">Save</button>
-          </div>
-        </form>
-      </div>
-      <div class="card-view-profile">
-        <div class="user-Profile-pix">
 
 
 
 
-          <img :src="handleUserProfilePic(userName)" alt="" />
-          <span class="setup-buttons">
-            <font-awesome-icon :icon="['fas', 'folder-plus']" @click="handleImageUpdate('profileImage')" /><span
-              class="setup-buttons-text">&nbsp; Update Profile Picture</span>
-          </span>
+      <div class="user-profile-pic">
 
-        </div>
-        <div class="friends-follwers-container">
-          <div>
-            <h5>{{ userData.friends.length }} 1</h5>
-            <span>Friends</span>
-          </div>
-          <div>
-            <h5>{{ userData.photos.length }}2</h5>
-            <span>Photos</span>
-          </div>
-          <div>
-            <h5>{{ userData.posts.length }}3</h5>
-            <span>Posts</span>
-          </div>
-        </div>
-
-        <div class="userData-userName">
-          <h5>{{ userData.userName }}</h5>
-          ,
-          <span>{{ userData.age }}</span>
-        </div>
-
-        <div class="userData-userName">
-          <h5>{{ userData.city }}</h5>
-          ,
-          <span>{{ userData.country }}</span>
-        </div>
-
-        <div class="userData-userName">
-          <h5>{{ userData.occupation }}</h5>
-          ,
-          <span>{{ userData.education }}</span>
-        </div>
-
-        <hr />
-
-        <span>{{ userData.aboutMe }}</span>
+        <img :src="handleUserProfilePic(userName)" alt="">
+        <span class="username-header">{{userData.userName}}</span>
       </div>
     </div>
+    <div class="timeline-container">
+
+
+
+
+
+      <div class="sideBar" v-if="displayPhotosContainer">
+        <div class="timeline-user-photos">
+          <div class="user-photos-header">
+
+            <h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Photos
+            </h5>
+            <h5 v-else>Your Photos</h5>
+            <!-- if="this.userData.userName === this.$store.state.userData.userName" -->
+          </div>
+          <div v-if="photoEmpty && userData.userName === $store.state.userData.userName" class="photo-empty"><span
+              class="comment"> Add Your Photos </span> </div>
+          <div v-if="photoEmpty && userData.userName !== $store.state.userData.userName" class="photo-empty"><span
+              class="comment"> {{handleUserNames}} has no Photos </span> </div>
+
+          <div v-else class="userPhotos">
+            <div v-for="photo in userData.photos" :key="photo.imageId" class="image-photos">
+              <img :src="photo.imageUrl" alt="" @click="displayPhotosComp(photo)">
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="components-container">
+
+        <Posts :userName="handleUserNames" v-if="displayPosts" :loadData="loadData" />
+        <Photos :userName="handleUserNames" v-show="displayPhotos" />
+        <Friends :userName="handleUserNames" v-show="displayFriends" @toggleView="toggleDisplay" />
+        <Profiles :userName="handleUserNames" v-show="displayProfile" @toggleView="toggleDisplay" />
+
+      </div>
+
+
+
+
+
+
+
+      <div class="activities-container" :class="activitiesDisplay">
+
+        <div class="active-container">
+          <div class="active-header">
+            <h5 v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}'s Activities
+            </h5>
+            <h5 v-if="this.userData.userName === this.$store.state.userData.userName">Your Activities</h5>
+          </div>
+
+
+          <ul v-for="activity in activities">
+            <li v-if="activity.activity === 'Created account'"><span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span> Created a
+              <br> SoMedia Account
+              <br> {{ showDate(activity.activityDate) }}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'followed'"><span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span> started
+              <br> following {{activity.friendUserName}} <br> {{ showDate(activity.activityDate) }}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'posted'"><span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span> made <br> a
+              post <br>{{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'commented' && activity.posterUserName !== this.userData.userName "><span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span>
+              commented on a <br> post by {{activity.posterUserName}} <br> {{showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'commented' && activity.posterUserName === this.userData.userName "><span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span>
+              commented on a <br> post <span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span> Made<br> {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+
+            <li v-if="activity.activity === 'liked' && activity.posterUserName !== userData.userName"><span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span> liked a <br>
+              post by
+              {{activity.posterUserName}} <br> {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li
+              v-if="activity.activity === 'likedComment' && activity.posterUserName !== activity.commenterUserName && activity.posterUserName !== this.userData.userName ">
+              <span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span>
+              liked a <br> comment by {{activity.commenterUserName}} on {{activity.posterUserName}}'s Post <br>
+              {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'likedComment'&& activity.posterUserName === activity.commenterUserName"><span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span>
+              liked a <br> comment by {{activity.commenterUserName}} on {{handleGender(activity.posterUserName)}}
+              Post<br>
+              {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'likedComment'&& activity.posterUserName === this.userData.userName"><span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span>
+              liked a <br> comment by {{activity.commenterUserName}} on  <span
+                v-if="this.userData.userName === this.$store.state.userData.userName">Your</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleGender(this.userData.userName)}}</span> Post<br>
+              {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+            <li v-if="activity.activity === 'liked' && activity.posterUserName === userData.userName"><span
+                v-if="this.userData.userName === this.$store.state.userData.userName">You</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleUserNames}}</span> liked <br>
+              <span
+                v-if="this.userData.userName === this.$store.state.userData.userName">Your</span>
+              <span v-if="this.userData.userName !== this.$store.state.userData.userName">{{handleGender(this.userData.userName)}}</span> own
+              post<br> {{ showDate(activity.activityDate)}}
+              <hr>
+            </li>
+
+          </ul>
+
+        </div>
+      </div>
+
+
+
+
+    </div>
+
   </div>
-</template>
 
+
+
+
+  <div>
+  </div>
+
+  <Footer v-if="false" />
+</template>
 <script>
+  import Posts from "../components/Posts"
+  import Photos from "../components/Photos.vue"
+  import Friends from "../components/Friends.vue"
+  import Profiles from "../components/Profiles.vue"
+  import Footer from "../components/Footer.vue"
+  import moment from 'moment'
+
+
   export default {
-    name: "userProfile",
-    props: ["userName"],
+    name: "About",
+    props: ["Timeline", "userName"],
+    components: { Posts, Friends, Photos, Profiles, Footer },
     data() {
       return {
-        userDetails: {
-          userName: "Guest",
-          userId: "419",
-          emailAddress: "419",
-          firstName: "Guest",
-          lastName: "Guest",
-          address: "Guest",
-          emailAddress: "Guest@gmail.com",
-          postCode: "Guest",
-          country: "Guest",
-          city: "Guest",
-          aboutMe: "Guest",
-          password: "Guest",
-          occupation: "Guest",
-          education: "Guest",
-          age: "27",
-          messages: [],
-          posts: {
-            Guest: { likes: ["Guest"], unLikes: ["Guest"] },
-          },
-          followers: ["Guest"],
-          following: ["Guest"],
-          friends: ["Guest"],
-          userProfileImage: '',
-          userCoverImage: '',
-          posterComment: "",
-          comments: {
-            likes: [],
-            unLikes: [],
-          },
+        userData: {
+          photos: [],
         },
-        inputState: true,
-        userCoverImage: '',
-        userProfileImage: '',
-        onUserName: 'uche',
-      }
+        displayPosts: true,
+        displayFriends: false,
+        displayPhotos: false,
+        displayProfile: false,
+        activePosition: false,
+        activeLink: "background-color: var(--pink);color: var(--navy-blue) !important;font-weight: bold;border-radius:5px;border-bottom-left-radius: 0;border-bottom-right-radius:0 ;",
+        activitiesDisplay: '',
+        photoEmpty: false,
+        displayPhotosContainer: true,
+
+      };
     },
 
     mounted() {
-      this.loadData("load");
+      this.loadData(this.userName, "load");
+      // window.scrollTo(0, 0)
     },
     beforeUnmount() {
-      this.loadData("unLoad");
+      this.loadData(this.userName, "unLoad");
+      // window.scrollTo(0, 0)
     },
     methods: {
-      loadData(params) {
-        this.onUserName = this.userName
-        this.userDetails = { ...this.$store.state.users[this.userName] };
+      loadData(userName, params) {
+        this.userData = this.$store.state.users[userName];
+
+
         params === "load" ? this.$store.dispatch("handleDisplayFunctions", {
-          activeLink: "userProfile",
+          activeLink: "Timeline",
           params: "activeLink"
         }) : this.$store.dispatch("handleDisplayFunctions", {
           activeLink: "",
@@ -229,128 +247,210 @@
         })
 
 
+
+
+
+
+
+      },
+
+      displayPhotosComp(photo) {
         this.$store.dispatch("handleDisplayFunctions", {
-          activeLink: "userProfile",
-          params: "activeLink"
+          displayClickedImage: photo,
+          params: "displayClickedImage"
         });
-      },
-
-      getLocalCoverImgAddress(e) {
-
-        this.userCoverImage = URL.createObjectURL(e.target.files[0]);
-        this.$store.dispatch('handleAccountUpdate', {
-          params: 'updateCoverImage',
-          userCoverImage: this.userCoverImage,
-          userName: this.userName,
-
-        })
-
-      },
-
-      getLocalProfileImgAddress(e) {
-
-        this.userProfileImage = URL.createObjectURL(e.target.files[0]);
-        this.$store.dispatch('handleAccountUpdate', {
-          params: 'updateProfileImage',
-          userProfileImage: this.userProfileImage,
-          userName: this.userName,
-
-        })
+        this.toggleDisplay("displayPhotos")
 
 
       },
 
-      handleEnableEdit() {
+      handleShowFriends(userName) {
+        userName === this.$store.state.userData.userName && this.$router.push({ name: "Friends", params: { userName: userName } })
+        userName !== this.$store.state.userData.userName && this.toggleDisplay("displayFriends")
 
-        this.inputState = false
       },
 
-      handleImageUpdate(params) {
-        if (params === 'profileImage') {
-          this.$refs.uploadProfileImage.click()
+
+      handleUserProfilePic(userName) {
+        if (this.$store.state.users[userName].userProfileImage !== undefined && this.$store.state.users[userName].userProfileImage.length) {
+          return this.$store.state.users[userName].userProfileImage
+
+        }
+
+        return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png"
+
+      },
 
 
+
+
+      showDate(date) {
+        let currentDate = Date.now();
+        let dateStatus = currentDate - date;
+        const minutes = Math.round(dateStatus / (1000 * 60));
+        const hours = Math.round(dateStatus / (1000 * 60 * 60));
+        const days = Math.round(dateStatus / (1000 * 60 * 60 * 24));
+        const weeks = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7));
+        const months = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7 * 12));
+        const years = Math.round(dateStatus / (1000 * 60 * 60 * 365));
+
+        if (minutes <= 0) {
+          return "Just now";
+        } else if (minutes < 59) {
+          return minutes === 1 ? "1 minute ago" : minutes + "minutes ago";
+        } else if (hours < 11) {
+          return moment(date).format("L, h:mm :ss a");
+        } else if (days >= 1) {
+          return moment(date).format("L, h:mm:ss a");
+        } else if (weeks < 59) {
+          return moment(date).format("L, h:mm :ss a");
+        } else if (months < 59) {
+          return moment(date).format("L, h:mm :SS a");
         } else {
-          this.$refs.uploadCoverImage.click()
-
+          return moment(date).format("L, h:mm a");
         }
       },
 
 
 
-      handleUserDetailsUpDate() {
-        // this.$store.dispatch('handleAccountUpdate', {
-        //         params: 'updateCoverImage',
-        //         userCoverImage: this.userCoverImage,
-        //         userName: this.userName,
 
-        //       })
+      toggleDisplay(params) {
+        switch (params) {
+          case "displayPosts":
+            this.displayPosts = true
+            this.displayFriends = false
+            this.displayPhotos = false
+            this.displayProfile = false
+            this.activitiesDisplay = ""
 
-        if (this.userDetails.userName !== this.userData.userName) {
+            break;
 
-          this.$store.dispatch('handleAccountUpdate', {
-            params: 'updateUserName',
-            userName: this.userName,
-            userDetails: this.userDetails,
-          })
-          // this.onUserName =this.userDetails.userName
-          this.$router.push({
-            name: "userProfile",
-            params: { userName: this.userDetails.userName },
-          });
-          // this.loadData("load");
+
+
+          case "displayFriends":
+            this.displayPosts = false
+            this.displayFriends = true
+            this.displayPhotos = false
+            this.displayProfile = false
+            this.$router.push({ name: "Timeline", params: { userName: this.userData.userName, Timeline: 'Friends' } })
+            this.activitiesDisplay = ""
+            this.displayPhotosContainer = true
+
+            break;
+
+          case "displayPhotos":
+            this.displayPosts = false
+            this.displayFriends = false
+            this.displayPhotos = true
+            this.displayProfile = false
+            this.activitiesDisplay = "activities-display"
+            break;
+
+          case "displayProfile":
+            this.displayPosts = false
+            this.displayFriends = false
+            this.displayPhotos = false
+            this.displayProfile = true
+            this.activitiesDisplay = "activities-display"
+            this.displayPhotosContainer = true
+
+            break;
+
+
+          default:
+            break;
+        }
+      },
+
+
+      handleEmptyPhotos() {
+        if (!this.userData.photos.length) {
+          this.photoEmpty = true;
 
         }
         else {
-
-          this.$store.dispatch('handleAccountUpdate', {
-            params: 'otherDetails',
-            userName: this.userName,
-            userDetails: this.userDetails,
-          })
-          console.log(this.userName, 2);
-
-
-
-
+          this.photoEmpty = false;
 
         }
-        // this.userDetails = { ...this.$store.state.users[this.userName] };
-        this.inputState = true
-
-        console.log('working');
-
-
       },
 
-      handleUserProfilePic(userName) {
-        if (
-          this.$store.state.users[userName].userProfileImage !== undefined &&
-          this.$store.state.users[userName].userProfileImage.length
-        ) {
-          return this.$store.state.users[userName].userProfileImage;
-        }
 
-        return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png";
+      handleGender(userName) {
+
+        for (const user in this.$store.state.users)
+          if (this.$store.state.users[userName].gender === "male") {
+            return "his"
+
+          }
+
+        return "her"
       },
 
-      HandleUserCoverImage() {
 
-        if (this.userData.userCoverImage !== undefined) {
-          return `background-image:url(${this.userData.userCoverImage})`
-        }
-      },
+
 
     },
     computed: {
-      userData() {
+      activities() {
 
-        const userData = this.$store.state.users[this.userName];
-        return userData;
+        let activities = []
+        let counter = 0;
+        let unDuplicatedactivities = this.userData.activities
+        for (const activitiesId in this.userData.activities) {
+          for (const activityId in unDuplicatedactivities) {
+            if (this.userData.activities[activitiesId].activity === unDuplicatedactivities[activityId].activity
+              && this.userData.activities[activitiesId].posterUserName === unDuplicatedactivities[activityId].posterUserName
+              && this.userData.activities[activitiesId].userName === unDuplicatedactivities[activityId].userName
+              && this.userData.activities[activitiesId].commenterUserName === unDuplicatedactivities[activityId].commenterUserName
+              && this.userData.activities[activitiesId].friendUserName === unDuplicatedactivities[activityId].friendUserName
+
+            ) {
+
+
+              counter++
+              if (counter > 1) {
+
+
+                delete unDuplicatedactivities[activityId]
+              }
+
+            }
+
+          }
+
+          counter = 0
+        }
+        for (let activity in unDuplicatedactivities) {
+
+          activities = [...activities, unDuplicatedactivities[activity]]
+        }
+
+
+
+        return activities.sort((a, b) => a.activityDate - b.activityDate).reverse()
+
       },
-    },
+
+      userCoverImage() {
+        this.handleEmptyPhotos()
+        return `background-image:url(${this.userData.userCoverImage})`
+
+      },
+
+      handleUserNames() {
+
+        const userName = this.userName
+
+        this.loadData(this.userName)
+
+        return userName
+
+      }
 
 
-
+    }
   };
 </script>
+<style>
+
+</style>
