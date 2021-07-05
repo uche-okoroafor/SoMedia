@@ -46,9 +46,12 @@
             :class="postStyle" placeholder=" Make a post" @click="handleMakePost('text')" ref="textArea"></textarea>
 
           <br />
-          <div class="filepreview" v-if="previewImage||previewVideo">
+          <div class="filepreview"  v-if="previewImage||previewVideo">
 
-            <img :src="tempUrl" alt="" v-if="previewImage">
+
+<div :class="handleImageDisplayStyle()" v-if="previewImage" > 
+           <img v-for="imgUrl in postImageArray" :src="imgUrl.imgUrl" :class="imgUrl.imgclass" alt="" >
+</div>
 
 
 
@@ -186,8 +189,8 @@
             <font-awesome-icon :icon="['fas', 'thumbs-down']" />
             {{ post.unLikes.length }}
           </span>
-
-          <div class="m-2 ">{{ Object.keys(post.comments).length }} comments</div>
+<div class="m-2  post-views">Views &nbsp;<font-awesome-icon :icon="['fas', 'eye']" /> &nbsp; {{ post.views.length }}</div>
+          <div class="m-2  post-comments-num">{{ Object.keys(post.comments).length }} comments</div>
         </div>
         <hr />
         <h6 class="m-3 ml-5 font-weight-bold ">Comments</h6>
@@ -353,6 +356,7 @@
         PostBackDropZIndex: "z-index:600",
         restrictGuest: false,
         videoAutoplay: false,
+postImageArray:[],
       };
 
 
@@ -425,11 +429,36 @@
 
       },
 
+handleImageDisplayStyle(){
+if(this.postImageArray.length === 1){
 
+
+return "one-image"
+}
+else if (this.postImageArray.length === 2) {
+  return "two-images"
+}
+else if (this.postImageArray.length === 3) {
+  return "three-images"
+}
+else{
+
+
+return "four-images"
+}
+
+
+
+},
 
       localFiles(e) {
-
         this.tempUrl = URL.createObjectURL(e.target.files[0]);
+
+if(this.previewImage){
+
+this.postImageArray = [...this.postImageArray,{imgUrl:this.tempUrl,imgClass:`imageNum${this.postImageArray.length + 1}`}]
+
+}
 
       },
 
@@ -442,11 +471,15 @@
       },
 
       handleThemeStyle(theme) {
-        console.log(this.postStyle);
 
         if (theme === this.postStyle) {
           return 'padding:0px;border:2px solid #e83e8c'
         }
+else if(this.previewImage || this.previewVideo ){
+
+ return 'padding:0px;visibility:hidden'
+
+}
 
         return 'padding:0px'
       },
@@ -762,7 +795,9 @@
             if (ref[this.newsFeed[newsFeedId].postVideos.videoId] !== null) {
               if (this.isElementInViewport(ref[this.newsFeed[newsFeedId].postVideos.videoId])) {
                 // this.newsFeed[newsFeedId].postVideos.videoAutoplay = true
-                document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).play()
+                document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).play().catch((e)=>{
+   /* error handler */
+})
 
               } else {
                 document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).pause()
@@ -867,16 +902,6 @@
         }
 
       },
-
-    },
-    watch: {
-      restrictGuest: {
-        handler(showin) {
-
-        },
-        deep: true
-
-      }
 
     },
 
