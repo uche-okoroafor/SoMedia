@@ -4,7 +4,7 @@
 
       <div class="list-container-left container-mobile-view  " ref="chatList">
 
-         <div class="chat-list">
+        <div class="chat-list">
           <div class="header-chat-list">
             <h5>Chats</h5>
             <div class="search-chat-list">
@@ -50,8 +50,8 @@
 
 
                 <div class="side-user-message">
-                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName"
-                    class="shortMessage "> <span  style="font-weight: 600;">You:&nbsp</span> <span
+                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName" class="shortMessage ">
+                    <span style="font-weight: 600;">You:&nbsp</span> <span
                       class="message-ellipsis">{{handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
                   </span>
                   <span v-else class="shortMessage">
@@ -83,7 +83,7 @@
 
 
         </div>
-      
+
       </div>
 
 
@@ -153,8 +153,8 @@
 
 
                 <div class="side-user-message">
-                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName"
-                    class="shortMessage">  <span style="font-weight: 600;">You:&nbsp</span>  <span class="message-ellipsis">{{
+                  <span v-if="chattedUsersInfo[user.userName].userName === userData.userName" class="shortMessage">
+                    <span style="font-weight: 600;">You:&nbsp</span> <span class="message-ellipsis">{{
                       handleMessageSlice(chattedUsersInfo[user.userName].message)}}</span>
                   </span>
                   <span v-else class="shortMessage">
@@ -382,26 +382,22 @@
         displaySearchContents: false,
         filteredSearchLists: [],
         chatListBackDrop: false,
-
+        storeData: {},
       };
     },
-    //   watch: {
-    //      messageStatus:{
-    //         handler(update) {
+    watch: {
+      storeData: {
+        handler(state) {
+          this.$store.dispatch("handleUpdateLocalStorage", {
+            params: "updateData"
+          });
 
-    // this.$store.dispatch("handleUpdateChatList", {
-    //         userName:this.userName,
-    //          update,
-    //         })
+        },
+        deep: true
 
-    //           console.log("yes", update);
+      }
 
-    //         },
-    //         deep: true
-
-    //       }
-
-    //     },
+    },
 
     mounted() {
       this.loadData("on");
@@ -412,7 +408,8 @@
 
     },
     methods: {
-   loadData(messageOnScreen) {
+      loadData(messageOnScreen) {
+
         this.userData = this.$store.state.users[this.userName];
 
         messageOnScreen === "on" ? this.$store.dispatch("handleDisplayFunctions", {
@@ -441,8 +438,12 @@
           this.messagesEmpty = false
 
         }
+
+
         let messagedUserName = this.$store.state.displayFunctions.displayMessage.userName
-        if (messageStatus.length) {
+
+        if (messageStatus.length || messagedUserName.length) {
+
           if (messagedUserName.length) {
 
             this.showMessage(messagedUserName, "newMessage");
@@ -727,26 +728,13 @@
       },
 
       handleChatList() {
-
-      let chattedUsersList = []
         let messageStatusList = Object.keys(this.userData.messageStatus)
-        let messageStatusList1 = []
-        let messageStatusList2 = []
-
+        let messageChatList = []
         messageStatusList.forEach(chat => {
-          if (this.userData.messageStatus[chat].showMessage) {
-            messageStatusList1.push({ userName: chat, showMessage: this.userData.messageStatus[chat].showMessage })
-
-          } else {
-
-            messageStatusList2.push({ userName: chat, showMessage: this.userData.messageStatus[chat].showMessage })
-
-
-          }
+          messageChatList = [...messageChatList, { userName: chat, showMessage: this.userData.messageStatus[chat].showMessage, messageDate: this.userData.messageStatus[chat].messageDate }]
         });
 
-
-        this.chattedUsersList = messageStatusList1.concat(messageStatusList2)
+        this.chattedUsersList = messageChatList.sort((a, b) => a.messageDate - b.messageDate).reverse()
 
       }
 
@@ -797,6 +785,7 @@
       showingMessages() {
 
         this.userData = this.$store.state.users[this.userName];
+        this.storeData = this.$store.state
         this.searchInput.length ? this.displaySearchContents = true : this.displaySearchContents = false
 
         this.handleChatList()
