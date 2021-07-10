@@ -6,90 +6,149 @@
 
         <div @click="showFriends">
           Friends
+
           <span>{{ userData.friends.length }}</span>
+          <font-awesome-icon class="ml-2" :icon="['fas', 'user-friends']" />
         </div>
 
         <div @click="showFollowing">
-          Following <span>{{ userData.following.length }}</span>
+          Following
+          <span>{{ userData.following.length }}</span>
+          <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
+
         </div>
         <div @click="showFollowers">
           Followers
+
           <span>{{ userData.followers.length }}</span>
+          <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
+
         </div>
 
       </div>
     </div>
 
+
+
+
+
+
     <div class="friends-container">
-<div class="fill-container-Top"></div>
-      <div class="friends-container-header">
-        <h4>Friends </h4>
-      </div>
-      <div class="friends-main-container">
+
+      <div class="friends-inner-container">
+
+        <div class="friends-container-header">
+          <div class="menu-bar-backdrop" v-if="showBackDrop" @click="handleBackDrop">
+
+          </div>
+          <h5>{{displayHeaderTitle}}</h5>
 
 
-        <div v-show="displayFriends" v-for="user in $store.state.userData.friends" :key="user.userName"
-          class="friend-content">
-          <div class="friend-main-content">
-            <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
-              <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
+          <span class="friends-container-Menu-bar" @click="handleMenuBar">
+            <font-awesome-icon :icon="['fas', 'bars']" />
 
-              <img :src="handleImages(user.userName)" alt="" class="userIcon-image">
+            <div class="list-group-button" v-if="displayMenuBar">
+
+
+              <div @click="showFriends">
+                Friends
+                <span>{{ userData.friends.length }}</span>
+              </div>
+
+              <div @click="showFollowing">
+                Following <span>{{ userData.following.length }}</span>
+              </div>
+              <div @click="showFollowers">
+                Followers
+                <span>{{ userData.followers.length }}</span>
+              </div>
 
             </div>
+          </span>
+        </div>
+        <div v-if="handleEmptyList()" class="photo-empty"><span class="comment" style="margin-bottom: 5rem;"> Add
+            Friends </span> </div>
+
+        <div class="friends-list" v-if="!handleEmptyList()">
+          <div v-show="displayFriends" v-for="user in userData.friends" :key="user.userName" class="friend-content">
+            <div class="friend-main-content">
+              <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
+                <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
+
+                <span class="userIcon-image"> <img :src="handleImages(user.userName)" class="profile-picture" alt="">
+                  <h5>{{user.userName}}</h5>
+                  <button class="btn btn-danger">Unfriend</button>
+
+                </span>
+              </div>
 
 
-            <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
-              <div>
-                <h5>{{ user.userName }}</h5>
-                <font-awesome-icon :icon="['fas', 'user-friends']" />
+              <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
+                <div>
+                  <font-awesome-icon :icon="['fas', 'user-friends']" />
+                </div>
               </div>
             </div>
-            <button class="btn btn-danger">Unfriend</button>
-          </div>
-        </div>
-
-        <div v-show="displayFollowers" v-for="user in $store.state.userData.followers" :key="user.userName"
-          class="friend-content">
-
-          <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
-            <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
-
-            <img :src="handleImages(user.userName)" alt="" class="userIcon-image">
-
           </div>
 
 
-          <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
-            <div>
-              <h5>{{ user.userName }}</h5>
-              <font-awesome-icon :icon="['fas', 'user-friends']" />
+
+
+
+
+
+
+          <div v-show="displayFollowers" v-for="user in $store.state.userData.followers" :key="user.userName"
+            class="friend-content">
+            <div class="friend-main-content">
+              <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
+                <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
+
+                <span class="userIcon-image"> <img :src="handleImages(user.userName)" class="profile-picture" alt="">
+                  <h5>{{user.userName}}</h5>
+                  <button class="btn btn-danger unfriend-btn">Unfollow</button>
+
+                </span>
+              </div>
+
+
+              <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
+                <div>
+                  <font-awesome-icon :icon="['fas', 'user-friends']" />
+                </div>
+              </div>
             </div>
           </div>
-          <button class="btn btn-danger">Unfollow</button>
-        </div>
-
-        <div v-show="displayFollowing" v-for="user in $store.state.userData.following" :key="user.userName"
-          class="friend-content">
-
-          <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
-            <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
-
-            <img :src="handleImages(user.userName)" alt="" class="userIcon-image">
-
-          </div>
 
 
-          <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
-            <div>
-              <h5>{{ user.userName }}</h5>
-              <font-awesome-icon :icon="['fas', 'user-friends']" />
+
+
+
+
+
+
+          <div v-show="displayFollowing" v-for="user in $store.state.userData.following" :key="user.userName"
+            class="friend-content">
+            <div class="friend-main-content">
+              <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
+                <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
+
+                <span class="userIcon-image"> <img :src="handleImages(user.userName)" class="profile-picture" alt="">
+                  <h5>{{user.userName}}</h5>
+                  <button class="btn btn-danger unfriend-btn">Follow back</button>
+                </span>
+              </div>
+
+
+              <div class="user-name-details" @click="showUserProfile(user.userName, user.userId)">
+                <div>
+                  <font-awesome-icon :icon="['fas', 'user-friends']" />
+                </div>
+              </div>
             </div>
           </div>
-          <button class="btn btn-danger">Follow back</button>
+
         </div>
-
-
       </div>
     </div>
 
@@ -128,16 +187,16 @@
 
     <div class="people-container">
 
-      <div class="people-header">
-        <h4>People you May know</h4>
-      </div>
+
 
       <div class="people-main-container">
-
+        <div class="people-header">
+          <h5>People you May know</h5>
+        </div>
 
         <div v-for="user in randomUsers" :key="user.userName" class="friends-contents">
-          <div @click="showUserProfile(user.userName)" class="friends-contents-list">
-            <div class="userName-image">
+          <div class="friends-contents-list">
+            <div class="userName-image" @click="showUserProfile(user.userName)">
               <img :src="handleImages(user.userName)" alt="">
               <span>
                 <h5>{{ user.userName }}</h5>
@@ -145,11 +204,12 @@
 
             </div>
             <div class="request-buttons">
-              <button class="btn btn-info" @click="handleFriendRequest(user,user.requestStatus)">
+              <button class="btn btn-info" v-if="user.requestStatus !== 'Request Sent'"
+                @click="handleFriendRequest(user,user.requestStatus)">
                 {{ user.requestStatus }}
               </button>
 
-              <button class="btn btn-info" v-if="user.requestStatus === 'Friend Request Sent'"
+              <button class="btn btn-info" v-if="user.requestStatus === 'Request Sent'"
                 @click="handleCancelFriendRequest(user, user.userName )">
                 Cancel request
               </button>
@@ -160,6 +220,7 @@
             </div>
 
           </div>
+          <hr>
         </div>
       </div>
     </div>
@@ -207,11 +268,15 @@
             unLikes: [],
           },
         },
-        allUsers: [],
+        allUsers: {},
         displayFriends: true,
         displayFollowers: false,
         displayFollowing: false,
-        followingList: []
+        followingList: [],
+        displayMenuBar: false,
+        displayHeaderTitle: "Your Friends",
+        friendsListEmpty: false,
+        showBackDrop: false,
       };
     },
     mounted() {
@@ -223,6 +288,7 @@
     methods: {
       loadData() {
 
+
         if (this.$store.state.userData.userName === "Guest") {
           this.$router.push({
             name: 'Login',
@@ -232,8 +298,7 @@
 
         }
 
-        this.userData = this.$store.state.userData;
-
+        this.userData = this.$store.state.users[this.userName];
         const followingList = this.userData.following
         this.followingList = followingList.map((userName) => userName.userName)
 
@@ -254,7 +319,7 @@
         for (const userName in allUsers) {
           for (let index in allUsers[userName].requests) {
             if (allUsers[userName].requests[index].userName === this.userData.userName) {
-              allUsers[userName].requestStatus = "Friend Request Sent";
+              allUsers[userName].requestStatus = "Request Sent";
             }
             else {
               allUsers[userName].requestStatus = "Add Friend";
@@ -263,18 +328,40 @@
 
           }
         }
+        if (allUsers[this.userData.userName].requests.length) {
+          for (let index in allUsers[this.userData.userName].requests) {
 
-        for (let index in allUsers[this.userData.userName].requests) {
-          if (allUsers[this.userData.userName].requests.length) {
             allUsers[allUsers[this.userData.userName].requests[index].userName].requestStatus = "Accept Request"
           }
 
 
         }
+
         this.allUsers = allUsers;
-        console.log(this.userData.friends);
 
       },
+
+
+
+
+
+
+      handleEmptyList() {
+
+        if (this.$store.state.userData.friends.length) {
+          return false
+
+        }
+        {
+          return true
+
+        }
+
+
+      },
+
+
+
 
       toggleDisplay(display) {
         switch (display) {
@@ -282,6 +369,7 @@
             this.displayFriends = true;
             this.displayFollowers = false;
             this.displayFollowing = false;
+            this.displayHeaderTitle = "Your Friends"
 
             break;
 
@@ -289,12 +377,14 @@
             this.displayFriends = false;
             this.displayFollowers = true;
             this.displayFollowing = false;
+            this.displayHeaderTitle = "Your Followers"
             break;
 
           case "displayFollowing":
             this.displayFriends = false;
             this.displayFollowers = false;
             this.displayFollowing = true;
+            this.displayHeaderTitle = "People You are Following "
             break;
 
           default:
@@ -303,14 +393,28 @@
       },
 
       handleImages(userName) {
-        if (this.$store.state.users[userName].userThumbnail !== undefined && userName !== undefined && this.$store.state.users[userName].userThumbnail.length) {
-          return this.$store.state.users[userName].userThumbnail
+        if (this.$store.state.users[userName] === undefined) {
+          return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png"
 
+        } else {
+          if (this.$store.state.users[userName].userProfileImage.length) {
+            return this.$store.state.users[userName].userProfileImage
+          }
         }
 
-        return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png"
       },
 
+      handleMenuBar() {
+        this.displayMenuBar = !this.displayMenuBar
+        this.showBackDrop = !this.showBackDrop
+
+      },
+
+      handleBackDrop() {
+        this.displayMenuBar = false
+        this.showBackDrop = false
+
+      },
       showFriends() {
         if (this.userData.userName !== "Guest") {
           this.toggleDisplay("displayFriends");
@@ -384,12 +488,11 @@
         switch (requestStatus) {
           case "Add Friend":
 
-            user.requestStatus = "Friend Request Sent";
-
+            user.requestStatus = "Request Sent";
             this.$store.dispatch("handleFriendRequest", {
               friendUserName: user.userName,
               userName: this.userData.userName,
-              requestStatus: "Friend Request Sent",
+              requestStatus: "Request Sent",
             });
 
             this.$store.dispatch("handleNotifications", {
@@ -469,7 +572,7 @@
 
         }
 
-        // this.userData = this.$store.state.userData;
+
 
         const randomUsers = allUsers
           .filter(
@@ -480,8 +583,45 @@
           .sort((a, b) => a.sort - b.sort)
           .map((a) => a.value);
 
+let usersArray = [...randomUsers]
 
-        return randomUsers;
+
+let usersList1= []
+let usersList2= []
+let usersList3= []
+let usersList = []
+
+usersArray.forEach(user=> {
+if(user.requestStatus === "Accept Request"){
+
+usersList1= [...usersList1,user]
+
+
+} else if(user.requestStatus === "Cancel Request"){
+
+usersList2= [...usersList2,user]
+
+
+}
+else{
+
+usersList3= [...usersList3,user]
+
+}
+
+usersList =[...usersList1,...usersList2,...usersList3]
+
+});
+
+
+
+// console.log(111,randomUsers.sort((a, b) => a.requestStatus - b.requestStatus));
+//           // .map((a) => ({ sort: Math.random(), value: a }))
+//           // .sort((a, b) => a.sort - b.sort)
+//           // .map((a) => a.value);
+
+
+        return usersList
       },
     },
   };
