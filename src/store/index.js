@@ -1,189 +1,41 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 import { uuid } from 'vue-uuid';
 
-export default createStore({
 
+export default createStore({
     state:{
     "userData": {
-        "userName": "Josh",
-        "emailAddress": "josh@email.com",
-        "password": "somedia",
-        "firstName": "Joseph",
-        "lastName": "Roman",
-        "gender": "Male",
+        "userName": "Guest",
+        "emailAddress": "",
+        "password": "",
+        "firstName": "",
+        "lastName": "",
+        "gender": "",
         "address": "",
         "postCode": "",
         "country": "",
         "city": "",
         "aboutMe": "",
         "posts": [],
-        "followers": [
-            {
-                "userName": "Smith"
-            }
-        ],
+        "followers": [],
         "following": [],
         "friends": [],
         "age": "",
         "education": "",
-        "videos": [
-            {
-                "videoUrl": "blob:http://localhost:8080/504315e3-8db1-400a-b735-ac751c6f72f6",
-                "videoId": "92a3b202-e337-11eb-97fc-8d90948c2e0c",
-                "videoAutoplay": false
-            }
-        ],
-        "photos": [
-            {
-                "imageUrl": "blob:http://localhost:8080/9320e54c-20ca-4606-ae7b-d8ccd391eae6",
-                "imageId": "3b557ba0-e332-11eb-97fc-8d90948c2e0c"
-            }
-        ],
+        "videos": [],
+        "photos": [],
         "messages": {},
         "messageStatus": {},
-        "notifications": {
-            "2aae1890-dceb-11eb-b872-29eca492d404": {
-                "userName": "Lily",
-                "friendUserName": "Josh",
-                "notificationId": "2aae1890-dceb-11eb-b872-29eca492d404",
-                "notificationType": "friend request",
-                "notificationStatus": "unRead",
-                "notificationDate": 1625418815641
-            },
-            "c7f66c10-e0b5-11eb-b9c1-cfb72beca659": {
-                "userName": "Ella",
-                "friendUserName": "Josh",
-                "notificationId": "c7f66c10-e0b5-11eb-b9c1-cfb72beca659",
-                "notificationType": "friend request",
-                "notificationStatus": "unRead",
-                "notificationDate": 1625835691345
-            },
-            "84a32250-e0dd-11eb-907b-171d7592562f": {
-                "userName": "Chloe",
-                "friendUserName": "Josh",
-                "notificationId": "84a32250-e0dd-11eb-907b-171d7592562f",
-                "notificationType": "friend request",
-                "notificationStatus": "unRead",
-                "notificationDate": 1625852758261
-            },
-            "85abee70-e19b-11eb-871f-0f966330432a": {
-                "userName": "Ada",
-                "friendUserName": "Josh",
-                "notificationId": "85abee70-e19b-11eb-871f-0f966330432a",
-                "notificationType": "friend request",
-                "notificationStatus": "unRead",
-                "notificationDate": 1625934364375
-            },
-            "c30ff520-e2ab-11eb-8a39-b39ebfa4685e": {
-                "userName": "Smith",
-                "friendUserName": "Josh",
-                "notificationId": "c30ff520-e2ab-11eb-8a39-b39ebfa4685e",
-                "notificationType": "follow",
-                "notificationStatus": "unRead",
-                "notificationDate": 1626051290482
-            },
-            "ed70b640-e339-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "posterUserName": "Josh",
-                "notificationId": "ed70b640-e339-11eb-97fc-8d90948c2e0c",
-                "notificationType": "likes",
-                "notificationStatus": "unRead",
-                "notificationDate": 1626112350116
-            }
-        },
+        "notifications": {},
         "occupation": "",
         "status": "online",
-        "activities": {
-            "89048200-d9c9-11eb-ba8c-e9a262a433df": {
-                "userName": "Josh",
-                "activity": "Created account",
-                "activityDate": 1625074517536,
-                "activityId": "89048200-d9c9-11eb-ba8c-e9a262a433df"
-            },
-            "2b7267c0-e332-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "activity": "logged in",
-                "activityDate": 1626109018172,
-                "activityId": "2b7267c0-e332-11eb-97fc-8d90948c2e0c"
-            },
-            "45c991c2-e332-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "posterUserName": "Lily",
-                "activity": "liked",
-                "activityDate": 1626109062364,
-                "activityId": "45c991c2-e332-11eb-97fc-8d90948c2e0c"
-            },
-            "482c39e0-e332-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "posterUserName": "Lily",
-                "commenterUserName": "Sebby",
-                "activity": "likedComment",
-                "activityDate": 1626109066366,
-                "activityId": "482c39e0-e332-11eb-97fc-8d90948c2e0c"
-            },
-            "4a22d9c1-e332-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "posterUserName": "Smith",
-                "activity": "liked",
-                "activityDate": 1626109069660,
-                "activityId": "4a22d9c1-e332-11eb-97fc-8d90948c2e0c"
-            },
-            "4ee543d1-e332-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "posterUserName": "Liam",
-                "commenterUserName": "Smith",
-                "activity": "likedComment",
-                "activityDate": 1626109077645,
-                "activityId": "4ee543d1-e332-11eb-97fc-8d90948c2e0c"
-            },
-            "4fb4efe1-e332-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "posterUserName": "Liam",
-                "commenterUserName": "Sebby",
-                "activity": "likedComment",
-                "activityDate": 1626109079006,
-                "activityId": "4fb4efe1-e332-11eb-97fc-8d90948c2e0c"
-            },
-            "51b5a1e0-e332-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "posterUserName": "Olive",
-                "activity": "liked",
-                "activityDate": 1626109082366,
-                "activityId": "51b5a1e0-e332-11eb-97fc-8d90948c2e0c"
-            },
-            "535ca8e0-e337-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "activity": "logged in",
-                "activityDate": 1626111232622,
-                "activityId": "535ca8e0-e337-11eb-97fc-8d90948c2e0c"
-            },
-            "562d5512-e337-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "posterUserName": "Sebby",
-                "activity": "liked",
-                "activityDate": 1626111237345,
-                "activityId": "562d5512-e337-11eb-97fc-8d90948c2e0c"
-            },
-            "92a3d911-e337-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "activity": "posted",
-                "activityDate": 1626111338785,
-                "activityId": "92a3d911-e337-11eb-97fc-8d90948c2e0c"
-            },
-            "ed70dd50-e339-11eb-97fc-8d90948c2e0c": {
-                "userName": "Josh",
-                "posterUserName": "Josh",
-                "activity": "liked",
-                "activityDate": 1626112350117,
-                "activityId": "ed70dd50-e339-11eb-97fc-8d90948c2e0c"
-            }
-        },
+        "activities": {},
         "userCoverImage": "/img/defaultBg.2793204e.jpg",
-        "userId": "89045af0-d9c9-11eb-ba8c-e9a262a433df",
-        "userProfileImage": "blob:http://localhost:8080/9320e54c-20ca-4606-ae7b-d8ccd391eae6"
+        "userId": "421e0e80-e3f9-11eb-9bd2-1f6ecf431b77",
+        "userProfileImage": "/img/User.de2ba6b9.png"
     },
     "displayFunctions": {
-        "navCollapsed": true,
+        "navCollapsed": false,
         "loginPageUnmounted": true,
         "activeLink": "userProfile",
         "displayMessage": {
@@ -3178,653 +3030,7 @@ export default createStore({
             "country": "",
             "city": "",
             "aboutMe": "",
-            "posts": [
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia",
-                        "Ava",
-                        "Sophie",
-                        "Ethan",
-                        "Ella"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia",
-                        "Sophie",
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [
-                                "Sophie",
-                                "Ethan",
-                                "Carter"
-                            ],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia",
-                        "Ava",
-                        "Sophie",
-                        "Ethan",
-                        "Ella"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia",
-                        "Sophie",
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [
-                                "Sophie",
-                                "Ethan",
-                                "Carter"
-                            ],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Carter",
-                    "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Carter",
-                        "Mia",
-                        "Ava",
-                        "Sophie",
-                        "Ethan",
-                        "Ella"
-                    ],
-                    "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                    "datePosted": 1625675544575,
-                    "posts": "\"Working similar time frames with similar time break patterns has been helpful . I can be productive ,yet give myself permission to step away from home office guilt-free.\"\nNATHAN ELLERING",
-                    "likes": [
-                        "Carter",
-                        "Mia",
-                        "Sophie",
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "58c94380-df43-11eb-a210-09083f776f3d": {
-                            "userName": "Mia",
-                            "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                            "comment": "Hard work pays 👌👌",
-                            "dateCommented": 1625676591032,
-                            "commentId": "58c94380-df43-11eb-a210-09083f776f3d",
-                            "likes": [
-                                "Sophie",
-                                "Ethan",
-                                "Carter"
-                            ],
-                            "postId": "e90c98f0-df40-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-themeNine",
-                    "postImages": [
-                        {
-                            "imageUrl": "",
-                            "imageId": "e90c98f1-df40-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                }
-            ],
+            "posts":[],
             "followers": [],
             "following": [],
             "friends": [
@@ -3855,7 +3061,7 @@ export default createStore({
             ],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/c56b155c-0384-4572-a721-6a321588129f",
+                    "imageUrl":require('../assets/postImages/carter-profilePix.jpg'),
                     "imageId": "e595d480-e0bb-11eb-bbed-5fb8923dc3e7"
                 }
             ],
@@ -4429,7 +3635,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "1b95fb40-d9c9-11eb-ba8c-e9a262a433df",
-            "userProfileImage": "blob:http://localhost:8080/c56b155c-0384-4572-a721-6a321588129f"
+            "userProfileImage": "../"
         },
         "Ethan": {
             "userName": "Ethan",
@@ -4443,176 +3649,7 @@ export default createStore({
             "country": "",
             "city": "",
             "aboutMe": "",
-            "posts": [
-                {
-                    "userName": "Ethan",
-                    "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ethan"
-                    ],
-                    "postId": "7c498130-e0b0-11eb-90ca-19effd8b5a00",
-                    "datePosted": 1625833416899,
-                    "posts": "Identical Me 🧑🧑",
-                    "likes": [
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                            "imageId": "7c498131-e0b0-11eb-90ca-19effd8b5a00"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ethan",
-                    "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ethan"
-                    ],
-                    "postId": "7c498130-e0b0-11eb-90ca-19effd8b5a00",
-                    "datePosted": 1625833416899,
-                    "posts": "Identical Me 🧑🧑",
-                    "likes": [
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                            "imageId": "7c498131-e0b0-11eb-90ca-19effd8b5a00"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ethan",
-                    "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ethan"
-                    ],
-                    "postId": "7c498130-e0b0-11eb-90ca-19effd8b5a00",
-                    "datePosted": 1625833416899,
-                    "posts": "Identical Me 🧑🧑",
-                    "likes": [
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                            "imageId": "7c498131-e0b0-11eb-90ca-19effd8b5a00"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ethan",
-                    "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ethan"
-                    ],
-                    "postId": "7c498130-e0b0-11eb-90ca-19effd8b5a00",
-                    "datePosted": 1625833416899,
-                    "posts": "Identical Me 🧑🧑",
-                    "likes": [
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                            "imageId": "7c498131-e0b0-11eb-90ca-19effd8b5a00"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ethan",
-                    "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ethan"
-                    ],
-                    "postId": "7c498130-e0b0-11eb-90ca-19effd8b5a00",
-                    "datePosted": 1625833416899,
-                    "posts": "Identical Me 🧑🧑",
-                    "likes": [
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                            "imageId": "7c498131-e0b0-11eb-90ca-19effd8b5a00"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ethan",
-                    "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ethan"
-                    ],
-                    "postId": "7c498130-e0b0-11eb-90ca-19effd8b5a00",
-                    "datePosted": 1625833416899,
-                    "posts": "Identical Me 🧑🧑",
-                    "likes": [
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                            "imageId": "7c498131-e0b0-11eb-90ca-19effd8b5a00"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                }
-            ],
+            "posts": [],
             "followers": [
                 {
                     "userName": "Smith"
@@ -4638,11 +3675,11 @@ export default createStore({
             "videos": [],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/ac0923fc-45c0-4c39-b63f-0020648e8bc9",
+                    "imageUrl": require('../assets/postImages/ethan-profilePix.jpg'),
                     "imageId": "c9db35d0-e0ae-11eb-90ca-19effd8b5a00"
                 },
                 {
-                    "imageUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
+                    "imageUrl": require('../assets/postImages/ethan-post.jpg'),
                     "imageId": "7c49a840-e0b0-11eb-90ca-19effd8b5a00"
                 }
             ],
@@ -5163,7 +4200,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-            "userProfileImage": "blob:http://localhost:8080/ac0923fc-45c0-4c39-b63f-0020648e8bc9"
+            "userProfileImage": require('../assets/postImages/ethan-profilePix.jpg')
         },
         "Josh": {
             "userName": "Josh",
@@ -5189,14 +4226,14 @@ export default createStore({
             "education": "",
             "videos": [
                 {
-                    "videoUrl": "blob:http://localhost:8080/504315e3-8db1-400a-b735-ac751c6f72f6",
+                    "videoUrl": "https://player.vimeo.com/external/324296539.sd.mp4?s=806775db4de3140951b439ef4b2a69c8bd91fa0f&profile_id=164&oauth2_token_id=57447761",
                     "videoId": "92a3b202-e337-11eb-97fc-8d90948c2e0c",
                     "videoAutoplay": false
                 }
             ],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/9320e54c-20ca-4606-ae7b-d8ccd391eae6",
+                    "imageUrl": require('../assets/postImages/josh-profilePix.jpg'),
                     "imageId": "3b557ba0-e332-11eb-97fc-8d90948c2e0c"
                 }
             ],
@@ -5341,7 +4378,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "89045af0-d9c9-11eb-ba8c-e9a262a433df",
-            "userProfileImage": "blob:http://localhost:8080/9320e54c-20ca-4606-ae7b-d8ccd391eae6"
+            "userProfileImage": require('../assets/postImages/josh-profilePix.jpg')
         },
         "Liam": {
             "userName": "Liam",
@@ -5355,567 +4392,7 @@ export default createStore({
             "country": "",
             "city": "",
             "aboutMe": "",
-            "posts": [
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Liam",
-                    "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626024513416,
-                    "posts": "Tonight's game is going to be serious.😁😁😁😁",
-                    "likes": [
-                        "Liam",
-                        "Smith"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "33a28a20-e2aa-11eb-af05-7d0898d50a19": {
-                            "userName": "Smith",
-                            "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "😁😁😁",
-                            "dateCommented": 1626050620354,
-                            "commentId": "33a28a20-e2aa-11eb-af05-7d0898d50a19",
-                            "likes": [
-                                "Smith"
-                            ],
-                            "postId": "6aaff080-e26d-11eb-af05-7d0898d50a19",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                            "imageId": ""
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
-                        "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
-                        "videoAutoplay": false
-                    }
-                }
-            ],
+            "posts":[],
             "followers": [
                 {
                     "userName": "Chloe"
@@ -5927,14 +4404,14 @@ export default createStore({
             "education": "",
             "videos": [
                 {
-                    "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
+                    "videoUrl": "https://player.vimeo.com/external/474228517.sd.mp4?s=4664fa60734c8f6826f9dc09801cb8f001e8b06e&profile_id=139&oauth2_token_id=57447761",
                     "videoId": "6ab065b0-e26d-11eb-af05-7d0898d50a19",
                     "videoAutoplay": false
                 }
             ],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/ea544704-99ed-4cf2-8f5d-c3f236d587f2",
+                    "imageUrl": require('../assets/postImages/olive-profilePix.jpg'),
                     "imageId": "7eb97200-e26c-11eb-af05-7d0898d50a19"
                 }
             ],
@@ -6139,7 +4616,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "b305d590-d9c9-11eb-ba8c-e9a262a433df",
-            "userProfileImage": "blob:http://localhost:8080/ea544704-99ed-4cf2-8f5d-c3f236d587f2"
+            "userProfileImage": require('../assets/postImages/liam-profilePix.jpg')
         },
         "Logan": {
             "userName": "Logan",
@@ -6172,11 +4649,11 @@ export default createStore({
             "videos": [],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/697589b3-ad5f-4dd6-8e29-3c38e487753c",
+                    "imageUrl": require('../assets/postImages/logan-profilePix.jpg'),
                     "imageId": "82a2cf30-e332-11eb-97fc-8d90948c2e0c"
                 },
                 {
-                    "imageUrl": "blob:http://localhost:8080/a58c7070-51bf-4594-978b-b0be889295d6",
+                    "imageUrl": require('../assets/postImages/logan-post1.jpeg'),
                     "imageId": "2a34e940-e333-11eb-97fc-8d90948c2e0c"
                 }
             ],
@@ -6271,7 +4748,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "e8ff6e40-d9c9-11eb-ba8c-e9a262a433df",
-            "userProfileImage": "blob:http://localhost:8080/697589b3-ad5f-4dd6-8e29-3c38e487753c"
+            "userProfileImage": require('../assets/postImages/logan-profilePix.jpg')
         },
         "Olive": {
             "userName": "Olive",
@@ -6285,101 +4762,7 @@ export default createStore({
             "country": "",
             "city": "",
             "aboutMe": "",
-            "posts": [
-                {
-                    "userName": "Olive",
-                    "userId": "198e4ef0-d9ca-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Olive",
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "77aac370-e26b-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626023676373,
-                    "posts": "On the set in New York with TY BREEZZYY , for a music video with Gordon Cowie Films.",
-                    "likes": [
-                        "Olive",
-                        "Liam"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/fbbf7bd8-8d09-4868-97bd-a4902db7566c",
-                            "imageId": "77c55050-e26b-11eb-af05-7d0898d50a19"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/fbbf7bd8-8d09-4868-97bd-a4902db7566c",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Olive",
-                    "userId": "198e4ef0-d9ca-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Olive",
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "77aac370-e26b-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626023676373,
-                    "posts": "On the set in New York with TY BREEZZYY , for a music video with Gordon Cowie Films.",
-                    "likes": [
-                        "Olive",
-                        "Liam"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/fbbf7bd8-8d09-4868-97bd-a4902db7566c",
-                            "imageId": "77c55050-e26b-11eb-af05-7d0898d50a19"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/fbbf7bd8-8d09-4868-97bd-a4902db7566c",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Olive",
-                    "userId": "198e4ef0-d9ca-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Olive",
-                        "Liam",
-                        "Smith"
-                    ],
-                    "postId": "77aac370-e26b-11eb-af05-7d0898d50a19",
-                    "datePosted": 1626023676373,
-                    "posts": "On the set in New York with TY BREEZZYY , for a music video with Gordon Cowie Films.",
-                    "likes": [
-                        "Olive",
-                        "Liam"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/fbbf7bd8-8d09-4868-97bd-a4902db7566c",
-                            "imageId": "77c55050-e26b-11eb-af05-7d0898d50a19"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/fbbf7bd8-8d09-4868-97bd-a4902db7566c",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                }
-            ],
+            "posts": [],
             "followers": [
                 {
                     "userName": "Chloe"
@@ -6424,11 +4807,11 @@ export default createStore({
             "videos": [],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/15acf18d-ed3b-47cd-a43b-f57ae3b987ea",
+                    "imageUrl": require('../assets/postImages/olive-profilePix.jpg'),
                     "imageId": "cc6c3150-e1a8-11eb-be6f-ff4e5c960c6e"
                 },
                 {
-                    "imageUrl": "blob:http://localhost:8080/fbbf7bd8-8d09-4868-97bd-a4902db7566c",
+                    "imageUrl":require('../assets/postImages/olive-post1.jpg'),
                     "imageId": "77d248a0-e26b-11eb-af05-7d0898d50a19"
                 }
             ],
@@ -6799,7 +5182,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "198e4ef0-d9ca-11eb-ba8c-e9a262a433df",
-            "userProfileImage": "blob:http://localhost:8080/15acf18d-ed3b-47cd-a43b-f57ae3b987ea"
+            "userProfileImage": require('../assets/postImages/olive-profilePix.jpg')
         },
         "Sebby": {
             "userName": "Sebby",
@@ -6825,14 +5208,14 @@ export default createStore({
             "education": "",
             "videos": [
                 {
-                    "videoUrl": "blob:http://localhost:8080/e636e9d9-7bba-4b93-a966-5b0ac7102049",
+                    "videoUrl": "https://player.vimeo.com/external/490498309.sd.mp4?s=6a1ed8c9665defd9ce2b8030352c51cafd653c88&profile_id=139&oauth2_token_id=57447761",
                     "videoId": "29169610-e335-11eb-97fc-8d90948c2e0c",
                     "videoAutoplay": false
                 }
             ],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/b5a86257-15e2-4d79-bf08-e845a0b9aed4",
+                    "imageUrl": require('../assets/postImages/sebby-profilePix.jpg'),
                     "imageId": "a1aacdf0-e2ac-11eb-ba6f-c5a311c90f7b"
                 }
             ],
@@ -6986,7 +5369,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "5cba0c50-d9ca-11eb-ba8c-e9a262a433df",
-            "userProfileImage": "blob:http://localhost:8080/b5a86257-15e2-4d79-bf08-e845a0b9aed4"
+            "userProfileImage": require('../assets/postImages/sebby-profilePix.jpg')
         },
         "Smith": {
             "userName": "Smith",
@@ -7035,14 +5418,14 @@ export default createStore({
             "education": "",
             "videos": [
                 {
-                    "videoUrl": "blob:http://localhost:8080/6d8f205e-569f-48a8-9264-1f3c513593f7",
+                    "videoUrl": "https://player.vimeo.com/external/371813178.sd.mp4?s=d1230dd79cc887815b725c181c4af7a4419a6514&profile_id=139&oauth2_token_id=57447761",
                     "videoId": "8eb16ed0-e2ab-11eb-8a39-b39ebfa4685e",
                     "videoAutoplay": false
                 }
             ],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/1129af31-6f7c-4434-9c87-1b9182d985b3",
+                    "imageUrl": require('../assets/postImages/smith-profilePix.jpg'),
                     "imageId": "2c426200-e26e-11eb-af05-7d0898d50a19"
                 }
             ],
@@ -7297,7 +5680,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "b5061cf0-d9ca-11eb-ba8c-e9a262a433df",
-            "userProfileImage": "blob:http://localhost:8080/1129af31-6f7c-4434-9c87-1b9182d985b3"
+            "userProfileImage": require('../assets/postImages/smith-profilePix.jpg')
         },
         "Ada": {
             "userName": "Ada",
@@ -7311,215 +5694,7 @@ export default createStore({
             "country": "",
             "city": "",
             "aboutMe": "",
-            "posts": [
-                {
-                    "userName": "Ada",
-                    "userId": "a289cb20-d9cb-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ada"
-                    ],
-                    "postId": "02ee58c0-e19a-11eb-871f-0f966330432a",
-                    "datePosted": 1625933715532,
-                    "posts": "",
-                    "likes": [
-                        "Ada"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                            "imageId": "02ee58c1-e19a-11eb-871f-0f966330432a"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ada",
-                    "userId": "a289cb20-d9cb-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ada"
-                    ],
-                    "postId": "02ee58c0-e19a-11eb-871f-0f966330432a",
-                    "datePosted": 1625933715532,
-                    "posts": "",
-                    "likes": [
-                        "Ada"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                            "imageId": "02ee58c1-e19a-11eb-871f-0f966330432a"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ada",
-                    "userId": "a289cb20-d9cb-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ada"
-                    ],
-                    "postId": "02ee58c0-e19a-11eb-871f-0f966330432a",
-                    "datePosted": 1625933715532,
-                    "posts": "",
-                    "likes": [
-                        "Ada"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                            "imageId": "02ee58c1-e19a-11eb-871f-0f966330432a"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ada",
-                    "userId": "a289cb20-d9cb-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ada",
-                        "Olive"
-                    ],
-                    "postId": "02ee58c0-e19a-11eb-871f-0f966330432a",
-                    "datePosted": 1625933715532,
-                    "posts": "",
-                    "likes": [
-                        "Ada",
-                        "Olive"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "4f21c3a0-e19d-11eb-86e8-11fcf2392733": {
-                            "userName": "Olive",
-                            "userId": "198e4ef0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "This is Nice👍",
-                            "dateCommented": 1625935131866,
-                            "commentId": "4f21c3a0-e19d-11eb-86e8-11fcf2392733",
-                            "likes": [],
-                            "postId": "02ee58c0-e19a-11eb-871f-0f966330432a",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                            "imageId": "02ee58c1-e19a-11eb-871f-0f966330432a"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ada",
-                    "userId": "a289cb20-d9cb-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ada",
-                        "Olive"
-                    ],
-                    "postId": "02ee58c0-e19a-11eb-871f-0f966330432a",
-                    "datePosted": 1625933715532,
-                    "posts": "",
-                    "likes": [
-                        "Ada",
-                        "Olive"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "4f21c3a0-e19d-11eb-86e8-11fcf2392733": {
-                            "userName": "Olive",
-                            "userId": "198e4ef0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "This is Nice👍",
-                            "dateCommented": 1625935131866,
-                            "commentId": "4f21c3a0-e19d-11eb-86e8-11fcf2392733",
-                            "likes": [],
-                            "postId": "02ee58c0-e19a-11eb-871f-0f966330432a",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                            "imageId": "02ee58c1-e19a-11eb-871f-0f966330432a"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ada",
-                    "userId": "a289cb20-d9cb-11eb-ba8c-e9a262a433df",
-                    "views": [
-                        "Ada",
-                        "Olive"
-                    ],
-                    "postId": "02ee58c0-e19a-11eb-871f-0f966330432a",
-                    "datePosted": 1625933715532,
-                    "posts": "",
-                    "likes": [
-                        "Ada",
-                        "Olive"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "4f21c3a0-e19d-11eb-86e8-11fcf2392733": {
-                            "userName": "Olive",
-                            "userId": "198e4ef0-d9ca-11eb-ba8c-e9a262a433df",
-                            "comment": "This is Nice👍",
-                            "dateCommented": 1625935131866,
-                            "commentId": "4f21c3a0-e19d-11eb-86e8-11fcf2392733",
-                            "likes": [],
-                            "postId": "02ee58c0-e19a-11eb-871f-0f966330432a",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                            "imageId": "02ee58c1-e19a-11eb-871f-0f966330432a"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                }
-            ],
+            "posts": [],
             "followers": [
                 {
                     "userName": "Olive"
@@ -7570,7 +5745,7 @@ export default createStore({
             "videos": [],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/fae1eef1-4949-40cf-955f-e79b75c8263d",
+                    "imageUrl": require('../assets/postImages/ada-profilepix.jpg'),
                     "imageId": "09f996d0-e199-11eb-871f-0f966330432a"
                 },
                 {
@@ -7582,7 +5757,7 @@ export default createStore({
                     "imageId": "414f1600-e199-11eb-871f-0f966330432a"
                 },
                 {
-                    "imageUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
+                    "imageUrl": require('../assets/postImages/ada-post1.jpeg'),
                     "imageId": "02ee7fd0-e19a-11eb-871f-0f966330432a"
                 }
             ],
@@ -7919,7 +6094,7 @@ export default createStore({
             },
             "userCoverImage": "blob:http://localhost:8080/4abdfd4d-f93d-4c8e-9d00-39c678fd5d45",
             "userId": "a289cb20-d9cb-11eb-ba8c-e9a262a433df",
-            "userProfileImage": "blob:http://localhost:8080/fae1eef1-4949-40cf-955f-e79b75c8263d"
+            "userProfileImage": require('../assets/postImages/ada-profilepix.jpg')
         },
         "Mia": {
             "userName": "Mia",
@@ -7933,257 +6108,7 @@ export default createStore({
             "country": "",
             "city": "",
             "aboutMe": "",
-            "posts": [
-                {
-                    "userName": "Mia",
-                    "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Mia"
-                    ],
-                    "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                    "datePosted": 1625677665474,
-                    "posts": "I love my smile 😁😁😁😍😍 ",
-                    "likes": [
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                            "imageId": "d9341a21-df45-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Mia",
-                    "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Mia"
-                    ],
-                    "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                    "datePosted": 1625677665474,
-                    "posts": "I love my smile 😁😁😁😍😍 ",
-                    "likes": [
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                            "imageId": "d9341a21-df45-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Mia",
-                    "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Mia"
-                    ],
-                    "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                    "datePosted": 1625677665474,
-                    "posts": "I love my smile 😁😁😁😍😍 ",
-                    "likes": [
-                        "Mia"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                            "imageId": "d9341a21-df45-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Mia",
-                    "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Mia",
-                        "Ava",
-                        "Sophie",
-                        "Ethan"
-                    ],
-                    "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                    "datePosted": 1625677665474,
-                    "posts": "I love my smile 😁😁😁😍😍 ",
-                    "likes": [
-                        "Mia",
-                        "Ava",
-                        "Sophie",
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "cbe536f0-df4b-11eb-961c-b7b5c586ebc2": {
-                            "userName": "Ava",
-                            "userId": "839d1220-db39-11eb-af32-47b0df65ae76",
-                            "comment": "You have a beautiful smile😊😊👍",
-                            "dateCommented": 1625680220128,
-                            "commentId": "cbe536f0-df4b-11eb-961c-b7b5c586ebc2",
-                            "likes": [],
-                            "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        },
-                        "abf7e260-e0af-11eb-90ca-19effd8b5a00": {
-                            "userName": "Ethan",
-                            "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-                            "comment": "I love your smile💖💖",
-                            "dateCommented": 1625833067398,
-                            "commentId": "abf7e260-e0af-11eb-90ca-19effd8b5a00",
-                            "likes": [],
-                            "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                            "imageId": "d9341a21-df45-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Mia",
-                    "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Mia",
-                        "Ava",
-                        "Sophie",
-                        "Ethan"
-                    ],
-                    "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                    "datePosted": 1625677665474,
-                    "posts": "I love my smile 😁😁😁😍😍 ",
-                    "likes": [
-                        "Mia",
-                        "Ava",
-                        "Sophie",
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "cbe536f0-df4b-11eb-961c-b7b5c586ebc2": {
-                            "userName": "Ava",
-                            "userId": "839d1220-db39-11eb-af32-47b0df65ae76",
-                            "comment": "You have a beautiful smile😊😊👍",
-                            "dateCommented": 1625680220128,
-                            "commentId": "cbe536f0-df4b-11eb-961c-b7b5c586ebc2",
-                            "likes": [],
-                            "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        },
-                        "abf7e260-e0af-11eb-90ca-19effd8b5a00": {
-                            "userName": "Ethan",
-                            "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-                            "comment": "I love your smile💖💖",
-                            "dateCommented": 1625833067398,
-                            "commentId": "abf7e260-e0af-11eb-90ca-19effd8b5a00",
-                            "likes": [],
-                            "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                            "imageId": "d9341a21-df45-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Mia",
-                    "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Mia",
-                        "Ava",
-                        "Sophie",
-                        "Ethan"
-                    ],
-                    "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                    "datePosted": 1625677665474,
-                    "posts": "I love my smile 😁😁😁😍😍 ",
-                    "likes": [
-                        "Mia",
-                        "Ava",
-                        "Sophie",
-                        "Ethan"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": {
-                        "cbe536f0-df4b-11eb-961c-b7b5c586ebc2": {
-                            "userName": "Ava",
-                            "userId": "839d1220-db39-11eb-af32-47b0df65ae76",
-                            "comment": "You have a beautiful smile😊😊👍",
-                            "dateCommented": 1625680220128,
-                            "commentId": "cbe536f0-df4b-11eb-961c-b7b5c586ebc2",
-                            "likes": [],
-                            "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        },
-                        "abf7e260-e0af-11eb-90ca-19effd8b5a00": {
-                            "userName": "Ethan",
-                            "userId": "4eb300e0-d9c9-11eb-ba8c-e9a262a433df",
-                            "comment": "I love your smile💖💖",
-                            "dateCommented": 1625833067398,
-                            "commentId": "abf7e260-e0af-11eb-90ca-19effd8b5a00",
-                            "likes": [],
-                            "postId": "d9341a20-df45-11eb-a210-09083f776f3d",
-                            "unLikes": []
-                        }
-                    },
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                            "imageId": "d9341a21-df45-11eb-a210-09083f776f3d"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                }
-            ],
+            "posts": [],
             "followers": [
                 {
                     "userName": "Ada"
@@ -8196,11 +6121,11 @@ export default createStore({
             "videos": [],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/af48e52f-6d5f-4ae2-be4e-99f1c2e2a8f8",
+                    "imageUrl": require('../assets/postImages/mia-profilePix.jpg'),
                     "imageId": "2212b180-df45-11eb-a210-09083f776f3d"
                 },
                 {
-                    "imageUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
+                    "imageUrl": require('../assets/postImages/mia-post1.jpeg'),
                     "imageId": "d9341a22-df45-11eb-a210-09083f776f3d"
                 }
             ],
@@ -8491,7 +6416,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "5afc8710-db39-11eb-af32-47b0df65ae76",
-            "userProfileImage": "blob:http://localhost:8080/af48e52f-6d5f-4ae2-be4e-99f1c2e2a8f8"
+            "userProfileImage": require('../assets/postImages/mia-profilePix.jpg')
         },
         "Ava": {
             "userName": "Ava",
@@ -8505,92 +6430,7 @@ export default createStore({
             "country": "",
             "city": "",
             "aboutMe": "",
-            "posts": [
-                {
-                    "userName": "Ava",
-                    "userId": "839d1220-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Ava"
-                    ],
-                    "postId": "4f3847d0-e0ab-11eb-bcb8-25b2107d0c08",
-                    "datePosted": 1625831193805,
-                    "posts": "On the Look 😎",
-                    "likes": [
-                        "Ava"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/108506e4-62ad-4a66-9291-e7cd3c42f94e",
-                            "imageId": "4f3847d1-e0ab-11eb-bcb8-25b2107d0c08"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/108506e4-62ad-4a66-9291-e7cd3c42f94e",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ava",
-                    "userId": "839d1220-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Ava"
-                    ],
-                    "postId": "4f3847d0-e0ab-11eb-bcb8-25b2107d0c08",
-                    "datePosted": 1625831193805,
-                    "posts": "On the Look 😎",
-                    "likes": [
-                        "Ava"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/108506e4-62ad-4a66-9291-e7cd3c42f94e",
-                            "imageId": "4f3847d1-e0ab-11eb-bcb8-25b2107d0c08"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/108506e4-62ad-4a66-9291-e7cd3c42f94e",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Ava",
-                    "userId": "839d1220-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Ava"
-                    ],
-                    "postId": "4f3847d0-e0ab-11eb-bcb8-25b2107d0c08",
-                    "datePosted": 1625831193805,
-                    "posts": "On the Look 😎",
-                    "likes": [
-                        "Ava"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/108506e4-62ad-4a66-9291-e7cd3c42f94e",
-                            "imageId": "4f3847d1-e0ab-11eb-bcb8-25b2107d0c08"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/108506e4-62ad-4a66-9291-e7cd3c42f94e",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                }
-            ],
+            "posts": [],
             "followers": [],
             "following": [],
             "friends": [
@@ -8612,11 +6452,11 @@ export default createStore({
             "videos": [],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/f7154040-cbf2-46ad-b874-0c9ec9048713",
+                    "imageUrl": require('../assets/postImages/ava-profilepix.jpg'),
                     "imageId": "802c9680-e0aa-11eb-bcb8-25b2107d0c08"
                 },
                 {
-                    "imageUrl": "blob:http://localhost:8080/108506e4-62ad-4a66-9291-e7cd3c42f94e",
+                    "imageUrl": require('../assets/postImages/ava-post1.jpg'),
                     "imageId": "4f386ee0-e0ab-11eb-bcb8-25b2107d0c08"
                 }
             ],
@@ -8961,7 +6801,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "839d1220-db39-11eb-af32-47b0df65ae76",
-            "userProfileImage": "blob:http://localhost:8080/f7154040-cbf2-46ad-b874-0c9ec9048713"
+            "userProfileImage": require('../assets/postImages/ava-profilepix.jpg')
         },
         "Ella": {
             "userName": "Ella",
@@ -9012,7 +6852,7 @@ export default createStore({
             ],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/11b1c1bc-1474-4a74-b164-30854cf9cfbe",
+                    "imageUrl": require('../assets/postImages/ella-profilepix.jpg'),
                     "imageId": "a2a72ee0-e0b5-11eb-b9c1-cfb72beca659"
                 }
             ],
@@ -9441,7 +7281,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "a7f5e160-db39-11eb-af32-47b0df65ae76",
-            "userProfileImage": "blob:http://localhost:8080/11b1c1bc-1474-4a74-b164-30854cf9cfbe"
+            "userProfileImage": require('../assets/postImages/ella-profilepix.jpg')
         },
         "Chloe": {
             "userName": "Chloe",
@@ -9490,14 +7330,14 @@ export default createStore({
             "education": "",
             "videos": [
                 {
-                    "videoUrl": "blob:http://localhost:8080/57c8e388-83be-420d-b748-5de65cd28063",
+                    "videoUrl": "https://player.vimeo.com/external/327410344.sd.mp4?s=b629839dcfd1c0bf32e7972881a2330a1d014368&profile_id=164&oauth2_token_id=57447761",
                     "videoId": "70a26fe0-e0dd-11eb-907b-171d7592562f",
                     "videoAutoplay": false
                 }
             ],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/6e4c0f16-adfa-404c-a1ab-949a9c67ce06",
+                    "imageUrl": require('../assets/postImages/chloe-profilepix.jpg'),
                     "imageId": "58d01170-e0dc-11eb-907b-171d7592562f"
                 }
             ],
@@ -9879,7 +7719,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "c5883930-db39-11eb-af32-47b0df65ae76",
-            "userProfileImage": "blob:http://localhost:8080/6e4c0f16-adfa-404c-a1ab-949a9c67ce06"
+            "userProfileImage": require('../assets/postImages/chloe-profilepix.jpg')
         },
         "Lily": {
             "userName": "Lily",
@@ -9893,372 +7733,7 @@ export default createStore({
             "country": "",
             "city": "",
             "aboutMe": "",
-            "posts": [
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                },
-                {
-                    "userName": "Lily",
-                    "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-                    "views": [
-                        "Lily"
-                    ],
-                    "postId": "e5b7c380-dc1d-11eb-b872-29eca492d404",
-                    "datePosted": 1625330653112,
-                    "posts": "My new Hair Style",
-                    "likes": [
-                        "Lily"
-                    ],
-                    "unLikes": [],
-                    "posterComment": "",
-                    "comments": [],
-                    "postStyle": "text-theme-default",
-                    "postImages": [
-                        {
-                            "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                            "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
-                        }
-                    ],
-                    "postVideos": {
-                        "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
-                        "videoId": "",
-                        "videoAutoplay": false
-                    }
-                }
-            ],
+            "posts": [],
             "followers": [],
             "following": [],
             "friends": [
@@ -10301,19 +7776,12 @@ export default createStore({
             ],
             "photos": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
+                    "imageUrl": require('../assets/postImages/lily-post1.jpeg'),
                     "imageId": "e5b7ea90-dc1d-11eb-b872-29eca492d404"
                 },
+
                 {
-                    "imageUrl": "blob:http://localhost:8080/cac8847a-2486-4ef3-a40c-cffdb9fcdec6",
-                    "imageId": "0dd38e30-dc1e-11eb-b872-29eca492d404"
-                },
-                {
-                    "imageUrl": "blob:http://localhost:8080/725b1253-da5f-49a1-94a0-56b6d49fa67b",
-                    "imageId": "5ed2aea0-dda5-11eb-b577-03c36a2769bd"
-                },
-                {
-                    "imageUrl": "blob:http://localhost:8080/5dc3a272-4ada-45d2-ab7f-ace1fa3c5e22",
+                    "imageUrl":require('../assets/postImages/lily-profilePix.jpg'),
                     "imageId": "bfd93e80-dda5-11eb-8fea-e7ca4e285f55"
                 }
             ],
@@ -10896,7 +8364,7 @@ export default createStore({
             },
             "userCoverImage": "/img/defaultBg.2793204e.jpg",
             "userId": "df512cf0-db39-11eb-af32-47b0df65ae76",
-            "userProfileImage": "blob:http://localhost:8080/5dc3a272-4ada-45d2-ab7f-ace1fa3c5e22"
+            "userProfileImage":require('../assets/postImages/lily-profilePix.jpg')
         },
         "Nova": {
             "userName": "Nova",
@@ -13902,12 +11370,12 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
+                    "imageUrl": require('../assets/postImages/lily-post1.jpeg'),
                     "imageId": "e5b7c381-dc1d-11eb-b872-29eca492d404"
                 }
             ],
             "postVideos": {
-                "videoUrl": "blob:http://localhost:8080/071b732c-87be-455c-b90f-0650175fed03",
+                "videoUrl": require('../assets/postImages/lily-post1.jpeg'),
                 "videoId": "",
                 "videoAutoplay": false
             }
@@ -14118,12 +11586,12 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
+                    "imageUrl": require('../assets/postImages/mia-post1.jpeg'),
                     "imageId": "d9341a21-df45-11eb-a210-09083f776f3d"
                 }
             ],
             "postVideos": {
-                "videoUrl": "blob:http://localhost:8080/01bb8f44-62ff-44d9-9ec4-ffb5ba1e356d",
+                "videoUrl": require('../assets/postImages/mia-post1.jpeg'),
                 "videoId": "",
                 "videoAutoplay": false
             }
@@ -14173,12 +11641,12 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/108506e4-62ad-4a66-9291-e7cd3c42f94e",
+                    "imageUrl": require('../assets/postImages/ava-post1.jpg'),
                     "imageId": "4f3847d1-e0ab-11eb-bcb8-25b2107d0c08"
                 }
             ],
             "postVideos": {
-                "videoUrl": "blob:http://localhost:8080/108506e4-62ad-4a66-9291-e7cd3c42f94e",
+                "videoUrl": require('../assets/postImages/ava-post1.jpg'),
                 "videoId": "",
                 "videoAutoplay": false
             }
@@ -14236,12 +11704,12 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
+                    "imageUrl": require('../assets/postImages/ethan-post.jpg'),
                     "imageId": "7c498131-e0b0-11eb-90ca-19effd8b5a00"
                 }
             ],
             "postVideos": {
-                "videoUrl": "blob:http://localhost:8080/73db2fcf-6517-4524-a654-47ac640370ce",
+                "videoUrl": require('../assets/postImages/ethan-post.jpg'),
                 "videoId": "",
                 "videoAutoplay": false
             }
@@ -14546,7 +12014,7 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/57c8e388-83be-420d-b748-5de65cd28063",
+                    "imageUrl": "https://player.vimeo.com/external/327410344.sd.mp4?s=b629839dcfd1c0bf32e7972881a2330a1d014368&profile_id=164&oauth2_token_id=57447761",
                     "imageId": ""
                 }
             ],
@@ -14596,7 +12064,7 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/2920ec54-1363-432c-b59c-b99c7eb6690b",
+                    "imageUrl": require('../assets/postImages/ada-post1.jpeg'),
                     "imageId": "02ee58c1-e19a-11eb-871f-0f966330432a"
                 }
             ],
@@ -14632,12 +12100,12 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/fbbf7bd8-8d09-4868-97bd-a4902db7566c",
+                    "imageUrl": require('../assets/postImages/olive-post1.jpg'),
                     "imageId": "77c55050-e26b-11eb-af05-7d0898d50a19"
                 }
             ],
             "postVideos": {
-                "videoUrl": "blob:http://localhost:8080/fbbf7bd8-8d09-4868-97bd-a4902db7566c",
+                "videoUrl": require('../assets/postImages/olive-post1.jpg'),
                 "videoId": "",
                 "videoAutoplay": false
             }
@@ -14693,12 +12161,12 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
+                    "imageUrl": "https://player.vimeo.com/external/474228517.sd.mp4?s=4664fa60734c8f6826f9dc09801cb8f001e8b06e&profile_id=139&oauth2_token_id=57447761",
                     "imageId": ""
                 }
             ],
             "postVideos": {
-                "videoUrl": "blob:http://localhost:8080/d5c5cde3-b1ba-4724-b44c-d2bcd00635a9",
+                "videoUrl": "https://player.vimeo.com/external/474228517.sd.mp4?s=4664fa60734c8f6826f9dc09801cb8f001e8b06e&profile_id=139&oauth2_token_id=57447761",
                 "videoId": "6aaff081-e26d-11eb-af05-7d0898d50a19",
                 "videoAutoplay": false
             }
@@ -14728,7 +12196,7 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/6d8f205e-569f-48a8-9264-1f3c513593f7",
+                    "imageUrl": "https://player.vimeo.com/external/371813178.sd.mp4?s=d1230dd79cc887815b725c181c4af7a4419a6514&profile_id=139&oauth2_token_id=57447761",
                     "imageId": ""
                 }
             ],
@@ -14803,12 +12271,12 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/a58c7070-51bf-4594-978b-b0be889295d6",
+                    "imageUrl": require('../assets/postImages/logan-post1.jpeg'),
                     "imageId": "2a34c231-e333-11eb-97fc-8d90948c2e0c"
                 }
             ],
             "postVideos": {
-                "videoUrl": "blob:http://localhost:8080/a58c7070-51bf-4594-978b-b0be889295d6",
+                "videoUrl": require('../assets/postImages/logan-post1.jpeg'),
                 "videoId": "",
                 "videoAutoplay": false
             }
@@ -14822,7 +12290,7 @@ export default createStore({
             ],
             "postId": "29166f00-e335-11eb-97fc-8d90948c2e0c",
             "datePosted": 1626110302704,
-            "posts": "",
+            "posts": "Winter Riding fun with Snowmobile 😎",
             "likes": [
                 "Sebby",
                 "Josh"
@@ -14833,12 +12301,12 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/e636e9d9-7bba-4b93-a966-5b0ac7102049",
+                    "imageUrl": "https://player.vimeo.com/external/490498309.sd.mp4?s=6a1ed8c9665defd9ce2b8030352c51cafd653c88&profile_id=139&oauth2_token_id=57447761",
                     "imageId": ""
                 }
             ],
             "postVideos": {
-                "videoUrl": "blob:http://localhost:8080/e636e9d9-7bba-4b93-a966-5b0ac7102049",
+                "videoUrl": "https://player.vimeo.com/external/490498309.sd.mp4?s=6a1ed8c9665defd9ce2b8030352c51cafd653c88&profile_id=139&oauth2_token_id=57447761",
                 "videoId": "29166f01-e335-11eb-97fc-8d90948c2e0c",
                 "videoAutoplay": false
             }
@@ -14851,7 +12319,7 @@ export default createStore({
             ],
             "postId": "92a3b200-e337-11eb-97fc-8d90948c2e0c",
             "datePosted": 1626111338784,
-            "posts": "",
+            "posts": "The party is on",
             "likes": [
                 "Josh"
             ],
@@ -14861,1017 +12329,125 @@ export default createStore({
             "postStyle": "text-theme-default",
             "postImages": [
                 {
-                    "imageUrl": "blob:http://localhost:8080/504315e3-8db1-400a-b735-ac751c6f72f6",
+                    "imageUrl": "https://player.vimeo.com/external/324296539.sd.mp4?s=806775db4de3140951b439ef4b2a69c8bd91fa0f&profile_id=164&oauth2_token_id=57447761",
                     "imageId": ""
                 }
             ],
             "postVideos": {
-                "videoUrl": "blob:http://localhost:8080/504315e3-8db1-400a-b735-ac751c6f72f6",
+                "videoUrl": "https://player.vimeo.com/external/324296539.sd.mp4?s=806775db4de3140951b439ef4b2a69c8bd91fa0f&profile_id=164&oauth2_token_id=57447761",
                 "videoId": "92a3b201-e337-11eb-97fc-8d90948c2e0c",
                 "videoAutoplay": false
             }
         }
     }
-}mments: {
-                likes: [],
-                unLikes: [],
-                notifications: {
-                    friendRequest: [],
-
-                }
-
-
-            }
-        },
-
-
-
-
-
-
-
-
-
-        user: {},
-        users: {
-            "Guest": {
-                userName: "Guest",
-                userId: "419",
-                userThumbnail: require('../assets/userThumbnail/original1.jpg'),
-
-                firstName: "Guest",
-                lastName: "Guest",
-                address: "Guest",
-                gender: 'female',
-education:'',                
-emailAddress: "Guest@gmail.com",
-                           postCode: "Guest",
-            country: "Guest",
-            city: "Guest",
-            aboutMe: "Guest",
-            occupation: "Guest",
-            education: "Guest",
-            age: "27",
-photos:[],
-
-                status: 'offline',
-                messages: [],
-                posts: {
-                    Guest: {
-                        likes: ["Guest"],
-                        unLikes: ["Guest"],
-                    }
-                },
-                followers: ["Guest"],
-                following: ["Guest"],
-                friends: ["Guest"],
-
-                posterComment: "",
-                comments: {
-                    likes: [],
-                    unLikes: [],
-                    notifications: {
-                        friendRequest: [],
-
-                    }
-
-
-                }
-            },
-
-
-
-
-
-
-
-
-
-
-            uche: {
-                userName: 'uche',
-                gender: 'male',
-
-education:'',                
-emailAddress: 'uche@gmail.com',
-                password: 'uche',
-                userId: '31',
-                firstName: '',
-                lastName: '',
-                address: '',
-                userThumbnail: 'https://zsuttonphoto.com/wp-content/uploads/2018/06/Beauty-Photography-In-LA-2.jpg',
-            postCode: "Guest",
-            country: "Guest",
-            city: "Guest",
-            aboutMe: "Guest",
-            occupation: "Guest",
-            education: "Guest",
-            age: "27",
-photos:[],
-                status: 'offline',
-                messages: {
-                    chigo: {
-                        '55666': {
-                            userName: 'chigo',
-                            messageId: '55666',
-                            messageStatus: 'sent',
-                            messageDate: 1618050881819,
-                            message: 'good day boss',
-                        },
-                        '55668': {
-                            userName: 'uche',
-                            messageId: '55668',
-                            messageStatus: 'sent',
-                            messageDate: 1618060881819,
-                            message: 'how are u bro',
-                        },
-                        '4752': {
-                            userName: 'chigo',
-                            messageId: '4752',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193922,
-                            message: 'i am fine and you',
-
-
-                        },
-
-
-                        23335: {
-                            userName: 'uche',
-                            messageId: '23335',
-                            messageStatus: 'sent',
-                            messageDate: 1618065881819,
-                            message: 'am good',
-                        },
-                    },
-                    bose: {
-                        522333:
-
-                        {
-                            userName: 'bose',
-                            messageId: '522333',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            message: 'hello',
-                        },
-                        85426: {
-                            userName: 'uche',
-                            messageId: '85426',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193900,
-                            message: 'hi,how are you',
-                        },
-                        '236541': {
-                            userName: 'bose',
-                            messageId: '236541',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193000,
-                            message: 'i am fine',
-
-
-                        },
-
-
-                        1233658: {
-                            userName: 'uche',
-                            messageId: '1233658',
-                            messageStatus: 'sent',
-                            messageDate: 1618065190000,
-                            message: 'its good to meet you',
-                        },
-                    },
-
-                },
-                messageStatus: {
-                    'chigo': {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'uche',
-                        friendMessaged: 'chigo',
-                        showMessage: "off",
-                    },
-
-                    'bose': {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'uche',
-                        friendMessaged: 'bose',
-                        showMessage: "on",
-                    },
-
-
-
-                },
-                posts: [],
-                activities: {},
-                followers: [{ userName: 'chigo', userId: '21' }, { userName: 'chinedu', userId: '25' }, ],
-                following: [{ userName: 'uche', userId: '31' }, { userName: 'bose', userId: '18' }, ],
-                friends: [{ userName: 'chinedu', userId: '25' }, ],
-                notifications: {
-
-
-                }
-            },
-            bose: {
-                userName: 'bose',
-                gender: 'female',
-                userThumbnail: 'https://goop-img.com/wp-content/uploads/2020/06/Mask-Group-2.png',
-            postCode: "Guest",
-            country: "Guest",
-            city: "Guest",
-            aboutMe: "Guest",
-            occupation: "Guest",
-            education: "Guest",
-            age: "27",
-photos:[],                
-education:'',
-emailAddress: 'bose@gmail.com',
-                password: 'bose',
-                userId: '18',
-                status: 'offline',
-                messages: {
-                    uche: {
-                        522333:
-
-                        {
-                            userName: 'bose',
-                            messageId: '522333',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            message: 'hello',
-                        },
-                        85426: {
-                            userName: 'uche',
-                            messageId: '85426',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193900,
-                            message: 'hi,how are you',
-                        },
-                        '236541': {
-                            userName: 'bose',
-                            messageId: '236541',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193905,
-                            message: 'i am fine',
-
-
-                        },
-
-
-                        1233658: {
-                            userName: 'uche',
-                            messageId: '1233658',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            message: 'its good to meet you',
-                        },
-                    },
-                    chigo: {
-                        54452:
-
-                        {
-                            userName: 'chigo',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193555,
-                            messageId: 54452,
-                            message: 'work work work',
-
-                        },
-                        8856: {
-                            userName: 'bose',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193455,
-                            messageId: 8856,
-                            message: 'this is life for you',
-                        },
-                        5564: {
-                            userName: 'chigo',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193135,
-                            messageId: 5564,
-                            message: 'life is good',
-
-
-                        },
-
-
-                        8856: {
-                            userName: 'bose',
-                            messageStatus: 'sent',
-                            messageDate: 1618065197268,
-                            messageId: 8856,
-                            message: 'try harder brother',
-                        },
-                    }
-                },
-                messageStatus: {
-                    chigo: {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'bose',
-                        friendMessaged: 'chigo',
-                        showMessage: "on",
-                    },
-                    uche: {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'bose',
-                        friendMessaged: 'uche',
-                        showMessage: "off",
-                    },
-
-                },
-                posts: [],
-                activities: { 6155545: { userName: "bose", activityId: 6155545, activity: "posted", activityDate: 1618065197268 } },
-                followers: [{ userName: 'uche', userId: '31' }, { userName: 'chinedu', userId: '25' }],
-                following: [{ userName: 'uche', userId: '31' }, { userName: 'chinedu', userId: '25' }, ],
-                friends: [{ userName: 'chigo', userId: '31'},{userName:"uche"}],
-
-
-
-                notifications: {
-                    45262: { userName: "uche", notificationType: "friend request", notificationId: "45262", notificationStatus: "unRead", notificationDate: 1618065197268 },
-                    4526522: { userName: "uche", notificationType: "message", notificationId: "4526522", notificationStatus: "unRead", notificationDate: 1618065197268 },
-                    26266: { userName: "chigo", notificationType: "comment", posterUserName: "uche", notificationStatus: "unRead", notificationDate: 1618065197268 },
-                    26265206: { userName: "chigo", notificationType: "likes", posterUserName: "uche", notificationStatus: "unRead", notificationDate: 1618065197268 }
-                }
-            },
-
-            john: {
-                userName: 'john',
-                gender: 'male',
-                userThumbnail: 'https://stylecaster.com/wp-content/uploads/2016/12/model-curly-hair-nose-ring.jpg',
-            postCode: "Guest",
-            country: "Guest",
-            city: "Guest",
-            aboutMe: "Guest",
-            occupation: "Guest",
-            education: "Guest",
-            age: "27",
-photos:[],                
-education:'',
-emailAddress: 'john@gmail.com',
-                password: 'john',
-                userId: '18',
-                status: 'offline',
-                messages: {
-                    chinedu: {
-                        522333:
-
-                        {
-                            userName: 'john',
-                            messageId: '522333',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            message: 'hello',
-                        },
-                        85426: {
-                            userName: 'chinedu',
-                            messageId: '85426',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193900,
-                            message: 'hi,how are you',
-                        },
-                        '237549': {
-                            userName: 'john',
-                            messageId: '237549',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193905,
-                            message: 'i am fine',
-
-
-                        },
-
-
-                        1233658: {
-                            userName: 'chinedu',
-                            messageId: '1233658',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            message: 'its good to meet you',
-                        },
-                    },
-
-
-                },
-                messageStatus: {
-                    chigo: {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'john',
-                        friendMessaged: 'chigo',
-                        showMessage: "on",
-                    },
-                    chinedu: {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'john',
-                        friendMessaged: 'chinedu',
-                        showMessage: "off",
-                    },
-
-                },
-                posts: [],
-                activities: {},
-                followers: [{ userName: 'uche', userId: '31' }, { userName: 'bose', userId: '25' }],
-                following: [{ userName: 'uche', userId: '31' }, { userName: 'bose', userId: '25' }, ],
-                friends: [{ userName: 'chigo', userId: '21' }, ],
-
-
-
-                notifications: {
-                    45262: { userName: "chigo", notificationType: "friend request", notificationId: "45262", notificationStatus: "unRead", notificationDate: 1618065197268 },
-                    4526522: { userName: "uche", notificationType: "message", notificationId: "4526522", notificationStatus: "unRead", notificationDate: 1618065197268 },
-
-                }
-            },
-
-            chinedu: {
-                userName: 'chinedu',
-                gender: 'male',
-                userThumbnail: 'https://zsuttonphoto.com/wp-content/uploads/2020/05/Los-Angeles-Beauty-Photography-2020.jpg',
-            postCode: "Guest",
-            country: "Guest",
-            city: "Guest",
-            aboutMe: "Guest",
-            occupation: "Guest",
-            education: "Guest",
-            age: "27",
-photos:[],                
-education:'',
-emailAddress: 'chinedu@gmail.com',
-                password: 'chinedu',
-                userId: '18',
-                status: 'offline',
-                messages: {
-                    john: {
-                        522333:
-
-                        {
-                            userName: 'chinedu',
-                            messageId: '522333',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            message: 'hello',
-                        },
-                        85426: {
-                            userName: 'john',
-                            messageId: '85426',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193900,
-                            message: 'hi,how are you',
-                        },
-                        '237549': {
-                            userName: 'chinedu',
-                            messageId: '237549',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193905,
-                            message: 'i am fine',
-
-
-                        },
-
-
-                        1233658: {
-                            userName: 'john',
-                            messageId: '1233658',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            message: 'its good to meet you',
-                        },
-                    },
-                    chigo: {
-                           5564: {
-                            userName: 'chigo',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            messageId: 5564,
-                            message: 'work work work',
-                        },
-                        8856: {
-                            userName: 'chinedu',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193900,
-                            messageId: 8856,
-                            message: 'this is life for you',
-                        },
-                        555664: {
-                            userName: 'chigo',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193800,
-                            messageId: 555664,
-                            message: 'life is good',
-
-
-                        },
-
-
-                        88564: {
-                            userName: 'chinedu',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193700,
-                            messageId: 88564,
-                            message: 'try harder brother',
-                        },
-                    }
-                },
-                messageStatus: {
-                    chigo: {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'chinedu',
-                        friendMessaged: 'chigo',
-                        showMessage: "on",
-                    },
-                    john: {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'chinedu',
-                        friendMessaged: 'john',
-                        showMessage: "off",
-                    },
-
-                },
-                posts: [],
-                activities: {},
-                followers: [{ userName: 'uche', userId: '31' }, { userName: 'bose', userId: '25' }],
-                following: [{ userName: 'uche', userId: '31' }, { userName: 'bose', userId: '25' }, ],
-                friends: [{ userName: 'uche', userId: '31' }],
-
-
-
-                notifications: {
-                    45262: { userName: "chigo", notificationType: "friend request", notificationId: "45262", notificationStatus: "unRead", notificationDate: 1618065197268 },
-                    4526522: { userName: "uche", notificationType: "message", notificationId: "4526522", notificationStatus: "unRead", notificationDate: 1618065197268 },
-
-                }
-            },
-            chigo: {
-                userName: 'chigo',
-                gender: 'male',
-                userThumbnail: 'https://zsuttonphoto.com/wp-content/uploads/2019/04/Los-Angeles-Beauty-Photography-LA-1.jpg',
-            postCode: "Guest",
-            country: "Guest",
-            city: "Guest",
-            aboutMe: "Guest",
-            occupation: "Guest",
-            education: "Guest",
-            age: "27",
-photos:[],                
-education:'',
-emailAddress: 'chigo@gmail.com',
-                password: 'chigo',
-                userId: "21",
-                status: 'offline',
-                messages: {
-                    uche: {
-                        '55666': {
-                            userName: 'chigo',
-                            messageId: '55666',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193487,
-                            message: 'good day boss',
-                        },
-                        '55668': {
-                            userName: 'uche',
-                            messageId: '55668',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            message: 'how are u bro',
-                        },
-                        '4752': {
-                            userName: 'chigo',
-                            messageId: '4752',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193945,
-                            message: 'i am fine and you',
-
-
-                        },
- '23335': {
-                            userName: 'uche',
-                            messageId: '23335',
-                            messageStatus: 'sent',
-                            messageDate: 1618065881819,
-                            message: 'am good',
-                        },
-
-
-
-                    },
-                    bose: {
-                        54452:
-
-                        {
-                            userName: 'chigo',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            messageId: 54452,
-                            message: 'work work work',
-
-                        },
-                        8856: {
-                            userName: 'bose',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193955,
-                            messageId: 8856,
-                            message: 'this is life for you',
-                        },
-                        5564: {
-                            userName: 'chigo',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193900,
-                            messageId: 5564,
-                            message: 'life is good',
-
-
-                        },
-
-
-                        8856: {
-                            userName: 'bose',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193922,
-                            messageId: 8856,
-                            message: 'try harder brother',
-                        },
-                    },
-                    chinedu: {
-
-
-                        5564: {
-                            userName: 'chigo',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193975,
-                            messageId: 5564,
-                            message: 'work work work',
-                        },
-                        8856: {
-                            userName: 'chinedu',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193900,
-                            messageId: 8856,
-                            message: 'this is life for you',
-                        },
-                        555664: {
-                            userName: 'chigo',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193800,
-                            messageId: 555664,
-                            message: 'life is good',
-
-
-                        },
-
-
-                        88564: {
-                            userName: 'chinedu',
-                            messageStatus: 'sent',
-                            messageDate: 1618065193700,
-                            messageId: 88564,
-                            message: 'try harder brother',
-                        },
-                    },
-                },
-                messageStatus: {
-                    uche: {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'chigo',
-                        friendMessaged: 'uche',
-                        showMessage: "off",
-                    },
-
-                    bose: {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'chigo',
-                        friendMessaged: 'bose',
-                        showMessage: "off",
-                    },
-                    chinedu: {
-                        messageViewStatus: 'unRead',
-                        messageOnScreen: "off",
-                        userName: 'chigo',
-                        friendMessaged: 'chinedu',
-                        showMessage: "on",
-                    }
-                },
-                posts: [],
-                activities: {},
-
-                followers: [{ userName: 'bose', userId: '18' }],
-                following: [{ userName: 'bose', userId: '18' }],
-                friends: [{ userName: 'bose', userId: '18' }, { userName: "john", userId: "30" }],
-                notifications: {
-
-
-                }
-
-
-            }
-        },
-        allUsers: {
-            uche: {
-                userName: "uche",
-                requestStatus: "Add Friend",
-                requests: [{ userName: "chigo" }]
-
-            },
-            bose: {
-                userName: "bose",
-                requestStatus: "Add Friend",
-                requests: []
-
-            },
-            chigo: {
-                userName: "chigo",
-                requestStatus: "Add Friend",
-                requests: []
-
-            },
-            chinedu: {
-                userName: "chinedu",
-                requestStatus: "Add Friend",
-                requests: []
-
-            },
-            john: {
-                userName: "john",
-                requestStatus: "Add Friend",
-                requests: []
-
-            },
-
-
-
-
-        },
-
-        newsFeed: {
-            '1': {
-                userName: 'chigo',
-
-                userId: '21',
-                postId: '1',
-                views: [],
-                datePosted: 1618065173905,
-                posts: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                likes: [],
-                unLikes: [],
-                postStyle: 'text-themeSeven',
-                posterComment: '',
-
-                comments: {
-                    '1': {
-                        userName: 'chigo',
-                        commentId: '1',
-                        dateCommented: 1618065174905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    },
-                    '2': {
-                        userName: 'uche',
-                        commentId: '2',
-                        dateCommented: 1618065175905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    },
-                    '3': {
-                        userName: 'bose',
-                        commentId: '3',
-                        dateCommented: 1618065176905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    }
-
-
-
-                }
-            },
-            '2': {
-                userName: 'uche',
-                userId: '31',
-                postId: '2',
-                views: [],
-                datePosted: 1618065163905,
-                posts: "I just can't wait for tomorrow o, time please run fast o coz it gonna be my pretty moma birth anniversary, Dikko's favourite, Dikko's investment the only mamaG, inshort tomorrow first friends please get ready coz is gonna be parry after parry. Happy birthday in advance to you my Cute mumilo.",
-                likes: [],
-                unLikes: [],
-                postStyle: 'text-themeSeven',
-                posterComment: '',
-                comments: {
-
-                    '4': {
-                        userName: 'chigo',
-                        commentId: '4',
-                        dateCommented: 1618065164905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    }
-                }
-
-            },
-            '3': {
-                userName: 'chigo',
-                postId: '3',
-                views: [],
-                datePosted: 1618065143905,
-                userId: '21',
-                posts: 'life is good',
-                likes: [],
-                postStyle: 'text-themeFour',
-                posterComment: '',
-                unLikes: [],
-                comments: {
-                    '5': {
-                        userName: 'chigo',
-                        commentId: '5',
-                        dateCommented: 1618065145905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    },
-                    '6': {
-                        userName: 'chigo',
-                        commentId: '6',
-                        dateCommented: 1618065146905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    }
-
-                }
-
-            },
-
-
-            '4': {
-                userName: 'uche',
-                postId: '4',
-                views: [],
-                datePosted: 1618065113905,
-                userId: '31',
-                posts: 'try harder brother',
-                likes: [],
-                postStyle: 'text-themeTwo',
-                posterComment: '',
-                unLikes: [],
-                comments: {
-                    '7': {
-                        userName: 'chigo',
-                        commentId: '7',
-                        dateCommented: 1618065115905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    },
-                    '8': {
-                        userName: 'chigo',
-                        commentId: '8',
-                        dateCommented: 1618064115905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    },
-                    '9': {
-                        userName: 'chinedu',
-                        commentId: '9',
-                        dateCommented: 1618069993905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    }
-
-
-                }
-            },
-            '5656': {
-                userName: 'bose',
-
-                userId: '18',
-                postId: '5656',
-                views: [],
-                datePosted: 1619870462772,
-                posts: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                likes: [],
-                unLikes: [],
-                postStyle: 'text-themeThree',
-                posterComment: '',
-                comments: {
-                    '1': {
-                        userName: 'john',
-                        commentId: '1',
-                        dateCommented: 1618065174905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    },
-                    '2': {
-                        userName: 'uche',
-                        commentId: '2',
-                        dateCommented: 1618065175905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    },
-                    '3': {
-                        userName: 'bose',
-                        commentId: '3',
-                        dateCommented: 1618065176905,
-                        comment: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
-                        likes: [],
-                        unLikes: [],
-                    }
-
-
-
-                }
-            },
-
-        }
-
-    },
+},
     mutations: {
         handleLogin(state, payLoad) {
-            state.users[payLoad.userName].status = payLoad.status
-            state.userData = state.users[payLoad.userName]
-
+            state.users[payLoad.userName].status = payLoad.status;
+            state.userData = state.users[payLoad.userName];
         },
-
-
 
         updateUserData(state, payLoad) {
             const userName = Object.keys(payLoad)[0];
-            state.userData = state.users[userName]
+            if (userName === "Guest") {
+                state.userData = payLoad[userName]
+
+            } else {
+                state.userData = state.users[userName];
+
+            }
         },
 
-
         handleAddAccount(state, payLoad) {
-
+            const userName = Object.keys(payLoad)[0];
             state.user = payLoad;
-            state.users = {...state.users, ...state.user }
+            state.users = {...state.users, ...state.user };
+            state.userData = payLoad[userName];
 
+            state.allUsers = {
+                ...state.allUsers,
+                [userName]: {
+                    userName,
+                    requestStatus: 'Add Friend',
+                    requests: []
+                }
+            };
         },
 
         handlePublishPost(state, payLoad) {
             const userName = Object.keys(payLoad)[0];
-            state.newsFeed = {...state.newsFeed, ...payLoad }
-                // state.users[payLoad[userName].userName].posts = {...state.users[payLoad[userName].userName].posts, ...payLoad }
-
+            state.newsFeed = {...state.newsFeed, ...payLoad };
+            // state.users[payLoad[userName].userName].posts = {...state.users[payLoad[userName].userName].posts, ...payLoad }
         },
 
         handlePosterComment(state, payLoad) {
             const commentId = Object.keys(payLoad)[0];
-            state.newsFeed[payLoad[commentId].postId].comments = {...state.newsFeed[payLoad[commentId].postId].comments, ...payLoad }
-            state.newsFeed[payLoad[commentId].postId].posterComment = ''
+            state.newsFeed[payLoad[commentId].postId].comments = {
+                ...state.newsFeed[payLoad[commentId].postId].comments,
+                ...payLoad
+            };
+            state.newsFeed[payLoad[commentId].postId].posterComment = '';
         },
-
-
 
         handleLikes(state, payLoad) {
             switch (payLoad.condition) {
                 case 'postLikes':
-                    const indexLikes = state.newsFeed[payLoad.postId].likes.indexOf(payLoad.userId)
-                    const indexUnikes = state.newsFeed[payLoad.postId].unLikes.indexOf(payLoad.userId)
+                    const indexLikes = state.newsFeed[payLoad.postId].likes.indexOf(payLoad.userName);
+                    const indexUnikes = state.newsFeed[payLoad.postId].unLikes.indexOf(payLoad.userName);
                     if (payLoad.params === 'incrementPostLikes') {
-                        if (state.newsFeed[payLoad.postId].likes.indexOf(payLoad.userId) < 0) {
-
-                            state.newsFeed[payLoad.postId].likes.push(payLoad.userId)
-                            state.newsFeed[payLoad.postId].unLikes.splice(indexUnikes, 1)
+                        if (state.newsFeed[payLoad.postId].likes.indexOf(payLoad.userName) < 0) {
+                            state.newsFeed[payLoad.postId].likes.push(payLoad.userName);
+                            state.newsFeed[payLoad.postId].unLikes.splice(indexUnikes, 1);
                         } else {
-                            state.newsFeed[payLoad.postId].likes.splice(indexLikes, 1)
+                            state.newsFeed[payLoad.postId].likes.splice(indexLikes, 1);
                         }
                     } else {
-                        if (state.newsFeed[payLoad.postId].unLikes.indexOf(payLoad.userId) < 0) {
-                            state.newsFeed[payLoad.postId].unLikes.push(payLoad.userId)
-                            state.newsFeed[payLoad.postId].likes.splice(indexLikes, 1)
+                        if (state.newsFeed[payLoad.postId].unLikes.indexOf(payLoad.userName) < 0) {
+                            state.newsFeed[payLoad.postId].unLikes.push(payLoad.userName);
+                            state.newsFeed[payLoad.postId].likes.splice(indexLikes, 1);
                         } else {
-                            state.newsFeed[payLoad.postId].unLikes.splice(indexUnikes, 1)
+                            state.newsFeed[payLoad.postId].unLikes.splice(indexUnikes, 1);
                         }
                     }
                     break;
 
                 case 'commentLikes':
-                    const indexCommentLikes = state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.indexOf(payLoad.userId)
-                    const indexCommentUnikes = state.newsFeed[payLoad.postId].comments[payLoad.commentId].unLikes.indexOf(payLoad.userId)
+                    const indexCommentLikes = state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.indexOf(
+                        payLoad.userName
+                    );
+                    const indexCommentUnikes = state.newsFeed[payLoad.postId].comments[
+                        payLoad.commentId
+                    ].unLikes.indexOf(payLoad.userName);
                     if (payLoad.params === 'incrementCommentLikes') {
-                        if (state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.indexOf(payLoad.userId) < 0) {
-                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.push(payLoad.userId)
-                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].unLikes.splice(indexCommentUnikes, 1)
+                        if (
+                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.indexOf(payLoad.userName) < 0
+                        ) {
+                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.push(payLoad.userName);
+                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].unLikes.splice(
+                                indexCommentUnikes,
+                                1
+                            );
                         } else {
-                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.splice(indexCommentLikes, 1)
+                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.splice(
+                                indexCommentLikes,
+                                1
+                            );
                         }
                     } else {
-                        if (state.newsFeed[payLoad.postId].comments[payLoad.commentId].unLikes.indexOf(payLoad.userId) < 0) {
-                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].unLikes.push(payLoad.userId)
-                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.splice(indexCommentLikes, 1)
+                        if (
+                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].unLikes.indexOf(payLoad.userName) <
+                            0
+                        ) {
+                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].unLikes.push(payLoad.userName);
+                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].likes.splice(
+                                indexCommentLikes,
+                                1
+                            );
                         } else {
-                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].unLikes.splice(indexCommentUnikes, 1)
+                            state.newsFeed[payLoad.postId].comments[payLoad.commentId].unLikes.splice(
+                                indexCommentUnikes,
+                                1
+                            );
                         }
                     }
                     break;
@@ -15879,14 +12455,9 @@ emailAddress: 'chigo@gmail.com',
                 default:
                     break;
             }
-
-
-
-
         },
 
         handleSubmitMessage(state, payLoad) {
-
             const userName = payLoad[Object.keys(payLoad)[0]].userName;
             const friendMessaged = payLoad[Object.keys(payLoad)[0]].friendMessaged;
             const messsageData = {
@@ -15894,354 +12465,610 @@ emailAddress: 'chigo@gmail.com',
                 messageId: payLoad[Object.keys(payLoad)[0]].messageId,
                 message: payLoad[Object.keys(payLoad)[0]].message,
                 messageDate: payLoad[Object.keys(payLoad)[0]].messageDate,
-                messageStatus: payLoad[Object.keys(payLoad)[0]].messageStatus,
-            }
+                messageStatus: payLoad[Object.keys(payLoad)[0]].messageStatus
+            };
 
-            state.users[userName].messages[friendMessaged] = {...state.users[userName].messages[friendMessaged], [messsageData.messageId]: {...messsageData } }
+            state.users[userName].messages[friendMessaged] = {
+                ...state.users[userName].messages[friendMessaged],
+                [messsageData.messageId]: {...messsageData }
+            };
+
+            state.users[friendMessaged].messages[userName] = {
+                ...state.users[friendMessaged].messages[userName],
+                [messsageData.messageId]: {...messsageData }
+            };
 
 
-            state.users[friendMessaged].messages[userName] = {...state.users[friendMessaged].messages[userName], [messsageData.messageId]: {...messsageData } }
+
+
+
 
 
         },
 
         handleDeleteMessage(state, payLoad) {
-
-            delete state.users[payLoad.userName].messages[payLoad.friendMessaged][payLoad.messageId]
+            delete state.users[payLoad.userName].messages[payLoad.friendMessaged][payLoad.messageId];
         },
 
-
-        handleMessageViewStatus(state, payLoad) {
-
-            for (const messageId in state.users[payLoad.friendMessaged].messages[payLoad.userName]) {
-                if (state.users[payLoad.friendMessaged].messages[payLoad.userName][messageId].userName === payLoad.friendMessaged) {
-
-                    state.users[payLoad.friendMessaged].messages[payLoad.userName][messageId].messageStatus = "Read"
-                    state.users[payLoad.userName].messages[payLoad.friendMessaged][messageId].messageStatus = "Read"
-
-                }
-
-
-
-            }
-
-
-            for (const showMessage in state.users[payLoad.userName].messageStatus) {
-                state.users[payLoad.userName].messageStatus[showMessage].showMessage = "off"
-            }
-
-            if (payLoad.messageViewStatus === "Read") {
-
-   for (const showMessage in state.users[payLoad.userName].messageStatus) {
-                state.users[payLoad.userName].messageStatus[showMessage].messageOnScreen = payLoad.messageOnScreen
-            }
-
-                state.users[payLoad.userName].messageStatus = {...state.users[payLoad.userName].messageStatus,
-                    [payLoad.friendMessaged]: {
-                        friendMessaged: payLoad.friendMessaged,
-                        userName: payLoad.userName,
-                        messageOnScreen:payLoad.messageOnScreen,
-                        messageViewStatus: payLoad.messageViewStatus,
-                        showMessage: "on",
-
-                    }
-
-                }
-            } else {
-
-                state.users[payLoad.friendMessaged].messageStatus = {...state.users[payLoad.friendMessaged].messageStatus,
-                    [payLoad.userName]: {
-                        friendMessaged: payLoad.userName,
-                        userName: payLoad.userName,
-                        messageOnScreen:"off",
-                        messageViewStatus: payLoad.messageViewStatus,
-                        showMessage: "on",
-
-                    }
-
-
-
-                }
-   state.users[payLoad.userName].messageStatus = {...state.users[payLoad.userName].messageStatus,
-                    [payLoad.friendMessaged]: {
-                        friendMessaged: payLoad.friendMessaged,
-                        userName: payLoad.userName,
-                        messageOnScreen:"on",
-                        messageViewStatus: "read",
-                        showMessage: "on",
-
-                    }
-
-}
-
-            }
-
-
-
-
-
-        },
 
         handleMessageStatus(state, payLoad) {
-
             for (const userName in state.users) {
                 for (const messageUserName in state.users[userName].messages) {
                     if (messageUserName === payLoad.userName && userName !== payLoad.userName) {
                         for (const messageId in state.users[userName].messages[messageUserName]) {
-                            if (state.users[userName].messages[messageUserName][messageId].userName !== payLoad.userName) {
-                                if (state.users[userName].messages[messageUserName][messageId].messageStatus === 'sent') {
-                                  state.users[userName].messages[messageUserName][messageId].messageStatus = 'received'
-                                    state.users[payLoad.userName].messages[userName][messageId].messageStatus = 'received'
+                            if (
+                                state.users[userName].messages[messageUserName][messageId].userName !== payLoad.userName
+                            ) {
+                                if (
+                                    state.users[userName].messages[messageUserName][messageId].messageStatus === 'sent'
+                                ) {
+                                    state.users[userName].messages[messageUserName][messageId].messageStatus =
+                                        'received';
+                                    state.users[payLoad.userName].messages[userName][messageId].messageStatus =
+                                        'received';
 
                                 }
+                            }
+                        }
+
+                    }
+                }
+
+
+            }
+
+        },
 
 
 
+        handleMessageViewStatus(state, payLoad) {
+            for (const messageId in state.users[payLoad.friendMessaged].messages[payLoad.userName]) {
+                if (
+                    state.users[payLoad.friendMessaged].messages[payLoad.userName][messageId].userName ===
+                    payLoad.friendMessaged
+                ) {
 
+                    state.users[payLoad.friendMessaged].messages[payLoad.userName][messageId].messageStatus = 'Read';
+                    state.users[payLoad.userName].messages[payLoad.friendMessaged][messageId].messageStatus = 'Read';
+
+                }
+            }
+
+            for (const showMessage in state.users[payLoad.userName].messageStatus) {
+                state.users[payLoad.userName].messageStatus[showMessage].showMessage = false;
+            }
+
+            if (payLoad.messageViewStatus === 'Read') {
+                for (const messageStatusId in state.users[payLoad.userName].messageStatus) {
+                    state.users[payLoad.userName].messageStatus[messageStatusId].messageOnScreen = payLoad.messageOnScreen;
+                }
+
+                state.users[payLoad.userName].messageStatus = {
+                    ...state.users[payLoad.userName].messageStatus,
+                    [payLoad.friendMessaged]: {
+                        friendMessaged: payLoad.friendMessaged,
+                        userName: payLoad.userName,
+                        messageOnScreen: payLoad.messageOnScreen,
+                        messageViewStatus: payLoad.messageViewStatus,
+                        messageDate: Date.now(),
+                        showMessage: true
+                    }
+                };
+            } else {
+                state.users[payLoad.friendMessaged].messageStatus = {
+                    ...state.users[payLoad.friendMessaged].messageStatus,
+                    [payLoad.userName]: {
+                        friendMessaged: payLoad.userName,
+                        userName: payLoad.userName,
+                        messageOnScreen: false,
+                        messageViewStatus: payLoad.messageViewStatus,
+                        messageDate: Date.now(),
+                        showMessage: true
+                    }
+                };
+                state.users[payLoad.userName].messageStatus = {
+                    ...state.users[payLoad.userName].messageStatus,
+                    [payLoad.friendMessaged]: {
+                        friendMessaged: payLoad.friendMessaged,
+                        userName: payLoad.userName,
+                        messageOnScreen: true,
+                        messageViewStatus: 'read',
+                        messageDate: Date.now(),
+                        showMessage: true
+                    }
+                };
+            }
+        },
+
+
+
+        handleFriendRequest(state, payLoad) {
+            if (payLoad.requestStatus === 'Request Sent') {
+                state.allUsers[payLoad.friendUserName].requests = [
+                    ...state.allUsers[payLoad.friendUserName].requests,
+                    { userName: payLoad.userName }
+                ];
+            } else {
+                state.users[payLoad.userName].friends = [
+                    ...state.users[payLoad.userName].friends,
+                    { userName: payLoad.friendUserName }
+                ];
+                state.users[payLoad.friendUserName].friends = [
+                    ...state.users[payLoad.friendUserName].friends,
+                    { userName: payLoad.userName }
+                ];
+                state.allUsers[payLoad.userName].requests = state.allUsers[payLoad.userName].requests.filter(
+                    (user) => user.userName !== payLoad.friendUserName
+                );
+            }
+        },
+
+        handleFollow(state, payLoad) {
+            if (payLoad.followState === 'follow') {
+                state.users[payLoad.userName].following = [
+                    ...state.users[payLoad.userName].following,
+                    { userName: payLoad.friendUserName }
+                ];
+
+                return (state.users[payLoad.friendUserName].followers = [
+                    ...state.users[payLoad.friendUserName].followers,
+                    { userName: payLoad.userName }
+                ]);
+            }
+            state.users[payLoad.userName].following = state.users[payLoad.userName].following.filter(
+                (userName) => userName.userName !== payLoad.friendUserName
+            );
+            return (state.users[payLoad.friendUserName].followers = state.users[
+                payLoad.friendUserName
+            ].followers.filter((userName) => userName.userName !== payLoad.userName));
+        },
+
+        handleCancelFriendRequest(state, payLoad) {
+            state.allUsers[payLoad.userName].requests = state.allUsers[payLoad.userName].requests.filter(
+                (user) => user.userName !== payLoad.friendUserName
+            );
+            state.allUsers[payLoad.userName].requestStatus = 'Add Friend';
+        },
+
+        handleNotifications(state, payLoad) {
+            switch (payLoad.notificationType) {
+                case 'post':
+                    if (state.users[payLoad.userName].friends.length) {
+                        state.users[payLoad.userName].friends.forEach((friend) => {
+                            state.users[friend.userName].notifications = {
+                                ...state.users[friend.userName].notifications,
+                                [payLoad.notificationId]: {...payLoad }
+                            };
+                        });
+                    }
+                    break;
+
+                case 'friend request':
+                    state.users[payLoad.friendUserName].notifications = {
+                        ...state.users[payLoad.friendUserName].notifications,
+                        [payLoad.notificationId]: {...payLoad }
+                    };
+
+                    break;
+
+                case 'message':
+                    state.users[payLoad.friendUserName].notifications = {
+                        ...state.users[payLoad.friendUserName].notifications,
+                        [payLoad.notificationId]: {...payLoad }
+                    };
+
+                    break;
+
+                case 'likes':
+                    state.users[payLoad.posterUserName].notifications = {
+                        ...state.users[payLoad.posterUserName].notifications,
+                        [payLoad.notificationId]: {...payLoad }
+                    };
+                    state.users[payLoad.userName].friends.forEach((friend) => {
+                        state.users[friend.userName].notifications = {
+                            ...state.users[friend.userName].notifications,
+                            [payLoad.notificationId]: {...payLoad }
+                        };
+                    });
+
+                    break;
+
+                case 'likedComment':
+                    state.users[payLoad.posterUserName].notifications = {
+                        ...state.users[payLoad.posterUserName].notifications,
+                        [payLoad.notificationId]: {...payLoad }
+                    };
+                    state.users[payLoad.userName].friends.forEach((friend) => {
+                        state.users[friend.userName].notifications = {
+                            ...state.users[friend.userName].notifications,
+                            [payLoad.notificationId]: {...payLoad }
+                        };
+                    });
+
+                    break;
+
+                case 'comment':
+                    if (payLoad.posterUserName !== payLoad.posterUserName) {
+                        state.users[payLoad.posterUserName].notifications = {
+                            ...state.users[payLoad.posterUserName].notifications,
+                            [payLoad.notificationId]: {...payLoad }
+                        };
+                    }
+                    state.users[payLoad.userName].friends.forEach((friend) => {
+                        state.users[friend.userName].notifications = {
+                            ...state.users[friend.userName].notifications,
+                            [payLoad.notificationId]: {...payLoad }
+                        };
+                    });
+                    break;
+
+                case 'follow':
+                    state.users[payLoad.friendUserName].notifications = {
+                        ...state.users[payLoad.friendUserName].notifications,
+                        [payLoad.notificationId]: {...payLoad }
+                    };
+
+                    break;
+                case 'Accepted Friend Request':
+                    state.users[payLoad.friendUserName].notifications = {
+                        ...state.users[payLoad.friendUserName].notifications,
+                        [payLoad.notificationId]: {...payLoad }
+                    };
+
+                    break;
+
+                default:
+                    break;
+            }
+        },
+
+        handleNotificationUpdate(state, payLoad) {
+            for (const notificationsId in state.users[payLoad.userName].notifications) {
+                if (
+                    state.users[payLoad.userName].notifications[notificationsId].notificationType ===
+                    payLoad.notificationType
+                ) {
+                    state.users[payLoad.userName].notifications[notificationsId].notificationStatus = 'Read';
+                }
+            }
+        },
+
+        handleActivities(state, payLoad) {
+            state.users[payLoad.userName].activities = {
+                ...state.users[payLoad.userName].activities,
+                [payLoad.activityId]: {...payLoad }
+            };
+        },
+        handlePostViews(state, payLoad) {
+            if (!state.newsFeed[payLoad.postId].views.includes(payLoad.userName)) {
+                state.newsFeed[payLoad.postId].views = [...state.newsFeed[payLoad.postId].views, payLoad.userName]
+            }
+        },
+
+        handleDisplayFunctions(state, payLoad) {
+            switch (payLoad.params) {
+                case 'collapseNav':
+                    state.displayFunctions.navCollapsed = payLoad.navCollapsed;
+                    break;
+
+                case 'loginPageUnMount':
+                    state.displayFunctions.loginPageUnmounted = payLoad.loginPageUnmounted;
+
+                    break;
+
+                case 'displayClickedImage':
+                    state.displayFunctions.displayClickedImage = payLoad.displayClickedImage;
+
+                    break;
+                case 'activeLink':
+                    state.displayFunctions.activeLink = payLoad.activeLink;
+
+                    break;
+                case 'displayMessage':
+                    state.displayFunctions.displayMessage.userName = payLoad.userName;
+
+                    break;
+
+                case 'footerOnScreen':
+                    state.displayFunctions.footerOnScreen = payLoad.footerOnScreen;
+
+                    break;
+                case 'photosCompOnScreen':
+                    state.displayFunctions.photosCompOnScreen = payLoad.photosCompOnScreen;
+
+                    break;
+
+                case 'componentMounted':
+                    state.displayFunctions.componentMounted = payLoad.componentMounted;
+
+                    break;
+
+                    // case 'pageReLoad':
+                    //     state.displayFunctions.pageReLoad = payLoad.pageReLoad;
+
+                    //     break;
+
+                default:
+                    break;
+            }
+        },
+
+        handleAccountUpdate(state, payLoad) {
+            switch (payLoad.params) {
+                case 'updateProfileImage':
+                    state.users[payLoad.userName].userProfileImage = payLoad.userProfileImage;
+
+                    break;
+
+                case 'updateCoverImage':
+                    state.users[payLoad.userName].userCoverImage = payLoad.userCoverImage;
+
+                    break;
+                case 'otherDetails':
+                    state.users[payLoad.userName] = {...state.users[payLoad.userName], ...payLoad.userDetails };
+                    break;
+
+                case 'updateUserName':
+                    state.users = {...state.users, [payLoad.userDetails.userName]: {...payLoad.userDetails } };
+                    for (let userName in state.users) {
+                        for (let messagestatusUserName in state.users[userName].messageStatus) {
+                            if (state.users[userName].messageStatus[messagestatusUserName].userName === payLoad.userName) {
+                                state.users[userName].messageStatus[messagestatusUserName].userName = payLoad.userDetails.userName
+
+
+                            }
+                            if (messagestatusUserName === payLoad.userName) {
+                                state.users[userName].messageStatus[messagestatusUserName].friendMessaged =
+                                    payLoad.userDetails.userName;
+                                state.users[userName].messageStatus = {
+                                    ...state.users[userName].messageStatus,
+                                    [payLoad.userDetails.userName]: {
+                                        ...state.users[userName].messageStatus[messagestatusUserName]
+                                    }
+                                };
+
+                                delete state.users[userName].messageStatus[messagestatusUserName];
                             }
 
 
 
 
 
-
                         }
-                    }
+
+                        for (let messsageUserName in state.users[userName].messages) {
+                            if (messsageUserName === payLoad.userName) {
+
+                                for (let messsageUserId in state.users[userName].messages[messsageUserName]) {
+                                    if (
+                                        state.users[userName].messages[messsageUserName][messsageUserId].userName ===
+                                        payLoad.userName
+                                    ) {
+                                        state.users[userName].messages[messsageUserName][messsageUserId].userName =
+                                            payLoad.userDetails.userName;
+                                    }
+                                }
+                                state.users[userName].messages = {...state.users[userName].messages, [payLoad.userDetails.userName]: {...state.users[userName].messages[messsageUserName] } }
+
+                                delete state.users[userName].messages[messsageUserName];
 
 
-                }
+                            }
+                        }
 
-            }
-
-
-        },
-
-
-        handleFriendRequest(state, payLoad) {
-            if (payLoad.requestStatus === "Friend Request Sent") {
-                state.allUsers[payLoad.friendUserName].requests = [...state.allUsers[payLoad.friendUserName].requests, { userName: payLoad.userName }]
-            } else {
-                state.users[payLoad.userName].friends = [...state.users[payLoad.userName].friends, { userName: payLoad.friendUserName }]
-                state.users[payLoad.friendUserName].friends = [...state.users[payLoad.friendUserName].friends, { userName: payLoad.userName }]
-                state.allUsers[payLoad.userName].requests = state.allUsers[payLoad.userName].requests.filter((user) => user.userName !== payLoad.friendUserName)
-
-            }
-
-        },
-
-        handleFollow(state, payLoad) {
-            if (payLoad.followState === "follow") {
-
-                state.users[payLoad.userName].following = [...state.users[payLoad.userName].following, { userName: payLoad.friendUserName }]
-
-                return state.users[payLoad.friendUserName].followers = [...state.users[payLoad.friendUserName].followers, { userName: payLoad.userName }]
-
-            }
-            state.users[payLoad.userName].following = state.users[payLoad.userName].following.filter((userName) => userName.userName !== payLoad.friendUserName)
-            return state.users[payLoad.friendUserName].followers = state.users[payLoad.friendUserName].followers.filter((userName) => userName.userName !== payLoad.userName)
-
-        },
+                        state.users[userName].friends.forEach(user => {
+                            if (user.userName === payLoad.userName) {
+                                user.userName = payLoad.userDetails.userName
 
 
-        handleCancelFriendRequest(state, payLoad) {
-            state.allUsers[payLoad.userName].requests = state.allUsers[payLoad.userName].requests.filter((user) => user.userName !== payLoad.friendUserName)
-            state.allUsers[payLoad.userName].requestStatus = "Add Friend"
-        },
-
-        handleNotifications(state, payLoad) {
-            switch (payLoad.notificationType) {
-                case "post":
-
-                    if (state.users[payLoad.userName].friends.length) {
-                        state.users[payLoad.userName].friends.forEach(friend => {
-                            state.users[friend.userName].notifications = {...state.users[friend.userName].notifications, [payLoad.notificationId]: {...payLoad } }
-
+                            }
                         });
 
+
+                        state.users[userName].followers.forEach(user => {
+                            if (user.userName === payLoad.userName) {
+                                user.userName = payLoad.userDetails.userName
+
+
+                            }
+                        });
+
+
+                        state.users[userName].following.forEach(user => {
+                            if (user.userName === payLoad.userName) {
+                                user.userName = payLoad.userDetails.userName
+
+
+                            }
+                        });
+
+
                     }
-                    break;
 
-                case "friend request":
-                    state.users[payLoad.friendUserName].notifications = {...state.users[payLoad.friendUserName].notifications, [payLoad.notificationId]: {...payLoad } }
+                    for (let userName in state.allUsers) {
+                        if (state.allUsers[userName].userName === payLoad.userName) {
 
-                    break;
+                            state.allUsers[userName].userName = payLoad.userDetails.userName
 
-                case "message":
-                    state.users[payLoad.friendUserName].notifications = {...state.users[payLoad.friendUserName].notifications, [payLoad.notificationId]: {...payLoad } }
+                        }
+                        state.allUsers[userName].requests.forEach(user => {
+                            if (user.userName === payLoad.userName)
+                                user.userName = payLoad.userDetails.userName
+                        });
 
-                    break;
-
-                case "likes":
-                    state.users[payLoad.posterUserName].notifications = {...state.users[payLoad.posterUserName].notifications, [payLoad.notificationId]: {...payLoad } }
-                    state.users[payLoad.userName].friends.forEach(friend => {
-                        state.users[friend.userName].notifications = {...state.users[friend.userName].notifications, [payLoad.notificationId]: {...payLoad } }
-
-                    });
-
-                    break;
-
-                case "likedComment":
-                    state.users[payLoad.posterUserName].notifications = {...state.users[payLoad.posterUserName].notifications, [payLoad.notificationId]: {...payLoad } }
-                    state.users[payLoad.userName].friends.forEach(friend => {
-                        state.users[friend.userName].notifications = {...state.users[friend.userName].notifications, [payLoad.notificationId]: {...payLoad } }
-
-                    });
-
-                    break;
+                        if (userName === payLoad.userName) {
+                            state.allUsers = {...state.allUsers,
+                                [payLoad.userDetails.userName]: {...state.allUsers[userName]
+                                }
+                            }
 
 
-                case "comment":
-                    if (payLoad.posterUserName !== payLoad.posterUserName) {
-                        state.users[payLoad.posterUserName].notifications = {...state.users[payLoad.posterUserName].notifications, [payLoad.notificationId]: {...payLoad } }
+                            delete state.allUsers[userName]
+
+                        }
+
+
+
                     }
-                    state.users[payLoad.userName].friends.forEach(friend => {
-                        state.users[friend.userName].notifications = {...state.users[friend.userName].notifications, [payLoad.notificationId]: {...payLoad } }
+                    for (let feedId in state.newsFeed) {
+                        if (state.newsFeed[feedId].userName === payLoad.userName) {
 
-                    });
+                            state.newsFeed[feedId].userName = payLoad.userDetails.userName
+
+                        }
+
+                        for (let commentId in state.newsFeed[feedId].comments) {
+                            if (state.newsFeed[feedId].comments[commentId].userName === payLoad.userName) {
+                                state.newsFeed[feedId].comments[commentId].userName = payLoad.userDetails.userName
+                            }
+                        }
+
+                    }
+
+                    state.userData = state.users[payLoad.userDetails.userName];
+
+
+                    setTimeout(() => {
+                        delete state.users[payLoad.userName]
+
+                    }, 1000);
+
+
+
+
                     break;
-
-                case "follow":
-                    state.users[payLoad.friendUserName].notifications = {...state.users[payLoad.friendUserName].notifications, [payLoad.notificationId]: {...payLoad } }
-
-                    break;
-                case "Accepted Friend Request":
-                    state.users[payLoad.friendUserName].notifications = {...state.users[payLoad.friendUserName].notifications, [payLoad.notificationId]: {...payLoad } }
-
-                    break;
-
-
 
                 default:
                     break;
             }
-
-
         },
 
 
-        handleNotificationUpdate(state, payLoad) {
-            for (const notificationsId in state.users[payLoad.userName].notifications) {
-                if (state.users[payLoad.userName].notifications[notificationsId].notificationType === payLoad.notificationType) {
-                    state.users[payLoad.userName].notifications[notificationsId].notificationStatus = "Read"
-                 
-                }
+        handleAddImageVideo(state, payLoad) {
+
+            if (payLoad.fileType === "image") {
+
+                state.users[payLoad.userName].photos = [...state.users[payLoad.userName].photos, { imageUrl: payLoad.imageUrl, imageId: payLoad.imageId }]
+
+
+            } else {
+                state.users[payLoad.userName].videos = [...state.users[payLoad.userName].videos, { videoUrl: payLoad.videoUrl, videoId: payLoad.videoId, videoAutoplay: false }]
+
+
             }
 
 
         },
+        handleUpdateLocalStorage(state, payLoad) {
 
-        handleActivities(state, payLoad) {
+            switch (payLoad.params) {
+                case "loadData":
+                    localStorage.state = JSON.stringify(state)
+                    break;
+                case "updateData":
 
-            state.users[payLoad.userName].activities = {...state.users[payLoad.userName].activities, [payLoad.activityId]: {...payLoad } }
+                    localStorage.state = JSON.stringify(state)
 
 
-        },
-        handlePostViews(state, payLoad) {
-            for (const userKey in state.newsFeed) {
-                state.newsFeed[userKey].views = [...state.newsFeed[userKey].views, payLoad.userName]
+                    break;
+                case "retrieveData":
+                    let localState = JSON.parse(localStorage.state)
+                    for (let stateKey in state) {
+                        if (stateKey !== "userData") {
+                            state[stateKey] = localState[stateKey]
+                        }
+
+                    }
+                    break;
+
+                default:
+                    break;
             }
-            // state.newsFeed[payLoad.posterUserName].views=[...state.newsFeed[payLoad.posterUserName].views,payLoad.userName]        
-
-
+            console.log(JSON.parse(localStorage.state))
         },
-
-
-
-
-
-
-
-
 
 
 
     },
-    actions: {
 
+    actions: {
         handleAddAccount(context, payLoad) {
-            context.commit('handleAddAccount', payLoad)
+            context.commit('handleAddAccount', payLoad);
         },
 
         handlePublishPost(context, payLoad) {
-            context.commit('handlePublishPost', payLoad)
+            context.commit('handlePublishPost', payLoad);
         },
 
         handleLikes(context, payLoad) {
-
-            context.commit('handleLikes', payLoad)
+            context.commit('handleLikes', payLoad);
         },
 
         handlePosterComment(context, payLoad) {
-
-
-            context.commit('handlePosterComment', payLoad)
-
+            context.commit('handlePosterComment', payLoad);
         },
         handleLogin(context, payLoad) {
-            context.commit('handleLogin', payLoad)
-
+            context.commit('handleLogin', payLoad);
         },
         updateUserData(context, payLoad) {
-            context.commit('updateUserData', payLoad)
-
+            context.commit('updateUserData', payLoad);
         },
 
         handleSubmitMessage(context, payLoad) {
-            context.commit('handleSubmitMessage', payLoad)
-
+            context.commit('handleSubmitMessage', payLoad);
         },
         handleDeleteMessage(context, payLoad) {
-            context.commit('handleDeleteMessage', payLoad)
-
+            context.commit('handleDeleteMessage', payLoad);
         },
         handleMessageViewStatus(context, payLoad) {
-            context.commit('handleMessageViewStatus', payLoad)
-
+            context.commit('handleMessageViewStatus', payLoad);
         },
         handleMessageStatus(context, payLoad) {
-            context.commit('handleMessageStatus', payLoad)
-
+            context.commit('handleMessageStatus', payLoad);
         },
         handleFriendRequest(context, payLoad) {
-            context.commit('handleFriendRequest', payLoad)
-
+            context.commit('handleFriendRequest', payLoad);
         },
 
         handleCancelFriendRequest(context, payLoad) {
-            context.commit('handleCancelFriendRequest', payLoad)
-
+            context.commit('handleCancelFriendRequest', payLoad);
         },
         handleNotifications(context, payLoad) {
-            context.commit('handleNotifications', payLoad)
-
+            context.commit('handleNotifications', payLoad);
         },
         handleNotificationUpdate(context, payLoad) {
-            context.commit('handleNotificationUpdate', payLoad)
-
+            context.commit('handleNotificationUpdate', payLoad);
         },
         handleFollow(context, payLoad) {
-            context.commit('handleFollow', payLoad)
-
+            context.commit('handleFollow', payLoad);
         },
 
         handleActivities(context, payLoad) {
-            context.commit('handleActivities', payLoad)
-
+            context.commit('handleActivities', payLoad);
         },
         handlePostViews(context, payLoad) {
-            context.commit('handlePostViews', payLoad)
-
+            context.commit('handlePostViews', payLoad);
+        },
+        handleDisplayFunctions(context, payLoad) {
+            context.commit('handleDisplayFunctions', payLoad);
+        },
+        handleAccountUpdate(context, payLoad) {
+            context.commit('handleAccountUpdate', payLoad);
+        },
+        handleAddImageVideo(context, payLoad) {
+            context.commit('handleAddImageVideo', payLoad);
+        },
+        handleUpdateChatList(context, payLoad) {
+            context.commit('handleUpdateChatList', payLoad);
+        },
+        handleUpdateLocalStorage(context, payLoad) {
+            context.commit('handleUpdateLocalStorage', payLoad);
         },
 
-    },
-
-    getters: {
-        updateUserData(state) {
-            return state.userData
-        }
-
 
     },
+
+
 
     modules: {}
-})
+});
