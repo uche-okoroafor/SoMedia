@@ -828,8 +828,12 @@
       },
 
       reset() {
-         delete localStorage.state 
-         delete localStorage.userData 
+        //  delete localStorage.state 
+        //  delete localStorage.userData 
+
+this.autoPosts()
+
+
 
       },
 
@@ -1318,12 +1322,40 @@
         return true
       },
 
+autoPosts() {
+setTimeout(() => {
+
+       this.$store.dispatch("handlePublishPost", {
+            ["91283"]: {
+              userName: "Ivy",
+              userId:"5c8ef170-db3a-11eb-af32-47b0df65ae76",
+              views: [],
+              postId:"91283",
+              datePosted: Date.now(),
+              posts:"She is the best Man of the Occasion 💖💖",
+              likes: [],
+              unLikes: [],
+              posterComment: "",
+              comments: [],
+              postStyle: "text-theme-default",
+              postImages: [{ imageUrl:"", imageId:"" }],
+              postVideos: { videoUrl:require("./assets/postVideos/ivy-post2.mp4"), videoId:"555", videoAutoplay: false },
+
+            },
+
+          });
+}, 1000);
+
+
+
+
+
+      },
+
 
 
     },
-    watch: {
 
-    },
 
 
     computed: {
@@ -1368,6 +1400,8 @@
         const userData = this.$store.state.userData
         this.userData = this.$store.state.userData
         this.storeData = this.$store.state
+
+
 
 
         let allUsers = []
