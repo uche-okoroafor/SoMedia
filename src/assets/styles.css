@@ -130,6 +130,7 @@ video {
     font-size: 100%;
     /* font: inherit; */
     vertical-align: baseline;
+image-rendering: -webkit-optimize-contrast;
 }
 
 
@@ -571,8 +572,8 @@ nav {
 }
 
 .user-icon img {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
 border: 2px solid var(--pink);
 }
@@ -914,7 +915,7 @@ align-items: center;
     width: 40%;
 }
 
-.home-list li:hover,
+.nav-notification-hover:hover,
 .list:hover {
     color: var(--pink) !important;
 }
@@ -967,13 +968,27 @@ nav li hover {
     color: rgb(58, 161, 221);
 }
 
-.collapsed-nav-notification:hover {
-    color: var(--pink);
-}
+
 
 .collapsed-nav .nav-container-two li {
     margin: 0 .3rem;
+color: var(--info-hover);
 }
+
+.collapsed-nav .nav-container-two li:hover{
+color: var(--pink) ;
+
+}
+
+
+
+.collapsed-nav .nav-container-two li:hover{
+color: var(--pink) ;
+
+}
+
+
+
 
 @media only screen and (max-width:1166px) {
     .collapsed-nav-text {
@@ -1080,6 +1095,7 @@ display: flex;
 .dropdown-notifications {
     position: absolute;
     background-color: white;
+color: var(--navy-blue);
     min-width: 15rem;
     /* overflow: auto; */
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -1184,7 +1200,7 @@ height: 2rem !important;
 
 .dropdown-notifications ul li:hover{
 
-color: var(--green) !important;
+color: var(--pink) !important;
 
 }
 
@@ -1357,6 +1373,7 @@ padding-bottom: 20px;
     justify-content: center;
     margin: 20px 0;
 }
+
 
 .filepreview img {
     max-width: 100%;
@@ -1712,6 +1729,22 @@ margin: auto !important;
     display: flex;
     padding-left: 3rem;
 }
+   .post-views svg{
+
+color: var(--pink);
+}
+
+
+
+@media only screen  and (max-width:470px){
+   .post-comments-num{
+
+display: none;
+}
+ 
+}
+
+
 
 .comment-like,
 .comment-unlike {
@@ -1877,7 +1910,7 @@ margin-top: 2rem;
 
 .container-sidebar-two .sidebar-list li {
     margin: 0;
-    padding: 10px;
+    padding: 15px 10px;
     display: flex;
     justify-content: space-evenly;
     flex-flow: row nowrap;
@@ -2146,7 +2179,7 @@ height: 0vh;
     }
 }
 
-@media only screen and (max-width:576px) {
+@media only screen and (max-width:720px) {
     .timeline-container {
         justify-content: center;
     }
@@ -2228,9 +2261,10 @@ display:none;
 }
 
 .userPhotos-container {
-    width: 62%;
-    left: 13%;
-    position: relative;
+    width: 70%;
+margin: 0 auto;
+    /* left: 13%; */
+    /* position: relative; */
     border-radius: 5px;
     padding-bottom: 1rem;
     background-color: var(--white);
@@ -3069,7 +3103,7 @@ width: 60%;
 padding: 0 20px;
 }
 
-@media only screen and (max-width:992px) {
+@media only screen and (max-width:1100px) {
     .people-container {
         display: none;
     }
@@ -3117,13 +3151,20 @@ position: sticky;
 .people-main-container::-webkit-scrollbar {
     display: none;
 }
+.people-main-container hr{
+margin-bottom: 0 !important;
+}
+
+
 
 .friends-contents .friends-contents-list {
     display: flex;
     flex-flow: column;
 }
 
-.friends-contents .friends-contents-list:hover {
+
+
+.friends-contents:hover {
     background-color: var(--cyann-hover);
 }
 
@@ -3136,8 +3177,10 @@ position: sticky;
 }
 
 .friends-contents .request-buttons button {
-    width: 6rem;
+    width: 6.4rem;
     padding: 0.375rem 0.2rem;
+font-size: 0.8rem;
+font-weight: 600;
 }
 
 .friends-contents .userName-image h5 {
@@ -3148,7 +3191,7 @@ position: sticky;
 }
 
 .friends-contents .userName-image {
-    padding: 20px;
+    padding: 20px 30px;
 }
 
 
@@ -3181,7 +3224,7 @@ top: 0;
 position: relative;
 }
 
-@media only screen and (max-width:992px) {
+@media only screen and (max-width:1100px) {
     .friends-container {
         width: 75%;
   padding-right: 20px;
@@ -3238,6 +3281,7 @@ min-height: 50vh;
     width: 100%;
     margin: 10px;
     flex-grow: 1;
+    cursor: pointer;
 }
 
 
@@ -3840,6 +3884,7 @@ font-weight: bold;
 
 hr {
     width: 95%;
+
 }
 
 .profile-card {
@@ -3881,3 +3926,12 @@ width: 70% !important;
 
 }
 }
+
+
+/* 
+.twot{
+position: fixed;
+overflow: scroll;
+overflow:hidden;
+height: 70vh;
+} */
