@@ -185,7 +185,7 @@
         </div>
       </div>
 
-
+ 
 
       <div class="container-message  container-desktop-view">
         <div class="fill-up-container" :style="filUpStyle"></div>
@@ -257,7 +257,7 @@
         </form>
       </div>
 
-      <div class="container-message  container-mobile-view  container-mobileView " ref="containerMessage">
+     <div class="container-message  container-mobile-view  container-mobileView" ref="containerMessage">
         <div class="fill-up-container" :style="filUpStyle"></div>
         <div class="messager-Header" :style="handleNavCollapse()">
           <img :src="userProfilePicture" alt="" v-if="messagesEmpty">
@@ -374,7 +374,7 @@
         messageUserProfilePicture: '',
         userProfilePicture: '',
         messageUserName: '',
-        displayMessage: '',
+        // displayMessage: '',
         displayChatList: '',
         filUpStyle: '',
         messagesEmpty: true,
@@ -425,6 +425,7 @@
         for (const message in this.userData.messageStatus) {
           messageStatus.push(this.userData.messageStatus[message]);
         }
+
         if (messageStatus.length) {
           this.showingMessageStatus = messageStatus.filter((message) => message.showMessage);
 
@@ -433,6 +434,7 @@
 
 
           this.friendMessaged = this.showingMessageStatus[0].friendMessaged
+               this.messagesEmpty = true
         } else {
 
           this.messagesEmpty = false
@@ -575,12 +577,14 @@
         this.scrollToBottom()
       },
 
-      showMessage(userName, status, messageOnScreen) {
 
+
+      showMessage(userName, status, messageOnScreen) {
 
         this.userProfilePicture = this.handleImages(userName);
         this.friendMessaged = userName;
         let chatList = Object.keys(this.userData.messageStatus)
+
         if (!chatList.includes(userName) && status === "newMessage") {
           this.showingMessage = {
             'none': {
@@ -591,6 +595,8 @@
               messageStatus: '',
             }
           }
+ this.messagesEmpty = true
+
           this.$store.dispatch("handleDisplayFunctions", {
             userName: '',
             params: "displayMessage"
@@ -616,6 +622,8 @@
         this.handleSearchBackDrop('close')
 
       },
+
+
 
       showChatList() {
         this.$refs.containerMessage.classList.add("container-mobileView")
