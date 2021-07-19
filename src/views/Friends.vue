@@ -72,12 +72,12 @@
         <div class="friends-list" v-if="!handleEmptyList()">
           <div v-show="displayFriends" v-for="user in userData.friends" :key="user.userName" class="friend-content">
             <div class="friend-main-content">
-              <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
-                <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
+              <div class="user-images" >
+                <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" @click="showUserProfile(user.userName, user.userId)" class="cover-image">
 
                 <span class="userIcon-image"> <img :src="handleImages(user.userName)" class="profile-picture" alt="">
-                  <h5>{{user.userName}}</h5>
-                  <button class="btn btn-danger">Unfriend</button>
+                  <h5 @click="showUserProfile(user.userName, user.userId)">{{user.userName}}</h5>
+                  <button class="btn btn-danger" @click="handleUnfriend(user.userName)">Unfriend</button>
 
                 </span>
               </div>
@@ -101,12 +101,13 @@
           <div v-show="displayFollowers" v-for="user in $store.state.userData.followers" :key="user.userName"
             class="friend-content">
             <div class="friend-main-content">
-              <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
-                <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
+              <div class="user-images" >
+                <img src="https://themified.com/friend-finder/images/covers/1.jpg" @click="showUserProfile(user.userName, user.userId)" alt="" class="cover-image">
 
                 <span class="userIcon-image"> <img :src="handleImages(user.userName)" class="profile-picture" alt="">
-                  <h5>{{user.userName}}</h5>
-                  <button class="btn btn-danger unfriend-btn">Unfollow</button>
+                  <h5 @click="showUserProfile(user.userName, user.userId)">{{user.userName}}</h5>
+                  <button class="btn btn-success unfriend-btn" v-if="followingList.includes(user.userName)" disabled> Following</button>
+                  <button class="btn btn-danger unfriend-btn"  v-else  @click="handleFollow(user.userName,'follow')">Follow Back</button>
 
                 </span>
               </div>
@@ -130,12 +131,12 @@
           <div v-show="displayFollowing" v-for="user in $store.state.userData.following" :key="user.userName"
             class="friend-content">
             <div class="friend-main-content">
-              <div class="user-images" @click="showUserProfile(user.userName, user.userId)">
-                <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image">
+              <div class="user-images">
+                <img src="https://themified.com/friend-finder/images/covers/1.jpg" alt="" class="cover-image"  @click="showUserProfile(user.userName, user.userId)">
 
                 <span class="userIcon-image"> <img :src="handleImages(user.userName)" class="profile-picture" alt="">
-                  <h5>{{user.userName}}</h5>
-                  <button class="btn btn-danger unfriend-btn">Follow back</button>
+                  <h5  @click="showUserProfile(user.userName, user.userId)">{{user.userName}}</h5>
+                  <button class="btn btn-danger unfriend-btn" @click="handleFollow(user.userName,'unfollow')">unfollow</button>
                 </span>
               </div>
 
@@ -268,6 +269,9 @@
             unLikes: [],
           },
         },
+userFriendsList:[],
+userFollowersList:[],
+userFollowingList:[],
         allUsers: {},
         displayFriends: true,
         displayFollowers: false,
@@ -513,6 +517,7 @@
               activityId: uuid.v1()
             });
 
+
             break;
 
           case "Accept Request":
@@ -554,17 +559,47 @@
 
         this.$store.dispatch("handleCancelFriendRequest", {
           userName: friendUserName,
-          friendUserName: this.userData.userName
+          friendUserName: this.userData.userName,
+          params:"cancelFriendRequest"
         }
         )
         this.loadData()
 
       },
 
+handleUnfriend(userName){
+
+ this.$store.dispatch("handleCancelFriendRequest", {
+          userName,
+          friendUserName: this.userData.userName,
+          params:"unFriend"
+        }
+ )
+
+
+},
+
+handleUnfollow(userName){
+
+ this.$store.dispatch("handleCancelFriendRequest", {
+          userName,
+          friendUserName: this.userData.userName,
+          params:"unFollow"
+        }
+ )
+console.log("foll");
+
+},
+
     },
 
     computed: {
       randomUsers() {
+
+this.userFriendsList=this.userData.friends.reverse()
+this.userFollowersList=this.userData.followers.reverse()
+this.userFollowingList=this.userData.following.reverse()
+
         const friends = this.userData.friends.map((friend) => friend.userName);
         let allUsers = []
         for (const user in this.$store.state.allUsers) {
