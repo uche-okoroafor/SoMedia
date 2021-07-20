@@ -13,12 +13,17 @@
         </div>
       </div>
       <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-        <div class="d-flex justify-content-between">
-          <a href="#" class="btn btn-sm btn-info mr-4" v-if="handleUserViewed()"
-            @click="handleFriendRequest( $store.state.allUsers[userName],'Add Friend')"> {{
-            $store.state.allUsers[userName].requestStatus }}</a>
-          <a href="#" class="btn btn-sm btn-default btn-success float-right" v-if="handleUserViewed()"
-            @click="showMessage(userName, 'Read', 'Read')">Message</a>
+        <div class="d-flex justify-content-between" v-if="handleUserViewed()">
+  <a v-if="friendsList.includes($store.state.userData.userName)" class="btn btn-l btn-info mr-4" style="color: white;" 
+           >Friends</a>
+
+          <a  v-else class="btn btn-l btn-info mr-4" style="color: white;" 
+            @click="handleFriendRequest( $store.state.allUsers[userName],friendRequestStatus)"> {{
+            friendRequestStatus }}</a>
+        
+
+          <a href="#" class="btn btn-l btn-default  float-right" 
+            @click="showMessage(userName, 'Read')">Message</a>
         </div>
       </div>
       <div class="card-body pt-0 pt-md-4">
@@ -33,8 +38,11 @@
                 </span>
               </div>
               <div>
-                <span class="heading">10</span>
-                <span class="description">Photos</span>
+                <span class="heading">{{$store.state.users[userName].photos.length}}</span>
+ <span class="description" @click="$emit('toggleView','displayPhotos')">
+                  <router-link :to="{name:'Timeline',params:{userName:userData.userName,Timeline:'Friends'}}">Photos
+                  </router-link>
+                </span>
               </div>
               <div>
                 <span class="heading">{{userData.posts.length}}</span>
@@ -49,19 +57,19 @@
         </div>
         <div class="text-center">
           <h3>
-            {{userNames}} {{userData.lastName}}<span class="font-weight-light">, 27</span>
+            {{userNames}} {{userData.lastName}}<span class="font-weight-light">,{{userData.age}}</span>
           </h3>
           <div class="h5 font-weight-300">
-            <i class="ni location_pin mr-2"></i>{{userNames.city}},{{userNames.country}}
+            <i class="ni location_pin mr-2"></i>{{userData.city}},{{userData.country}}
           </div>
           <div class="h5 mt-4">
-            <i class="ni business_briefcase-24 mr-2"></i>{{userNames.occupation}}
+            <i class="ni business_briefcase-24 mr-2"></i>{{userData.occupation}}
           </div>
           <div>
-            <i class="ni education_hat mr-2"></i>{{userNames.education}}
+            <i class="ni education_hat mr-2"></i>{{userData.education}}
           </div>
           <hr class="my-4">
-          <p>{{userNames.aboutMe}}</p>
+          <p>{{userData.aboutMe}}</p>
 
         </div>
       </div>
@@ -76,8 +84,8 @@
       return {
         userData: {
           userName: "Guest",
-          userId: "419",
-          emailAddress: "419",
+          userId: "",
+          emailAddress: "",
           firstName: "Guest",
           lastName: "Guest",
           address: "Guest",
@@ -112,17 +120,19 @@
 
             }
 
-
           }
         },
+friendsList:[],
+friendRequestStatus:"Add Friend"
+
       }
     },
     mounted() {
-      this.loadData()
+      this.loadData(true)
     },
     beforeUnmount() {
 
-      this.loadData()
+      this.loadData(false)
 
     },
 
@@ -131,16 +141,17 @@
       loadData() {
 
         this.userData = this.$store.state.users[this.userName]
+let postCount = []
         for (const userName in this.$store.state.newsFeed) {
           if (this.$store.state.newsFeed[userName].userName === this.userData.userName) {
 
-            this.userData.posts = [...this.userData.posts, this.$store.state.newsFeed[userName]]
+           postCount = [...postCount,userName]
 
           }
 
         }
 
-
+this.userData.posts =postCount
 
       },
 
@@ -184,6 +195,7 @@
 
       handleFriendRequest(user, requestStatus) {
 
+console.log(requestStatus);
         switch (requestStatus) {
           case "Add Friend":
 
@@ -191,7 +203,7 @@
 
             this.$store.dispatch("handleFriendRequest", {
               friendUserName: user.userName,
-              userName: this.userData.userName,
+              userName: this.$store.state.userData.userName,
               requestStatus: "Request Sent",
             });
             break;
@@ -199,10 +211,9 @@
           case "Accept Request":
             this.$store.dispatch("handleFriendRequest", {
               friendUserName: user.userName,
-              userName: this.userData.userName,
+              userName:this.$store.state.userData.userName,
               requestStatus: "Accept Request",
             });
-
 
 
             break;
@@ -210,12 +221,37 @@
           default:
             break;
         }
+      },
 
-      }
 
     },
     computed: {
       userNames() {
+this.friendsList = this.$store.state.users[this.userName].friends.map((user)=>user.userName)
+// console.log(this.$store.state.allUsers[this.userName].requests);
+
+let friendRequestList =this.$store.state.allUsers[this.userName].requests.map((user)=>user.userName)
+let userRequestList = this.$store.state.allUsers[this.$store.state.userData.userName].requests.map((user)=>user.userName)
+if(friendRequestList.includes(this.$store.state.userData.userName)){
+
+this.friendRequestStatus = "Request Sent"
+
+}
+else if
+(userRequestList.includes(this.userName)){
+this.friendRequestStatus = "Accept Request"
+
+}
+else{
+
+this.friendRequestStatus = "Add Friend"
+
+}
+
+
+
+
+
         let userName = this.userName
 
         if (this.userData.userName !== this.userName) { this.loadData() }
@@ -304,7 +340,8 @@
     margin: 0;
     text-align: left;
     color: #525f7f;
-    background-color: #f8f9fe;
+    background-color: #f0f2f5e5 !important;
+/* background-color: #f8f9fe; */
   }
 
   [tabindex='-1']:focus {
@@ -972,95 +1009,19 @@
     border-radius: .375rem;
   }
 
-  .dropdown {
-    position: relative;
-  }
 
-  .dropdown-menu {
-    font-size: 1rem;
-    position: absolute;
-    z-index: 1000;
-    top: 100%;
-    left: 0;
-    display: none;
-    float: left;
-    min-width: 10rem;
-    margin: .125rem 0 0;
-    padding: .5rem 0;
-    list-style: none;
-    text-align: left;
-    color: #525f7f;
-    border: 0 solid rgba(0, 0, 0, .15);
-    border-radius: .4375rem;
-    background-color: #fff;
-    background-clip: padding-box;
-    box-shadow: 0 50px 100px rgba(50, 50, 93, .1), 0 15px 35px rgba(50, 50, 93, .15), 0 5px 15px rgba(0, 0, 0, .1);
-  }
 
-  .dropdown-menu.show {
-    display: block;
-    opacity: 1;
-  }
 
-  .dropdown-menu-right {
-    right: 0;
-    left: auto;
-  }
 
-  .dropdown-menu[x-placement^='top'],
-  .dropdown-menu[x-placement^='right'],
-  .dropdown-menu[x-placement^='bottom'],
-  .dropdown-menu[x-placement^='left'] {
-    right: auto;
-    bottom: auto;
-  }
 
-  .dropdown-divider {
-    overflow: hidden;
-    height: 0;
-    margin: .5rem 0;
-    border-top: 1px solid #e9ecef;
-  }
 
-  .dropdown-item {
-    font-weight: 400;
-    display: block;
-    clear: both;
-    width: 100%;
-    padding: .25rem 1.5rem;
-    text-align: inherit;
-    white-space: nowrap;
-    color: #212529;
-    border: 0;
-    background-color: transparent;
-  }
 
-  .dropdown-item:hover,
-  .dropdown-item:focus {
-    text-decoration: none;
-    color: #16181b;
-    background-color: #f6f9fc;
-  }
 
-  .dropdown-item:active {
-    text-decoration: none;
-    color: #fff;
-    background-color: #5e72e4;
-  }
 
-  .dropdown-item:disabled {
-    color: #8898aa;
-    background-color: transparent;
-  }
 
-  .dropdown-header {
-    font-size: .875rem;
-    display: block;
-    margin-bottom: 0;
-    padding: .5rem 1.5rem;
-    white-space: nowrap;
-    color: #8898aa;
-  }
+
+
+
 
   .input-group {
     position: relative;
