@@ -46,20 +46,17 @@
             :class="postStyle" placeholder=" Make a post" @click="handleMakePost('text')" ref="textArea"></textarea>
 
           <br />
-          <div class="filepreview"  v-if="previewImage||previewVideo">
+          <div class="filepreview" v-if="previewImage||previewVideo">
 
-
-<div :class="handleImageDisplayStyle()" v-if="previewImage" > 
-           <img v-for="imgUrl in postImageArray" :src="imgUrl.imgUrl" :class="imgUrl.imgclass" alt="" >
-</div>
+            <img :src="tempSource" alt="" v-if="previewImage">
 
 
 
 
             <div class="post-Video stackItem" v-if="previewVideo && loadFileAddress">
               <video width="500" heigth="100" controls>
-                <source :src="tempUrl" type="video/mp4">
-                <source :src="tempUrl" type="video/ogg">
+                <source :src="tempSource" type="video/mp4">
+                <source :src="tempSource" type="video/ogg">
                 Your browser does not support HTML video.
               </video>
             </div>
@@ -68,8 +65,8 @@
 
 
           </div>
-          <input type="file" name="fileUpload" accept="image/png,image/jpeg,video/mp4" ref="filesUploadVideo"
-            @change="localFiles" v-show="false">
+          <input type="file" name="fileUpload" accept="video/mp4" ref="filesUploadVideo" @change="localFiles"
+            v-show="false">
           <input type="file" name="fileUpload" accept="image/png,image/jpeg" ref="filesUploadImages"
             @change="localFiles" v-show="false">
 
@@ -189,7 +186,9 @@
             <font-awesome-icon :icon="['fas', 'thumbs-down']" />
             {{ post.unLikes.length }}
           </span>
-<div class="m-2  post-views">Views &nbsp;<font-awesome-icon :icon="['fas', 'eye']" /> &nbsp; {{ post.views.length }}</div>
+          <div class="m-2  post-views">Views &nbsp;
+            <font-awesome-icon :icon="['fas', 'eye']" /> &nbsp; {{ post.views.length }}
+          </div>
           <div class="m-2  post-comments-num">{{ Object.keys(post.comments).length }} comments</div>
         </div>
         <hr />
@@ -264,11 +263,11 @@
         <div class="sidebar-list-header">
           <h5>Online</h5>
         </div>
-        <ul v-for="friend in $store.state.allUsers" :key="friend.userName">
-          <div>
-            <li @click="showMessage(friend.userName)">
-              <img :src="$store.state.users[friend.userName].userProfileImage" class="user-image-icon" alt="" />
-              <span class="username-header"> {{ friend.userName }}</span>
+        <ul  >
+          <div v-for="user in allUsers" :key="user.userName">
+            <li  @click="showMessage(user.userName)"  v-if="user.userName !== $store.state.userData.userName">
+              <img :src="$store.state.users[user.userName].userProfileImage" class="user-image-icon" alt="" />
+              <span class="username-header"> {{ user.userName }}</span>
               <button class="btn btn-success">Chat</button>
             </li>
           </div>
@@ -347,7 +346,7 @@
         notifications: [],
         showUserName: false,
         postStyle: "text-theme-default",
-        tempUrl: '',
+        tempSource: '',
         previewVideo: false,
         previewImage: false,
         loadFileAddress: false,
@@ -356,7 +355,7 @@
         PostBackDropZIndex: "z-index:600",
         restrictGuest: false,
         videoAutoplay: false,
-postImageArray:[],
+newsFeeds:[],
       };
 
 
@@ -377,6 +376,41 @@ postImageArray:[],
       loadData() {
         this.newsFeed = this.$store.state.newsFeed;
         this.userData = this.$store.state.userData;
+
+
+        if (this.previewVideo && this.tempSource.length || this.previewImage && this.tempSource.length) {
+          this.loadFileAddress = true
+        }
+
+        let newsFeeds = [];
+
+        for (const newsFeedId in this.newsFeed) {
+          newsFeeds.push(this.newsFeed[newsFeedId]);
+
+
+        }
+
+let viewed =[...newsFeeds].filter((posts)=>posts.views.includes(this.userData.userName) )
+let unViewed =[...newsFeeds].filter((posts)=>!posts.views.includes(this.userData.userName) )
+let newsFeedsList=unViewed.concat(viewed)
+
+if (!unViewed.length) {
+ return this.newsFeeds= newsFeedsList.reverse()
+}
+else if(!viewed.length){
+
+return  this.newsFeeds= newsFeedsList.reverse()
+
+}
+
+else {
+return this.newsFeeds= newsFeedsList
+
+
+
+
+}
+
 
 
       },
@@ -429,36 +463,11 @@ postImageArray:[],
 
       },
 
-handleImageDisplayStyle(){
-if(this.postImageArray.length === 1){
 
-
-return "one-image"
-}
-else if (this.postImageArray.length === 2) {
-  return "two-images"
-}
-else if (this.postImageArray.length === 3) {
-  return "three-images"
-}
-else{
-
-
-return "four-images"
-}
-
-
-
-},
 
       localFiles(e) {
-        this.tempUrl = URL.createObjectURL(e.target.files[0]);
 
-if(this.previewImage){
-
-this.postImageArray = [...this.postImageArray,{imgUrl:this.tempUrl,imgClass:`imageNum${this.postImageArray.length + 1}`}]
-
-}
+        this.tempSource = URL.createObjectURL(e.target.files[0]);
 
       },
 
@@ -475,11 +484,11 @@ this.postImageArray = [...this.postImageArray,{imgUrl:this.tempUrl,imgClass:`ima
         if (theme === this.postStyle) {
           return 'padding:0px;border:2px solid #e83e8c'
         }
-else if(this.previewImage || this.previewVideo ){
+        else if (this.previewImage || this.previewVideo) {
 
- return 'padding:0px;visibility:hidden'
+          return 'padding:0px;visibility:hidden'
 
-}
+        }
 
         return 'padding:0px'
       },
@@ -499,7 +508,7 @@ else if(this.previewImage || this.previewVideo ){
             this.previewVideo = true;
             this.previewImage = false;
             this.loadFileAddress = false;
-            this.tempUrl = "";
+            this.tempSource = "";
             this.$refs.filesUploadVideo.click()
           } else {
             this.previewImage = true;
@@ -532,7 +541,7 @@ else if(this.previewImage || this.previewVideo ){
         this.showUserName = false;
         this.previewVideo = false;
         this.previewImage = false;
-        this.tempUrl = ""
+        this.tempSource = ""
       },
 
 
@@ -592,11 +601,19 @@ else if(this.previewImage || this.previewVideo ){
         let postId = uuid.v1();
         let videoId = '';
         let imageId = '';
+        let videoSrc = this.tempSource
+        let imageSrc = this.tempSource
+        if (this.previewVideo && this.tempSource) {
+          videoId = uuid.v1()
+          imageSrc = ""
+        }
+        else {
+          videoSrc = ""
+          imageId = uuid.v1();
+        }
 
-        this.previewVideo && this.tempUrl ? videoId = uuid.v1() : imageId = uuid.v1();
 
-
-        if (this.postTextArea.length || this.tempUrl.length) {
+        if (this.postTextArea.length || this.tempSource.length) {
           this.$store.dispatch("handlePublishPost", {
             [postId]: {
               userName: this.userData.userName,
@@ -610,8 +627,8 @@ else if(this.previewImage || this.previewVideo ){
               posterComment: "",
               comments: [],
               postStyle: this.postStyle,
-              postImages: [{ imageUrl: this.tempUrl, imageId }],
-              postVideos: { videoUrl: this.tempUrl, videoId, videoAutoplay: false },
+              postImages: [{ imageUrl: imageSrc, imageId }],
+              postVideos: { videoUrl: videoSrc, videoId, videoAutoplay: false },
 
 
 
@@ -621,18 +638,18 @@ else if(this.previewImage || this.previewVideo ){
           });
 
 
-          if (this.tempUrl.length && this.previewVideo) {
+          if (this.tempSource.length && this.previewVideo) {
             this.$store.dispatch("handleAddImageVideo", {
               userName: this.userData.userName,
-              videoUrl: this.tempUrl,
+              videoUrl: this.tempSource,
               videoId: uuid.v1(),
               fileType: "video",
             });
           }
-          else if (this.tempUrl.length && this.previewImage) {
+          else if (this.tempSource.length && this.previewImage) {
             this.$store.dispatch("handleAddImageVideo", {
               userName: this.userData.userName,
-              imageUrl: this.tempUrl,
+              imageUrl: this.tempSource,
               imageId: uuid.v1(),
               fileType: "image",
 
@@ -646,7 +663,7 @@ else if(this.previewImage || this.previewVideo ){
           this.postTextArea = "";
           this.handleCloseTextarea();
           this.loadData();
-          this.tempUrl = ""
+          this.tempSource = ""
         }
 
         this.$store.dispatch("handleNotifications", {
@@ -755,7 +772,7 @@ else if(this.previewImage || this.previewVideo ){
 
           return this.restrictGuest = true
         }
-
+// console.log(userName);
         this.$store.dispatch("handleDisplayFunctions", {
           userName,
           params: "displayMessage"
@@ -764,14 +781,18 @@ else if(this.previewImage || this.previewVideo ){
           name: "Messages",
           params: { userName: this.userData.userName },
         })
-
       },
 
       handlePostViews(postId) {
-        this.$store.dispatch("handlePostViews", {
-          userName: this.userData.userName,
-          postId,
-        });
+        if (this.userData.userName !== this.newsFeed[postId].userName) {
+
+          this.$store.dispatch("handlePostViews", {
+            userName: this.userData.userName,
+            postId,
+          });
+
+        }
+
       },
 
 
@@ -795,9 +816,9 @@ else if(this.previewImage || this.previewVideo ){
             if (ref[this.newsFeed[newsFeedId].postVideos.videoId] !== null) {
               if (this.isElementInViewport(ref[this.newsFeed[newsFeedId].postVideos.videoId])) {
                 // this.newsFeed[newsFeedId].postVideos.videoAutoplay = true
-                document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).play().catch((e)=>{
-   /* error handler */
-})
+                document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).play().catch((e) => {
+                  /* error handler */
+                })
 
               } else {
                 document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).pause()
@@ -907,6 +928,7 @@ else if(this.previewImage || this.previewVideo ){
 
     computed: {
 
+
       handleFooterOnScreen() {
         if (this.$store.state.displayFunctions.footerOnScreen) {
 
@@ -917,23 +939,27 @@ else if(this.previewImage || this.previewVideo ){
 
       },
 
-      newsFeeds() {
-
-
-
-        if (this.previewVideo && this.tempUrl.length || this.previewImage && this.tempUrl.length) {
-          this.loadFileAddress = true
-        }
-
-        let newsFeeds = [];
-
-        for (const newsFeedId in this.newsFeed) {
-          newsFeeds.push(this.newsFeed[newsFeedId]);
-
+allUsers(){
+        let allUsers = []
+        for (const user in this.$store.state.allUsers) {
+          allUsers = [...allUsers, this.$store.state.allUsers[user]]
 
         }
-        return newsFeeds.sort((a, b) => a.datePosted - b.datePosted).reverse();
-      },
+
+
+
+       
+   const randomUsers = allUsers.map((a) => ({ sort: Math.random(), value: a }))
+          .sort((a, b) => a.sort - b.sort)
+          .map((a) => a.value);
+
+return randomUsers
+
+},
+
+
+
+    
     },
   };
 </script>
