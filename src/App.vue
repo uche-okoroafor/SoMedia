@@ -141,7 +141,9 @@
               <li ref="lists" @click="showNotificationDetails('post',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'">
                 Your friend <span class="names-Bold">{{notification.userName}}</span> just made a new
-                {{notification.notificationType}} <br> <span>{{showDate(notification.notificationDate)}}</span>
+                {{notification.notificationType}}
+                <font-awesome-icon :icon="['fas', 'newspaper']" /><br>
+                <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
 
@@ -149,6 +151,7 @@
                 @click="showNotificationDetails('friend request',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'friend request' && notification.notificationStatus === 'unRead'">
                 <span class="names-Bold">{{notification.userName}}</span> sent you a {{notification.notificationType}}
+                <font-awesome-icon class="ml-2" :icon="['fas', 'user-friends']" />
                 <br> <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -156,14 +159,16 @@
                 @click="showNotificationDetails('Accepted Friend Request',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'Accepted Friend Request' && notification.notificationStatus === 'unRead'">
                 <span class="names-Bold">{{notification.userName}}</span> Accpted Your Friend request
+                <font-awesome-icon class="ml-2" :icon="['fas', 'user-friends']" />
                 <br> <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
               <li ref="lists"
                 @click="showNotificationDetails('message',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'message' && notification.notificationStatus === 'unRead'">
-                You have a new {{notification.notificationType}} from <span
-                  class="names-Bold">{{notification.userName}}</span> <br>
+                You have a new {{notification.notificationType}} from <span class="names-Bold">{{notification.userName}}
+                  <font-awesome-icon class="ml-2" :icon="['fas', 'envelope']" />
+                </span> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -171,7 +176,8 @@
               <li ref="lists"
                 @click="showNotificationDetails('likes',notification.notificationId,notification.posterUserName)"
                 v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName ">
-                <span class="names-Bold">{{notification.userName}}</span> likes your post <br>
+                <span class="names-Bold">{{notification.userName}}</span> likes your post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -181,7 +187,8 @@
                 @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
                 v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== notification.posterUserName && notification.posterUserName !== userData.userName">
                 Your friend <span class="names-Bold">{{notification.userName}}</span> likes <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
+                  class="names-Bold">{{notification.posterUserName}}</span>'s post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -191,7 +198,8 @@
                 @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
                 v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName === notification.posterUserName && notification.posterUserName !== userData.userName">
                 Your friend <span class="names-Bold">{{notification.userName}}</span> likes <span
-                  class="names-Bold">{{handleGender(notification.userName)}}</span> post <br>
+                  class="names-Bold">{{handleGender(notification.userName)}}</span> post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -205,7 +213,8 @@
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === userData.userName && notification.posterUserName !== userData.userName && notification.posterUserName !== notification.userName && notification.commenterUserName !== notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes your comment on <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
+                  class="names-Bold">{{notification.posterUserName}}</span>'s post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -215,7 +224,8 @@
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === notification.userName && notification.userName !== userData.userName  && notification.posterUserName !== notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}}
-                comment on <span class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
+                comment on <span class="names-Bold">{{notification.posterUserName}}</span>'s post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -224,7 +234,8 @@
               <li ref="lists"
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === userData.userName && notification.posterUserName === userData.userName && notification.posterUserName !== notification.userName">
-                <span class="names-Bold">{{notification.userName}}</span> likes your comment on Your post <br>
+                <span class="names-Bold">{{notification.userName}}</span> likes your comment on Your post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -234,7 +245,8 @@
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName !== userData.userName && notification.posterUserName === userData.userName && notification.posterUserName !== notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes {{notification.commenterUserName}}
-                comment on Your post <br>
+                comment on Your post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -243,7 +255,8 @@
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === notification.userName && notification.posterUserName !== userData.userName && notification.posterUserName === notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}}
-                comment on {{handleGender(notification.userName)}} post <br>
+                comment on {{handleGender(notification.userName)}} post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -285,7 +298,8 @@
               <li ref="lists"
                 @click="showNotificationDetails('follow',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'follow' && notification.notificationStatus === 'unRead' && notification.userName !== userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> started following you <br>
+                <span class="names-Bold">{{notification.userName}}</span> started following you
+                <font-awesome-icon class="ml-2" :icon="['fas', 'users']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -387,8 +401,8 @@
     </div>
 
     <div class="nav-container-two" v-if="displayNavTwo">
-      <div class="collapsed-nav-menu-bar">
-        <font-awesome-icon :icon="['fas', 'bars']" @click="handleShowMenuContents" />
+      <div class="collapsed-nav-menu-bar" @click="handleShowMenuContents">
+        <font-awesome-icon :icon="['fas', 'bars']" />
         <div class="collapsed-nav-menu-contents" v-if="menuContents">
           <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
 
@@ -472,7 +486,9 @@
               <li ref="lists" @click="showNotificationDetails('post',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'">
                 Your friend <span class="names-Bold">{{notification.userName}}</span> just made a new
-                {{notification.notificationType}} <br> <span>{{showDate(notification.notificationDate)}}</span>
+                {{notification.notificationType}}
+                <font-awesome-icon :icon="['fas', 'newspaper']" ref="newsFeedIcon" /><br>
+                <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
 
@@ -480,6 +496,7 @@
                 @click="showNotificationDetails('friend request',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'friend request' && notification.notificationStatus === 'unRead'">
                 <span class="names-Bold">{{notification.userName}}</span> sent you a {{notification.notificationType}}
+                <font-awesome-icon class="ml-2" :icon="['fas', 'user-friends']" />
                 <br> <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -487,14 +504,16 @@
                 @click="showNotificationDetails('Accepted Friend Request',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'Accepted Friend Request' && notification.notificationStatus === 'unRead'">
                 <span class="names-Bold">{{notification.userName}}</span> Accpted Your Friend request
+                <font-awesome-icon class="ml-2" :icon="['fas', 'user-friends']" />
                 <br> <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
               <li ref="lists"
                 @click="showNotificationDetails('message',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'message' && notification.notificationStatus === 'unRead'">
-                You have a new {{notification.notificationType}} from <span
-                  class="names-Bold">{{notification.userName}}</span> <br>
+                You have a new {{notification.notificationType}} from <span class="names-Bold">{{notification.userName}}
+                  <font-awesome-icon class="ml-2" :icon="['fas', 'envelope']" />
+                </span> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -502,7 +521,8 @@
               <li ref="lists"
                 @click="showNotificationDetails('likes',notification.notificationId,notification.posterUserName)"
                 v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.posterUserName === userData.userName ">
-                <span class="names-Bold">{{notification.userName}}</span> likes your post <br>
+                <span class="names-Bold">{{notification.userName}}</span> likes your post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -512,7 +532,8 @@
                 @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
                 v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName !== notification.posterUserName && notification.posterUserName !== userData.userName">
                 Your friend <span class="names-Bold">{{notification.userName}}</span> likes <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
+                  class="names-Bold">{{notification.posterUserName}}</span>'s post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -522,7 +543,8 @@
                 @click="showNotificationDetails('likes',notification.notificationId,notification.userName,notification.posterUserName)"
                 v-if="notification.notificationType === 'likes' && notification.notificationStatus === 'unRead'&& notification.userName === notification.posterUserName && notification.posterUserName !== userData.userName">
                 Your friend <span class="names-Bold">{{notification.userName}}</span> likes <span
-                  class="names-Bold">{{handleGender(notification.userName)}}</span> post <br>
+                  class="names-Bold">{{handleGender(notification.userName)}}</span> post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -536,7 +558,8 @@
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === userData.userName && notification.posterUserName !== userData.userName && notification.posterUserName !== notification.userName && notification.commenterUserName !== notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes your comment on <span
-                  class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
+                  class="names-Bold">{{notification.posterUserName}}</span>'s post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -546,7 +569,8 @@
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === notification.userName && notification.userName !== userData.userName  && notification.posterUserName !== notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}}
-                comment on <span class="names-Bold">{{notification.posterUserName}}</span>'s post <br>
+                comment on <span class="names-Bold">{{notification.posterUserName}}</span>'s post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -555,7 +579,8 @@
               <li ref="lists"
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === userData.userName && notification.posterUserName === userData.userName && notification.posterUserName !== notification.userName">
-                <span class="names-Bold">{{notification.userName}}</span> likes your comment on Your post <br>
+                <span class="names-Bold">{{notification.userName}}</span> likes your comment on Your post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -565,7 +590,8 @@
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName !== userData.userName && notification.posterUserName === userData.userName && notification.posterUserName !== notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes {{notification.commenterUserName}}
-                comment on Your post <br>
+                comment on Your post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -574,7 +600,8 @@
                 @click="showNotificationDetails('likedComment',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'likedComment' && notification.notificationStatus === 'unRead'&& notification.commenterUserName === notification.userName && notification.posterUserName !== userData.userName && notification.posterUserName === notification.userName">
                 <span class="names-Bold">{{notification.userName}}</span> likes {{handleGender(notification.userName)}}
-                comment on {{handleGender(notification.userName)}} post <br>
+                comment on {{handleGender(notification.userName)}} post
+                <font-awesome-icon :icon="['fas', 'thumbs-up']" /> <br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -616,7 +643,8 @@
               <li ref="lists"
                 @click="showNotificationDetails('follow',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'follow' && notification.notificationStatus === 'unRead' && notification.userName !== userData.userName">
-                <span class="names-Bold">{{notification.userName}}</span> started following you <br>
+                <span class="names-Bold">{{notification.userName}}</span> started following you
+                <font-awesome-icon class="ml-2" :icon="['fas', 'users']" /><br>
                 <span>{{showDate(notification.notificationDate)}}</span>
                 <hr>
               </li>
@@ -699,7 +727,7 @@
 
   </div>
   <router-view />
-
+  <AutoUsers />
   <audio id="newAlert" style="visibility: hidden;" preload="auto">
     <source :src="require('/src/assets/notificationSound/pristine-609.mp3')" type="audio/mp3">
     <source :src="require('/src/assets/notificationSound/pristine-609.ogg')" type="audio/ogg">
@@ -711,10 +739,14 @@
 
 <script>
   import moment from "moment"
+  import AutoUsers from "./components/AutoUsers.vue"
   import Footer from "./components/Footer.vue"
+  import { uuid } from "vue-uuid";
+
+
   export default {
     name: "App",
-    components: { Footer },
+    components: { Footer, AutoUsers },
     data() {
       return {
 
@@ -741,7 +773,7 @@
         newsFeedLink: '',
         notificationLink: '',
         activeLink: "background-color: var(--pink);color:var(--nave-blue)!important;font-weight: bolder;",
-        inActiveLink: "background-color: var(--nave-blue);color:#3aa1dd;",
+        inActiveLink: "background-color: var(--nave-blue);",
         backDrop: false,
         searchBackDrop: false,
         clickedMenu: "",
@@ -762,6 +794,7 @@
         userIsActive: "",
         clickedLink: "Home",
         soundNum: 0,
+        autoPostCounter: 0,
       }
     },
 
@@ -822,16 +855,15 @@
           }
           localStorage.userData = JSON.stringify(userData)
           this.$router.push({ name: "Login" });
-
+          this.handleActiveLink("Home")
 
         }
       },
 
       reset() {
-        //  delete localStorage.state 
-        //  delete localStorage.userData 
+        delete localStorage.state
+        delete localStorage.userData
 
-this.autoPosts()
 
 
 
@@ -895,12 +927,18 @@ this.autoPosts()
           userName: '',
           loginTime: ''
         }
+        this.$store.dispatch("handleDisplayFunctions", {
+          newAccount: false,
+          params: "newAccount"
+        });
+
         this.$router.push({ name: "Login" });
 
         this.login = true
         this.logout = false
         this.$router.push({ name: "Login" });
         this.handleActiveLink("Home")
+
 
 
         setTimeout(() => {
@@ -1038,9 +1076,10 @@ this.autoPosts()
             this.messageLink = this.inActiveLink
             this.newsFeedLink = this.inActiveLink
             this.notificationLink = this.inActiveLink
-            // this.$router.push({
-            //   name: "Home",
-            // })
+            this.$store.dispatch("handleDisplayFunctions", {
+              activeLink: "Home",
+              params: "activeLink"
+            })
 
             break;
 
@@ -1322,35 +1361,115 @@ this.autoPosts()
         return true
       },
 
-autoPosts() {
-setTimeout(() => {
 
-       this.$store.dispatch("handlePublishPost", {
-            ["91283"]: {
-              userName: "Ivy",
-              userId:"5c8ef170-db3a-11eb-af32-47b0df65ae76",
-              views: [],
-              postId:"91283",
-              datePosted: Date.now(),
-              posts:"She is the best Man of the Occasion 💖💖",
-              likes: [],
-              unLikes: [],
-              posterComment: "",
-              comments: [],
-              postStyle: "text-theme-default",
-              postImages: [{ imageUrl:"", imageId:"" }],
-              postVideos: { videoUrl:require("./assets/postVideos/ivy-post2.mp4"), videoId:"555", videoAutoplay: false },
+      autoPosts(params, userName, userId, message) {
+        switch (params) {
+          case "message":
+            const messageId = uuid.v1();
+            this.$store.dispatch("handleSubmitMessage", {
+              [messageId]: {
+                userName: userName,
+                friendMessaged: this.$store.state.userData.userName,
+                userId,
+                message,
+                messageId,
+                messageDate: Date.now(),
+                messageStatus: "sent",
+              },
+            });
 
-            },
+            this.$store.dispatch("handleNotifications", {
+              userName: userName,
+              friendUserName: this.$store.state.userData.userName,
+              notificationId: uuid.v1(),
+              notificationType: 'message',
+              notificationStatus: "unRead",
+              notificationDate: Date.now()
+            });
 
-          });
-}, 1000);
+            this.$store.dispatch("handleMessageViewStatus", {
+              friendMessaged: this.$store.state.userData.userName,
+              messageOnScreen: "off",
+              userName,
+              messageViewStatus: "unRead",
+              showMessage: false,
+
+            });
+            break;
+
+
+
+          case "follow":
+
+            this.$store.dispatch("handleFollow", {
+              friendUserName: this.userData.userName,
+              userName,
+              followState: "follow"
+            });
+
+            this.$store.dispatch("handleNotifications", {
+              userName,
+              friendUserName: this.userData.userName,
+              notificationId: uuid.v1(),
+              notificationType: 'follow',
+              notificationStatus: "unRead",
+              notificationDate: Date.now(),
+
+            });
+            this.$store.dispatch("handleActivities", {
+              friendUserName: this.userData.userName,
+              userName,
+              activity: "followed",
+              activityDate: Date.now(),
+              activityId: uuid.v1()
+            });
 
 
 
 
+            break;
+
+          case "Add Friend":
+
+            this.$store.dispatch("handleFriendRequest", {
+              friendUserName: this.userData.userName,
+              userName,
+              requestStatus: "Request Sent",
+            });
+
+            this.$store.dispatch("handleNotifications", {
+              userName,
+              friendUserName: this.userData.userName,
+              notificationId: uuid.v1(),
+              notificationType: 'friend request',
+              notificationStatus: "unRead",
+              notificationDate: Date.now(),
+
+            });
+
+            this.$store.dispatch("handleActivities", {
+              userName,
+              friendUserName: this.userData.userName,
+              activity: "Friend request",
+              activityDate: Date.now(),
+              activityId: uuid.v1()
+            });
+
+            break;
+
+
+          default:
+            break;
+        }
+
+
+        this.autoPostCounter++
+
+
+        return "play"
 
       },
+
 
 
 
@@ -1404,6 +1523,68 @@ setTimeout(() => {
 
 
 
+        if (this.$store.state.displayFunctions.newAccount && this.autoPostCounter < 1) {
+
+          setTimeout(() => {
+            this.autoPosts("message", "Ivy", "5c8ef170-db3a-11eb-af32-47b0df65ae76", "hello")
+
+          }, 20000);
+
+          setTimeout(() => {
+            this.autoPosts("message", "Sophie", "5c8ef170-db3a-11eb-af32-47b0df65ae76", `hello ${this.userData.userName}, How are you `)
+
+          }, 35000);
+
+          setTimeout(() => {
+            this.autoPosts("message", "Ada", "5c8ef170-db3a-11eb-af32-47b0df65ae76", `hi ${this.userData.userName}`)
+
+          }, 45000);
+
+
+
+          setTimeout(() => {
+            this.autoPosts("Add Friend", "Ivy", "5c8ef170-db3a-11eb-af32-47b0df65ae76")
+
+          }, 20000);
+
+          setTimeout(() => {
+            this.autoPosts("Add Friend", "Sophie", "5c8ef170-db3a-11eb-af32-47b0df65ae76")
+
+          }, 35000);
+
+          setTimeout(() => {
+            this.autoPosts("Add Friend", "Ada", "5c8ef170-db3a-11eb-af32-47b0df65ae76")
+
+          }, 45000);
+
+          setTimeout(() => {
+            this.autoPosts("follow", "Ivy", "5c8ef170-db3a-11eb-af32-47b0df65ae76")
+
+          }, 20000);
+
+          setTimeout(() => {
+            this.autoPosts("follow", "Sophie", "5c8ef170-db3a-11eb-af32-47b0df65ae76")
+
+          }, 35000);
+
+          setTimeout(() => {
+            this.autoPosts("follow", "Ada", "5c8ef170-db3a-11eb-af32-47b0df65ae76")
+
+          }, 45000);
+
+
+
+              this.$store.dispatch("handleDisplayFunctions", {
+                newAccount:false,
+                params: "newAccount"
+              });
+
+
+        }
+
+
+
+
         let allUsers = []
         this.searchInput.length ? this.displaySearchContents = true : this.displaySearchContents = false
 
@@ -1420,25 +1601,25 @@ setTimeout(() => {
         let unDuplicatedNotifications = this.userData.notifications
         for (const notificationId in this.userData.notifications) {
           for (const noticeId in unDuplicatedNotifications) {
-            if(this.userData.notifications[notificationId].notificationType !== "message" || this.userData.notifications[notificationId].notificationType !== "post"){
-            if (this.userData.notifications[notificationId].notificationType === unDuplicatedNotifications[noticeId].notificationType &&
-              this.userData.notifications[notificationId].posterUserName === unDuplicatedNotifications[noticeId].posterUserName &&
-              this.userData.notifications[notificationId].userName === unDuplicatedNotifications[noticeId].userName &&
-              this.userData.notifications[notificationId].commenterUserName === unDuplicatedNotifications[noticeId].commenterUserName
+            if (this.userData.notifications[notificationId].notificationType !== "message" || this.userData.notifications[notificationId].notificationType !== "post") {
+              if (this.userData.notifications[notificationId].notificationType === unDuplicatedNotifications[noticeId].notificationType &&
+                this.userData.notifications[notificationId].posterUserName === unDuplicatedNotifications[noticeId].posterUserName &&
+                this.userData.notifications[notificationId].userName === unDuplicatedNotifications[noticeId].userName &&
+                this.userData.notifications[notificationId].commenterUserName === unDuplicatedNotifications[noticeId].commenterUserName
 
-            ) {
-
-
-
-              counter++
-              if (counter > 1) {
+              ) {
 
 
-                delete unDuplicatedNotifications[noticeId]
+
+                counter++
+                if (counter > 1) {
+
+
+                  delete unDuplicatedNotifications[noticeId]
+                }
+
               }
-
             }
-          }
           }
 
           counter = 0
@@ -1454,7 +1635,7 @@ setTimeout(() => {
         }
 
 
-        this.notifications = this.notifications.filter((user) => user.userName !== this.userData.userName)
+        this.notifications = this.notifications.filter((user) => user.userName !== this.userData.userName).reverse()
 
         this.$store.dispatch("handleMessageStatus", {
           userName: this.userData.userName,
@@ -1493,7 +1674,7 @@ setTimeout(() => {
         let timelineCounter = [];
 
         for (const postId in this.$store.state.newsFeed) {
-          if (!this.$store.state.newsFeed[postId].views.includes(this.userData.userName)) {
+          if (!this.$store.state.newsFeed[postId].views.includes(this.userData.userName) && this.$store.state.newsFeed[postId].userName !== this.userData.userName) {
             timelineCounter = [...timelineCounter, { userName: this.$store.state.newsFeed[postId].userName }]
           }
         }
@@ -1511,17 +1692,17 @@ setTimeout(() => {
           setTimeout(() => {
 
 
-var promise = document.getElementById('newAlert').play()
+            var promise = document.getElementById('newAlert').play()
 
 
-if (promise !== undefined) {
-  promise.then(_ => {
-    // Autoplay started!
-  }).catch(error => {
-    // Autoplay was prevented.
-    // Show a "Play" button so that user can start playback.
-  });
-}
+            if (promise !== undefined) {
+              promise.then(_ => {
+                // Autoplay started!
+              }).catch(error => {
+                // Autoplay was prevented.
+                // Show a "Play" button so that user can start playback.
+              });
+            }
 
             this.soundNum = this.notificationCount
           }, 500);
