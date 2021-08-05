@@ -382,16 +382,13 @@
         displaySearchContents: false,
         filteredSearchLists: [],
         chatListBackDrop: false,
-        storeData: {},
+          messages: {},
       };
     },
     watch: {
-      storeData: {
+        messages: {
         handler(state) {
-          this.$store.dispatch("handleUpdateLocalStorage", {
-            params: "updateData"
-          });
-
+this.loadData("on")
         },
         deep: true
 
@@ -793,6 +790,7 @@
       showingMessages() {
 
         this.userData = this.$store.state.users[this.userName];
+this.messages=this.$store.state.users[this.userName].messages
         this.storeData = this.$store.state
         this.searchInput.length ? this.displaySearchContents = true : this.displaySearchContents = false
 
