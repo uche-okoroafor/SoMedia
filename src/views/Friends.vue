@@ -281,6 +281,8 @@ userFollowingList:[],
         displayHeaderTitle: "Your Friends",
         friendsListEmpty: false,
         showBackDrop: false,
+followers:false,
+following:false,
       };
     },
     mounted() {
@@ -321,6 +323,7 @@ userFollowingList:[],
         const randomUsers = users.filter((userName) => ![...friendsList, this.userData.userName].includes(userName))
 
         for (const userName in allUsers) {
+         allUsers[userName].requestStatus = "Add Friend";
           for (let index in allUsers[userName].requests) {
             if (allUsers[userName].requests[index].userName === this.userData.userName) {
               allUsers[userName].requestStatus = "Request Sent";
@@ -352,7 +355,7 @@ userFollowingList:[],
 
       handleEmptyList() {
 
-        if (this.$store.state.userData.friends.length) {
+        if (this.$store.state.userData.friends.length || this.followers|| this.following) {
           return false
 
         }
@@ -374,6 +377,8 @@ userFollowingList:[],
             this.displayFollowers = false;
             this.displayFollowing = false;
             this.displayHeaderTitle = "Your Friends"
+this.followers=false
+this.following=false
 
             break;
 
@@ -382,6 +387,9 @@ userFollowingList:[],
             this.displayFollowers = true;
             this.displayFollowing = false;
             this.displayHeaderTitle = "Your Followers"
+this.userFollowersList.length? this.followers=true:this.followers=false
+this.following=false
+
             break;
 
           case "displayFollowing":
@@ -389,6 +397,10 @@ userFollowingList:[],
             this.displayFollowers = false;
             this.displayFollowing = true;
             this.displayHeaderTitle = "People You are Following "
+this.userFollowingList.length? this.following=true:this.following=false
+this.followers=false
+
+
             break;
 
           default:
@@ -551,7 +563,7 @@ userFollowingList:[],
             break;
         }
 
-
+console.log(this.userData.friends);
       },
 
       handleCancelFriendRequest(user, friendUserName) {
@@ -614,9 +626,7 @@ this.userFollowingList=this.userData.following.reverse()
             (user) =>
               ![this.userData.userName, ...friends].includes(user.userName)
           )
-          .map((a) => ({ sort: Math.random(), value: a }))
-          .sort((a, b) => a.sort - b.sort)
-          .map((a) => a.value);
+
 
 let usersArray = [...randomUsers]
 
