@@ -1233,12 +1233,24 @@
         switch (notificationType) {
 
           case 'friend request':
+console.log("yes");
             this.$router.push({
               name: "Friends",
               params: { userName: this.userData.userName },
             })
             break;
-
+          case 'follow':
+console.log("yes");
+            this.$router.push({
+              name: "Friends",
+              params: { userName: this.userData.userName },
+            })
+   this.$store.dispatch("handleNotificationUpdate", {
+              userName: this.userData.userName,
+              notificationStatus: "Read",
+              notificationType: 'follow'
+            });
+            break;
 
           case 'message':
             this.$store.dispatch("handleMessageViewStatus", {
@@ -1528,17 +1540,17 @@
           setTimeout(() => {
             this.autoPosts("message", "Ivy", "5c8ef170-db3a-11eb-af32-47b0df65ae76", "hello")
 
-          }, 20000);
+          }, 10000);
 
           setTimeout(() => {
             this.autoPosts("message", "Sophie", "5c8ef170-db3a-11eb-af32-47b0df65ae76", `hello ${this.userData.userName}, How are you `)
 
-          }, 35000);
+          }, 15000);
 
           setTimeout(() => {
             this.autoPosts("message", "Ada", "5c8ef170-db3a-11eb-af32-47b0df65ae76", `hi ${this.userData.userName}`)
 
-          }, 45000);
+          }, 25000);
 
 
 
