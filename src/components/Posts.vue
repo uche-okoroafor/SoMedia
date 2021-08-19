@@ -16,7 +16,7 @@
 
 
 
-        <div class="post-Video" v-if="previewVideo && loadFileAddress">
+        <div class="post-Video stackItem" v-if="previewVideo && loadFileAddress">
           <video width="500" heigth="100" controls>
             <source :src="tempUrl" type="video/mp4">
             <source :src="tempUrl" type="video/ogg">
@@ -42,18 +42,31 @@
           </span>
 
           <span class="text-theme-container themes-icons-container" ref="themeContainer">
-            <div @click="handleTheme('text-theme-default')" class="text-theme text-theme-default" style="padding: 0">
+            <div @click="handleTheme('text-theme-default')" class="text-theme text-theme-default "
+              :style="handleThemeStyle('text-theme-default')"></div>
+            <div @click="handleTheme('text-themeOne')" class="text-theme text-themeOne"
+              :style="handleThemeStyle('text-themeOne')"></div>
+            <div @click="handleTheme('text-themeTwo')" class="text-theme text-themeTwo"
+              :style="handleThemeStyle('text-themeTwo')"></div>
+            <div @click="handleTheme('text-themeThree')" class="text-theme text-themeThree"
+              :style="handleThemeStyle('text-themeThree')">
             </div>
-            <div @click="handleTheme('text-themeOne')" class="text-theme text-themeOne" style="padding: 0"></div>
-            <div @click="handleTheme('text-themeTwo')" class="text-theme text-themeTwo" style="padding: 0"></div>
-            <div @click="handleTheme('text-themeThree')" class="text-theme text-themeThree" style="padding: 0"></div>
-            <div @click="handleTheme('text-themeFour')" class="text-theme text-themeFour" style="padding: 0"></div>
-            <div @click="handleTheme('text-themeFive')" class="text-theme text-themeFive" style="padding: 0"></div>
-            <div @click="handleTheme('text-themeSix')" class="text-theme text-themeSix" style="padding: 0"></div>
-            <div @click="handleTheme('text-themeSeven')" class="text-theme text-themeSeven" style="padding: 0"></div>
-            <div @click="handleTheme('text-themeEight')" class="text-theme text-themeEight" style="padding: 0"></div>
-            <div @click="handleTheme('text-themeNine')" class="text-theme text-themeNine" style="padding: 0"></div>
-            <div @click="handleTheme('text-themeTen')" class="text-theme text-themeTen" style="padding: 0"></div>
+            <div @click="handleTheme('text-themeFour')" class="text-theme text-themeFour"
+              :style="handleThemeStyle('text-themeFour')"></div>
+            <div @click="handleTheme('text-themeFive')" class="text-theme text-themeFive"
+              :style="handleThemeStyle('text-themeFive')"></div>
+            <div @click="handleTheme('text-themeSix')" class="text-theme text-themeSix"
+              :style="handleThemeStyle('text-themeSix')"></div>
+            <div @click="handleTheme('text-themeSeven')" class="text-theme text-themeSeven"
+              :style="handleThemeStyle('text-themeSeven')">
+            </div>
+            <div @click="handleTheme('text-themeEight')" class="text-theme text-themeEight"
+              :style="handleThemeStyle('text-themeEight')">
+            </div>
+            <div @click="handleTheme('text-themeNine')" class="text-theme text-themeNine"
+              :style="handleThemeStyle('text-themeNine')"></div>
+            <div @click="handleTheme('text-themeTen')" class="text-theme text-themeTen"
+              :style="handleThemeStyle('text-themeTen')"></div>
           </span>
         </span>
         <span>
@@ -63,15 +76,17 @@
           <font-awesome-icon :icon="['fas', 'video']" ref="timelineIcon" @click="handleMakePost('video')" />
         </span>
       </div>
-      <button type="submit" class="btn btn-success">Post</button>
-      <input type="file" name="fileUpload" accept="image/png,image/jpeg,video/mp4" ref="filesUploadVideo"
-        @change="localFiles" v-show="false">
+      <button type="submit" class="btn ">Post</button>
+      <input type="file" name="fileUpload" accept="video/mp4" ref="filesUploadVideo" @change="localFiles"
+        v-show="false">
       <input type="file" name="fileUpload" accept="image/png,image/jpeg" ref="filesUploadImages" @change="localFiles"
         v-show="false">
     </form>
   </div>
   <div v-if="emptyPost" class="empty-Post">
-    <span class="comment">Make Your first Post</span>
+    <span class="comment" v-if="userDatas.userName === userData.userName">Make Your first Post</span>
+    <span class="comment" v-else>{{userDatas.userName}} has not made any Post</span>
+
   </div>
   <div class="post-container" v-for="post in posts" :key="post.postId">
 
@@ -131,8 +146,11 @@
         <font-awesome-icon :icon="['fas', 'thumbs-down']" />
         {{ post.unLikes.length }}
       </span>
+      <div class="m-2  post-views">Views &nbsp;
+        <font-awesome-icon :icon="['fas', 'eye']" /> &nbsp;{{ post.views.length }}
+      </div>
 
-      <span class="m-2">{{ Object.keys(post.comments).length }} comments</span>
+      <span class="m-2 post-comments-num">{{ Object.keys(post.comments).length }} comments</span>
     </div>
     <hr />
     <h6 class="m-3 ml-5 font-weight-bold">Comments</h6>
@@ -207,7 +225,7 @@
 
   export default {
     name: "Posts",
-    props: ["userName", "loadData"],
+    props: ["userName", "loadData", "displayPosts"],
 
     data() {
       return {
@@ -229,20 +247,29 @@
     },
 
     mounted() {
-      this.loadUserData();
+      this.loadUserData(true);
       document.addEventListener('scroll', () => this.onScroll(this.$refs));
 
     },
     beforeUnmount() {
-      this.loadUserData();
+      this.loadUserData(false);
       document.addEventListener('scroll', () => this.onScroll(this.$refs));
-
     },
 
     methods: {
-      loadUserData() {
+      loadUserData(params) {
         this.userData = this.$store.state.userData;
         this.$store.state.userData.userName !== this.userName ? this.displayMakePost = false : this.displayMakePost = true
+
+
+        params ? this.$store.dispatch("handleDisplayFunctions", {
+          componentMounted: "posts",
+          params: "componentMounted"
+        }) : this.$store.dispatch("handleDisplayFunctions", {
+          componentMounted: "",
+          params: "componentMounted"
+        })
+
 
 
       },
@@ -251,6 +278,15 @@
         this.postStyle = theme;
         this.textAreaStyle = "height:15rem;border-radius:2px;width:100%;"
 
+      },
+
+      handleThemeStyle(theme) {
+
+        if (theme === this.postStyle) {
+          return 'padding:0px;border:2px solid #e83e8c'
+        }
+
+        return 'padding:0px'
       },
 
 
@@ -265,10 +301,9 @@
       },
 
       handleLikeStyle(likes, params) {
-
         switch (params) {
           case "likes":
-            if (likes.includes(this.userData.userName)) {
+            if (likes.includes(this.$store.state.userData.userName)) {
 
 
 
@@ -279,7 +314,7 @@
             break;
 
           case "unlikes":
-            if (likes.includes(this.userData.userName)) {
+            if (likes.includes(this.$store.state.userData.userName)) {
 
 
 
@@ -354,11 +389,15 @@
       },
 
       handleLikes(condition, params, postId, userId, posterUserName, comment) {
+
+
+
         this.$store.dispatch("handleLikes", {
           condition,
           params,
           postId,
           userId,
+          userName: this.userData.userName,
           commentId: comment.commentId,
           dateLiked: Date.now(),
         });
@@ -382,7 +421,7 @@
             notificationDate: Date.now(),
           });
 
-          this.$store.dispatch("handle", {
+          this.$store.dispatch("handleActivities", {
             userName: this.userData.userName,
             posterUserName,
             activity: "liked",
@@ -558,41 +597,59 @@
       },
 
       handlePostViews(postId) {
-        this.$store.dispatch("handlePostViews", {
-          userName: this.userData.userName,
-          postId,
-        });
+        if (this.userData.userName !== this.newsFeed[postId].userName) {
+
+          this.$store.dispatch("handlePostViews", {
+            userName: this.userData.userName,
+            postId,
+          });
+
+        }
+
       },
 
+      handlePostViews(postId) {
+        if (this.userData.userName !== this.newsFeed[postId].userName) {
 
+          this.$store.dispatch("handlePostViews", {
+            userName: this.userData.userName,
+            postId,
+          });
+
+        }
+
+      },
 
       onScroll(ref) {
         let refObject = Object.keys(ref)
         for (let postId in this.posts) {
-          if (refObject.includes(this.posts[postId].postId)) {
-            if (ref[this.posts[postId]] !== null) {
+          if (refObject.includes(this.posts[postId].postId && ref[this.posts[postId]] !== null)) {
+            // if () {
+            if (this.$store.state.displayFunctions.componentMounted === "posts") {
 
-              if (this.isElementInViewport(ref[this.posts[postId].postId])) {
+
+              if (this.isElementInViewport(ref[this.posts[postId].postId]) && ref[this.posts[postId].postVideos.videoId] !== null) {
                 this.handlePostViews(this.posts[postId].postId)
 
               }
-            }
+              // }
 
+            }
           }
 
-          if (refObject.includes(this.posts[postId].postVideos.videoId)) {
+          if (refObject.includes(this.posts[postId].postVideos.videoId) && ref[this.posts[postId].postVideos.videoId] !== null) {
 
-            if (ref[this.posts[postId].postVideos.videoId] !== null) {
+            if (this.isElementInViewport(ref[this.posts[postId].postVideos.videoId])) {
+              // this.posts[postId].postVideos.videoAutoplay = true
+              document.getElementById(this.posts[postId].postVideos.videoId).play().catch((e) => {
+                /* error handler */
+              })
 
-              if (this.isElementInViewport(ref[this.posts[postId].postVideos.videoId])) {
-                // this.posts[postId].postVideos.videoAutoplay = true
-                document.getElementById(this.posts[postId].postVideos.videoId).play()
-
-              } else {
-                document.getElementById(this.posts[postId].postVideos.videoId).pause()
-              }
-
+            } else {
+              document.getElementById(this.posts[postId].postVideos.videoId).pause()
             }
+
+
           }
 
 

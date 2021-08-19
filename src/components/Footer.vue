@@ -75,6 +75,7 @@ storeData:{}
     this.$store.dispatch("handleUpdateLocalStorage", {
         params:"updateData"     
                     });
+console.log("working")
         },
         deep: true
 
@@ -153,7 +154,7 @@ box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
         color: #3aa1dd;
         background-color: #01022F;
         border-top: 2px solid #e83e8c;
-
+margin-top: 2rem;
     }
 
     .footer-dark h3 {

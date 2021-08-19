@@ -7,18 +7,23 @@
                 <font-awesome-icon :icon="['fas', 'times-circle']" />
             </div>
 
-            <span @click="handleChangeImage('previous')" :style="chevronLeft" >
+            <span @click="handleChangeImage('previous')" class="chevron-left-span" :style="chevronLeft">
                 <font-awesome-icon :icon="['fas', 'chevron-left']" />
             </span>
             <div class="displayedImageContainer">
                 <img :src="handleDisplayingImage()" alt="">
             </div>
 
-            <span @click="handleChangeImage('next')" :style="chevronRight">
-                <font-awesome-icon :icon="['fas', 'chevron-right']"  />
+            <span @click="handleChangeImage('next')" class="chevron-right-span" :style="chevronRight">
+                <font-awesome-icon :icon="['fas', 'chevron-right']" />
             </span>
-        </div>
 
+        </div>
+ <!-- <video width="140" max-height="300" controls v-if="photo.imageId.includes('video')">
+            <source :src="photo.imageUrl" type="video/mp4">
+            <source :src="photo.imageUrl" type="video/ogg">
+            Your browser does not support HTML video.
+          </video> -->
 
 
 
@@ -35,8 +40,10 @@
                     <!-- if="this.userData.userName === this.$store.state.userData.userName" -->
                 </div>
 
-
-                <div class="userPhotos">
+                <div class="photo-empty comment" v-if="!userData.photos.length">
+                    Add Your Photos
+                </div>
+                <div class="userPhotos" v-if="userData.photos.length">
                     <div v-for="photo in userData.photos" :key="photo.imageId" class="image-photos"
                         @click="displayImage(photo)">
                         <img :src="photo.imageUrl" alt="">
@@ -44,6 +51,7 @@
 
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -68,18 +76,20 @@
 
                 },
                 renderImage: '',
-                displayedImageIndex: 0,
-chevronRight:"visibility:visible",
-chevronLeft:"visibility:visible",
+                displayedImageArray: { index: 0, arrayLength: 0 },
+                chevronRight: "visibility:visible",
+                chevronLeft: "visibility:visible",
+                displayClickedImage: undefined,
+                showit: true,
             }
         },
 
         mounted() {
-            this.loadData();
+            this.loadData("on");
 
         },
         beforeUnmount() {
-            this.loadData();
+            this.loadData("off");
 
         },
 
@@ -88,9 +98,37 @@ chevronLeft:"visibility:visible",
 
         methods: {
 
-            loadData(messageOnScreen) {
+            loadData(params) {
+if(params === "on"){
+
+ this.$store.dispatch("handleDisplayFunctions", {
+        photosCompOnScreen: true,
+          params: "photosCompOnScreen"
+        })
+
+}else {
+
+ this.$store.dispatch("handleDisplayFunctions", {
+        photosCompOnScreen: false,
+          params: "photosCompOnScreen"
+        })
+
+
+
+}
+
+
+
+
                 this.userData = this.$store.state.users[this.userName];
-                this.renderImage = this.userData.photos[0]
+
+                if (this.userData.photos.length) {
+
+                    this.renderImage = this.userData.photos[0]
+
+                }
+
+
 
             },
 
@@ -104,9 +142,25 @@ chevronLeft:"visibility:visible",
                 this.$refs.displayedImage.style = "display:flex"
                 this.renderImage = photo
 
+
+            },
+
+
+            handleEmptyPhotos(photo) {
+                if (!photo === "") {
+                    this.showit = true
+                    return true
+                }
+                this.showit = false
+                return false
+
             },
 
             handleDisplayingImage() {
+                if (this.renderImage.imageUrl === undefined) {
+
+                    return ""
+                }
                 return this.renderImage.imageUrl
 
             },
@@ -115,20 +169,28 @@ chevronLeft:"visibility:visible",
 
 
             handleChangeImage(params) {
+                this.chevronLeft = "visibility:visible";
+                this.chevronRight = "visibility:visible";
 
                 if (params === "next") {
 
                     for (let index = 0; index < this.userData.photos.length; index++) {
+
                         if (this.renderImage.imageUrl === this.userData.photos[index].imageUrl) {
-                            ;
+                            this.displayedImageArray.index = index;
+                            this.displayedImageArray.arrayLength = this.userData.photos.length - 1;
                             if (index < this.userData.photos.length - 1) {
-                                // this.chevronRight="visibility:hidden;"
+
                                 return this.renderImage = this.userData.photos[index + 1]
 
                             }
                             else {
-                                this.chevronRight ="visibility:visible;"
- this.chevronLeft = "visibility:visible;"
+
+                                // if (this.displayedImageArray.index === this.displayedImageArray.arrayLength) {
+
+                                this.chevronRight = "visibility:hidden";
+
+                                // }
                                 return this.renderImage = this.userData.photos[index]
 
 
@@ -142,16 +204,21 @@ chevronLeft:"visibility:visible",
                 else {
 
                     for (let index = 0; index < this.userData.photos.length; index++) {
+
                         if (this.renderImage.imageUrl === this.userData.photos[index].imageUrl) {
-                            ;
+                            this.displayedImageArray.index = index;
+                            this.displayedImageArray.arrayLength = this.userData.photos.length - 1;
                             if (index > 0) {
-                                // this.chevronLeft = "visibility:hidden;"
+
                                 return this.renderImage = this.userData.photos[index - 1]
 
                             }
                             else {
- this.chevronRight ="visibility:visible;"
-                                this.chevronLeft = "visibility:visible;"
+
+                                // if (this.displayedImageArray.index < 1) {
+                                this.chevronLeft = "visibility:hidden";
+
+                                // }
                                 return this.renderImage = this.userData.photos[index]
 
 
@@ -175,6 +242,7 @@ chevronLeft:"visibility:visible",
         computed: {
 
             handleUserNames() {
+
 
                 const userName = this.userName
 
