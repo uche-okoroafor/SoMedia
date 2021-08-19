@@ -71,7 +71,7 @@
         </div>
 
       </div>
-      <div class="components-container">
+      <div class="components-container" :style="componentsContainer">
 
         <Posts :userName="handleUserNames" v-if="displayPosts" :loadData="loadData" />
         <Photos :userName="handleUserNames" v-show="displayPhotos" />
@@ -86,7 +86,7 @@
 
 
 
-      <div class="activities-container" :class="activitiesDisplay">
+      <div class="activities-container" :class="activitiesDisplay" v-if="!this.displayPhotos">
 
         <div class="active-container">
           <div class="active-header">
@@ -192,7 +192,7 @@
   <div>
   </div>
 
-  <Footer v-if="false" />
+  <Footer v-if="!this.displayPhotos" />
 </template>
 <script>
   import Posts from "../components/Posts"
@@ -221,6 +221,7 @@
         activitiesDisplay: '',
         photoEmpty: false,
         displayPhotosContainer: true,
+componentsContainer:""
 
       };
     },
@@ -315,6 +316,11 @@
 
 
       toggleDisplay(params) {
+
+
+params === "displayPhotos"? this.componentsContainer="width:100%":this.componentsContainer =""
+
+
         switch (params) {
           case "displayPosts":
             this.displayPosts = true
@@ -322,6 +328,8 @@
             this.displayPhotos = false
             this.displayProfile = false
             this.activitiesDisplay = ""
+            this.displayPhotosContainer = true
+
 
             break;
 
@@ -344,6 +352,8 @@
             this.displayPhotos = true
             this.displayProfile = false
             this.activitiesDisplay = "activities-display"
+this.displayPhotosContainer = false
+
             break;
 
           case "displayProfile":

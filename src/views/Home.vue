@@ -148,12 +148,13 @@
           <img :src="image.imageUrl" alt="">
         </div>
         <div class="post-Video" v-if="post.postVideos.videoId" :ref="post.postVideos.videoId">
-          <video width="500" max-height="300" controls :autoplay="post.postVideos.videoAutoplay"
+          <video width="500" class="video-desktopView" max-height="300" controls :autoplay="post.postVideos.videoAutoplay"
             :id="post.postVideos.videoId">
             <source :src="post.postVideos.videoUrl" type="video/mp4">
             <source :src="post.postVideos.videoUrl" type="video/ogg">
             Your browser does not support HTML video.
           </video>
+
         </div>
         <div class="post-comments">
           <span @click="
@@ -263,9 +264,9 @@
         <div class="sidebar-list-header">
           <h5>Online</h5>
         </div>
-        <ul  >
+        <ul>
           <div v-for="user in allUsers" :key="user.userName">
-            <li  @click="showMessage(user.userName)"  v-if="user.userName !== $store.state.userData.userName">
+            <li @click="showMessage(user.userName)" v-if="user.userName !== $store.state.userData.userName">
               <img :src="$store.state.users[user.userName].userProfileImage" class="user-image-icon" alt="" />
               <span class="username-header"> {{ user.userName }}</span>
               <button class="btn btn-success">Chat</button>
@@ -355,7 +356,8 @@
         PostBackDropZIndex: "z-index:600",
         restrictGuest: false,
         videoAutoplay: false,
-newsFeeds:[],
+        newsFeeds: [],
+controlsState:false,
       };
 
 
@@ -390,26 +392,26 @@ newsFeeds:[],
 
         }
 
-let viewed =[...newsFeeds].filter((posts)=>posts.views.includes(this.userData.userName) )
-let unViewed =[...newsFeeds].filter((posts)=>!posts.views.includes(this.userData.userName) )
-let newsFeedsList=unViewed.concat(viewed)
+        let viewed = [...newsFeeds].filter((posts) => posts.views.includes(this.userData.userName))
+        let unViewed = [...newsFeeds].filter((posts) => !posts.views.includes(this.userData.userName))
+        let newsFeedsList = unViewed.concat(viewed)
 
-if (!unViewed.length) {
- return this.newsFeeds= newsFeedsList.reverse()
-}
-else if(!viewed.length){
+        if (!unViewed.length) {
+          return this.newsFeeds = newsFeedsList.reverse()
+        }
+        else if (!viewed.length) {
 
-return  this.newsFeeds= newsFeedsList.reverse()
+          return this.newsFeeds = newsFeedsList.reverse()
 
-}
+        }
 
-else {
-return this.newsFeeds= newsFeedsList
-
-
+        else {
+          return this.newsFeeds = newsFeedsList
 
 
-}
+
+
+        }
 
 
 
@@ -772,7 +774,7 @@ return this.newsFeeds= newsFeedsList
 
           return this.restrictGuest = true
         }
-// console.log(userName);
+        // console.log(userName);
         this.$store.dispatch("handleDisplayFunctions", {
           userName,
           params: "displayMessage"
@@ -939,7 +941,7 @@ return this.newsFeeds= newsFeedsList
 
       },
 
-allUsers(){
+      allUsers() {
         let allUsers = []
         for (const user in this.$store.state.allUsers) {
           allUsers = [...allUsers, this.$store.state.allUsers[user]]
@@ -948,18 +950,18 @@ allUsers(){
 
 
 
-       
-   const randomUsers = allUsers.map((a) => ({ sort: Math.random(), value: a }))
+
+        const randomUsers = allUsers.map((a) => ({ sort: Math.random(), value: a }))
           .sort((a, b) => a.sort - b.sort)
           .map((a) => a.value);
 
-return randomUsers
+        return randomUsers
 
-},
+      },
 
 
 
-    
+
     },
   };
 </script>

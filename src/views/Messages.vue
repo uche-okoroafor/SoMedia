@@ -185,7 +185,7 @@
         </div>
       </div>
 
- 
+
 
       <div class="container-message  container-desktop-view">
         <div class="fill-up-container" :style="filUpStyle"></div>
@@ -205,6 +205,9 @@
           <div class="empty-chat-list" v-if="!messagesEmpty">
             <span>You Have No Messages</span>
           </div>
+
+<div class="pulldown"></div>
+
           <div v-for="message in showingMessages" :key="message.messageId"
             class="message-body  message-body-disktopView" :class="handleUserChatBoxStyle(message.userName)"
             v-if="messagesEmpty">
@@ -257,7 +260,7 @@
         </form>
       </div>
 
-     <div class="container-message  container-mobile-view  container-mobileView" ref="containerMessage">
+      <div class="container-message  container-mobile-view  container-mobileView" ref="containerMessage">
         <div class="fill-up-container" :style="filUpStyle"></div>
         <div class="messager-Header" :style="handleNavCollapse()">
           <img :src="userProfilePicture" alt="" v-if="messagesEmpty">
@@ -382,13 +385,17 @@
         displaySearchContents: false,
         filteredSearchLists: [],
         chatListBackDrop: false,
-          messages: {},
+        messages: {},
+        watchDelay: true,
       };
     },
     watch: {
-        messages: {
+      messages: {
         handler(state) {
-this.loadData("on")
+          setTimeout(() => {
+            this.loadData("on")
+            this.watchDelay = false
+          }, 2000);
         },
         deep: true
 
@@ -409,13 +416,19 @@ this.loadData("on")
 
         this.userData = this.$store.state.users[this.userName];
 
-        messageOnScreen === "on" ? this.$store.dispatch("handleDisplayFunctions", {
-          activeLink: "Messages",
-          params: "activeLink"
-        }) : this.$store.dispatch("handleDisplayFunctions", {
-          activeLink: "",
-          params: "activeLink"
-        })
+        if (messageOnScreen === "on") {
+          this.$store.dispatch("handleDisplayFunctions", {
+            activeLink: "Messages",
+            params: "activeLink"
+          })
+        } else {
+          this.$store.dispatch("handleDisplayFunctions", {
+            activeLink: "",
+            params: "activeLink"
+          })
+          this.watchDelay = true
+
+        }
 
         let messageStatus = [];
 
@@ -431,7 +444,7 @@ this.loadData("on")
 
 
           this.friendMessaged = this.showingMessageStatus[0].friendMessaged
-               this.messagesEmpty = true
+          this.messagesEmpty = true
         } else {
 
           this.messagesEmpty = false
@@ -592,7 +605,7 @@ this.loadData("on")
               messageStatus: '',
             }
           }
- this.messagesEmpty = true
+          this.messagesEmpty = true
 
           this.$store.dispatch("handleDisplayFunctions", {
             userName: '',
@@ -790,7 +803,7 @@ this.loadData("on")
       showingMessages() {
 
         this.userData = this.$store.state.users[this.userName];
-this.messages=this.$store.state.users[this.userName].messages
+        this.messages = this.$store.state.users[this.userName].messages
         this.storeData = this.$store.state
         this.searchInput.length ? this.displaySearchContents = true : this.displaySearchContents = false
 

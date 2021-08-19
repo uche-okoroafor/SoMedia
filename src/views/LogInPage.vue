@@ -1,307 +1,164 @@
 <template>
-  <div class="newsfeed-container" id="newsfeed-container">
-    <div class="container-sidebar-one">
-      <div class="sidebar-list" :style="handleDisplayFunctions()" v-if="handleFooterOnScreen">
-        <ul>
-
-          <li @click="handleClickedLinks('Messages')">
-
-            <span> Messages </span>
-            <font-awesome-icon class="ml-2" :icon="['fas', 'envelope']" />
-          </li>
-
-
-          <li @click="handleClickedLinks('Friends')">
-
-            <span>Friends </span>
-            <font-awesome-icon class="ml-2" :icon="['fas', 'user-friends']" />
-
-          </li>
-
-
-          <li @click="handleClickedLinks('Friends')">
-
-            <span> Following </span>
-            <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
-          </li>
-
-
-          <li @click="handleClickedLinks('Friends')">
-
-            <span>Followers </span>
-            <font-awesome-icon class="ml-2" :icon="['fas', 'users']" />
-          </li>
-
-        </ul>
-      </div>
-    </div>
-
-    <div class="posts-container">
-      <div class="form-field mb-5" ref="formField">
-        <span><img :src="userData.userProfileImage" class="user-image-icon" alt="" />
-          <span v-if="showUserName" class="username-header"> &nbsp; {{ userData.userName }}</span>
-        </span>
-        <form @submit.prevent="handlePublishPost()" ref="form">
-          <textarea name="posttextarea" v-model="postTextArea" cols="30" rows="3" :style="textAreaStyle"
-            :class="postStyle" placeholder=" Make a post" @click="handleMakePost('text')" ref="textArea"></textarea>
-
-          <br />
-          <div class="filepreview" v-if="previewImage||previewVideo">
-
-            <img :src="tempUrl" alt="" v-if="previewImage">
-
-
-
-
-            <div class="post-Video" v-if="previewVideo && loadFileAddress">
-              <video width="500" heigth="100" controls>
-                <source :src="tempUrl" type="video/mp4">
-                <source :src="tempUrl" type="video/ogg">
-                Your browser does not support HTML video.
-              </video>
-            </div>
-
-
-
-
-          </div>
-          <input type="file" name="fileUpload" accept="image/png,image/jpeg,video/mp4" ref="filesUploadVideo"
-            @change="localFiles" v-show="false">
-          <input type="file" name="fileUpload" accept="image/png,image/jpeg" ref="filesUploadImages"
-            @change="localFiles" v-show="false">
-
-
-
-
-
-          <div class="textarea-icons" ref="textareaIcons">
-            <span class="edit-container" ref="editContainer">
-              <span class="edit-icon-container">
-                <font-awesome-icon :icon="['fas', 'edit']" ref="timelineIcon" @click="handleMakePost('text')" />
-                <span ref="chevronRight" style="display: none">
-                  <font-awesome-icon :icon="['fas', 'chevron-right']" class="chevron-right" />
-                </span>
-              </span>
-
-              <span class="text-theme-container themes-icons-container" ref="themeContainer">
-                <div @click="handleTheme('text-theme-default')" class="text-theme text-theme-default "
-                  style="padding: 0"></div>
-                <div @click="handleTheme('text-themeOne')" class="text-theme text-themeOne" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeTwo')" class="text-theme text-themeTwo" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeThree')" class="text-theme text-themeThree" style="padding: 0">
-                </div>
-                <div @click="handleTheme('text-themeFour')" class="text-theme text-themeFour" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeFive')" class="text-theme text-themeFive" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeSix')" class="text-theme text-themeSix" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeSeven')" class="text-theme text-themeSeven" style="padding: 0">
-                </div>
-                <div @click="handleTheme('text-themeEight')" class="text-theme text-themeEight" style="padding: 0">
-                </div>
-                <div @click="handleTheme('text-themeNine')" class="text-theme text-themeNine" style="padding: 0"></div>
-                <div @click="handleTheme('text-themeTen')" class="text-theme text-themeTen" style="padding: 0"></div>
-              </span>
-            </span>
-            <span>
-              <font-awesome-icon :icon="['fas', 'image']" @click="handleMakePost('image')" />
-            </span>
-            <span>
-              <font-awesome-icon :icon="['fas', 'video']" ref="timelineIcon" @click="handleMakePost('video')" />
-            </span>
-          </div>
-
-
-
-
-
-
-          <button type="submit" class="btn btn-success">Post</button>
-        </form>
+  <div class="login-background">
+    <div class="login">
+      <div class="logo-text">
+        <h2>SoMedia</h2>
       </div>
 
 
-      <div class="post-container" v-for="post in newsFeeds" :key="post.postId+'key'">
-        <!-- <span ></span> -->
-        <div class="userImage" @click="showUserTimeline(post.userName, post.userId)" :ref="post.postId">
-          <img :src="handleUserIcon($store.state.users[post.userName].userProfileImage)" class="user-image-icon"
-            alt="" />
-          <span class="userName-Timeposted"><span class="username-header">{{ post.userName }}</span><span
-              class="comment"> Posted {{showDate(post.datePosted)
-              }}</span>
-          </span>
+
+
+
+
+
+      <form @submit.prevent="handleCreateAccount" v-if="createAccount" class="signup-form">
+        <div class="signin-header">
+          <h5>Create an Account</h5>
         </div>
 
-        <div class="post rounded" :class="post.postStyle" v-if="post.posts.length"
-          :style="handlePostThemes(post.postStyle)" ref="post">
-          <span> {{ post.posts }}</span>
-        </div>
-        <div v-for="image in post.postImages" class="post-images" :key="post.postImages" v-if="post.postImages.length">
-          <img :src="image.imageUrl" alt="">
-        </div>
-        <div class="post-Video" v-if="post.postVideos.videoId" :ref="post.postVideos.videoId">
-          <video width="500" max-height="300" controls :autoplay="post.postVideos.videoAutoplay"
-            :id="post.postVideos.videoId">
-            <source :src="post.postVideos.videoUrl" type="video/mp4">
-            <source :src="post.postVideos.videoUrl" type="video/ogg">
-            Your browser does not support HTML video.
-          </video>
-        </div>
-        <div class="post-comments">
-          <span @click="
-              handleLikes(
-                'postLikes',
-                'incrementPostLikes',
-                post.postId,
-                userData.userId,
-                post.userName,
-                post.postId
-              )
-            " class="m-2  comment-like font-weight-bold" :class="handleLikeStyle(post.likes,'likes')"><span
-              class="text-success ">Likes</span>
-            &nbsp;
-            <font-awesome-icon :icon="['fas', 'thumbs-up']" />
-            {{ post.likes.length }}
+
+        <div class="login-userName-input" :class="{inputEmpty:inputEmpty1}">
+          <span>
+            <font-awesome-icon :icon="['fas', 'user']" />
           </span>
-          <span @click="
-              handleLikes(
-                'postLikes',
-                'decrementPostLikes',
-                post.postId,
-                userData.userId,
-                post.userName,
-                post.postId
-              )
-            " class="m-2  comment-unlike  font-weight-bold" :class="handleLikeStyle(post.unLikes,'unlikes')"> <span
-              class="text-danger font-weight-bold">
-              unlikes</span> &nbsp;
-            <font-awesome-icon :icon="['fas', 'thumbs-down']" />
-            {{ post.unLikes.length }}
+          <input type="text" id="username" placeholder="Username" v-model="state.userName" />
+        </div>
+
+        <div class="login-userName-input">
+          <span>
+            <font-awesome-icon :icon="['fas', 'user']" />
+          </span>
+          <input type="text" id="firstname" placeholder="First Name" v-model="state.firstName" />
+        </div>
+
+        <div class="login-userName-input">
+          <span>
+            <font-awesome-icon :icon="['fas', 'user']" />
+          </span>
+          <input type="text" id="surname" placeholder="LastName" v-model="state.lastName" />
+        </div>
+
+        <div class="login-userName-input">
+          <span>
+            <font-awesome-icon :icon="['fas', 'at']" />
+          </span>
+          <input type="email" id="input-email" placeholder="jesse@example.com" v-model="state.emailAddress" />
+        </div>
+        <div class="login-user-lock" :class="{inputEmpty:inputEmpty2}">
+          <span>
+            <font-awesome-icon :icon="['fas', 'lock']" />
+          </span>
+          <input type="password" id="input-first-name" placeholder="Password" v-model="state.password" />
+        </div>
+
+        <div class="login-user-lock" :class="{inputEmpty:inputEmpty3}">
+          <span>
+            <font-awesome-icon :icon="['fas', 'lock']" />
+          </span>
+          <input type="password" id="input-last-name" placeholder="Password" v-model="state.passwordSecond" />
+        </div>
+        <div class="login-dropdown">
+          <label for="gender"><span>Gender:&nbsp;</span></label>
+          <select id="gender" name="gender" v-model="state.gender" placeholder="Password"
+            :class="{inputEmpty:inputEmpty4}">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+
+        <div class="signup-directives">
+          <span @click="toggleDisplay('showCreateAccountOrLogin')" class="login-directives-click">
+            I already have an account</span>
+          <span style="color: red;" v-if="userExists">Username already Exist</span>
+          <span style="color: red;" v-if="inputEmpty">Please fill The highlighted Areas </span>
+          <span style="color: red;" v-if="passwordMismatch">Passwords does not Match</span>
+          <span style="color: red;text-align:center;" v-if="passwordLength">Your Password Should not be less than 6
+            Characters
           </span>
 
-          <div class="m-2 ">{{ Object.keys(post.comments).length }} comments</div>
         </div>
-        <hr />
-        <h6 class="m-3 ml-5 font-weight-bold ">Comments</h6>
-
-        <div class="comments" v-for="comment in post.comments" :key="comment.commentId">
-          <div class="userImage ml-5" @click="showUserTimeline(comment.userName, comment.userId)">
-            <img :src="handleUserIcon($store.state.users[comment.userName].userProfileImage)" class="user-image-icon"
-              alt="" />
-            <span class="userName-Timeposted"><span class="username-header">{{ comment.userName }}</span><span
-                class="comment">
-                commented {{
-                showDate(comment.dateCommented) }}</span>
-            </span>
-          </div>
-
-          <p class="ml-5 comments-text">{{ comment.comment }}</p>
-          <div class="comment-like-container">
-
-
-            <span @click="
-              handleLikes(
-                'commentLikes',
-                'incrementCommentLikes',
-                post.postId,
-                userData.userId,
-                post.userName,
-                comment
-              )
-            " class="comment-mobile-view comment-like  font-weight-bold"
-              :class="handleLikeStyle(comment.likes,'likes')"><span class="text-success ">Likes</span>
-              &nbsp;
-              <font-awesome-icon :icon="['fas', 'thumbs-up']" />
-              {{ comment.likes.length }}
-            </span>
-            <span @click="
-              handleLikes(
-                'commentLikes',
-                'decrementCommentLikes',
-                post.postId,
-                userData.userId,
-                post.userName,
-                comment
-              )
-            " class="comment-mobile-view  comment-unlike font-weight-bold"
-              :class="handleLikeStyle(comment.unLikes,'unlikes')">
-              <span class="text-danger">Unikes</span>
-              &nbsp;
-              <font-awesome-icon :icon="['fas', 'thumbs-down']" />
-              {{ comment.unLikes.length }}
-            </span>
-
-
-          </div>
+        <div class="signup-button">
+          <button class="btn btn-success" type="submit">SignUp</button>
         </div>
-        <div class="comment-input-field">
-          <span><img :src="handleUserIcon(userData.userProfileImage)" class="user-image-icon" alt="" /></span>
-          <form @submit.prevent="
-              handlePosterComment(post.posterComment, post.postId, post.userName)
-            ">
-            <input type="text" class="input" placeholder=" Post a comment" v-model="post.posterComment" />
+      </form>
 
-            <button type="submit" class="btn btn-info">Comment</button>
-          </form>
+
+
+
+
+
+      <form @submit.prevent="handleLogin" v-else>
+        <div class="signin-header">
+          <h5>Sign In</h5>
         </div>
-        <hr />
-      </div>
 
-    </div>
-    <div class="container-sidebar-two">
-      <div class="sidebar-list">
-        <div class="sidebar-list-header">
-          <h5>Online</h5>
-        </div>
-        <ul v-for="friend in $store.state.allUsers" :key="friend.userName">
-          <div>
-            <li @click="showMessage(friend.userName)">
-              <img :src="$store.state.users[friend.userName].userProfileImage" class="user-image-icon" alt="" />
-              <span class="username-header"> {{ friend.userName }}</span>
-              <button class="btn btn-success">Chat</button>
-            </li>
-          </div>
-        </ul>
-      </div>
-    </div>
-
-    <div class="restrict-Guest" v-if="restrictGuest" @click="closeRestrictMessage">
-
-      <div class="restrict-Guest-contents">
-        <div class="close-restrict-message " @click="closeRestrictMessage">
-          <font-awesome-icon :icon="['fas', 'times-circle']" class="color-danger" />
-        </div>
-        <span class="mt-3">Login Or Create an Account to Have Access to this Link !
-          <br>
-          <br>
-          <span class="signin-button btn btn-success h-1 mb-1" @click="handleLogin('login')">Sign In
-            <font-awesome-icon :icon="['fas', 'sign-in-alt']" />
+        <div class="login-userName-input">
+          <span>
+            <font-awesome-icon :icon="['fas', 'user']" />
           </span>
-        </span>
+          <input type="text" placeholder="Enter Your Username" v-model="state.userName" />
+        </div>
 
-      </div>
 
+        <div class="login-user-lock">
+          <span>
+            <font-awesome-icon :icon="['fas', 'lock']" />
+          </span>
+          <input type="password" placeholder="Enter Your Password" v-model="state.password" />
+        </div>
+        <div style="text-align: right;"> <span class="login-directives-click">Forgot Password</span> </div>
+        <div class="login-user-botton"><button type="submit" class="btn btn-success">Login</button></div>
+        <div class="login-directives">
+          <span @click="toggleDisplay('showCreateAccountOrLogin')" class="login-directives-click">Create New
+            Account</span>
+          <span @click="useGuestAccount" class="login-directives-click">Continue As Guest</span>
+          <span v-if="inputEmpty" style="color: red;">Enter Your Username and Password</span>
+          <span v-if="userUnexist" style="color: red;text-align: center;">Username or Password is incorrect or does not
+            Exist</span>
+        </div>
+      </form>
     </div>
   </div>
-  <div class="post-back-drop" v-if="PostBackDrop" :style="PostBackDropZIndex" @click="handleCloseTextarea"></div>
+  <!-- <Home :userData="userData"    :work="'state.userData'"/> -->
 
-
-
+<div  v-if="$store.state.dis" class="backdrop-login"></div>
 </template>
 
 <script>
-  import LogInPage from "./LogInPage";
   import { uuid } from "vue-uuid";
-  import moment from "moment";
 
   export default {
-    name: "Home",
-    components: { LogInPage },
-    props: ["comments"],
+    name: "LogInPage",
+    // props:[],
     data() {
       return {
+        state: {
+          userName: "",
+          emailAddress: "",
+          password: "",
+          passwordSecond: "",
+          id: uuid.v1(),
+          firstName: '',
+          lastName: '',
+          gender: '',
+        },
+        createAccount: false,
+        userExists: false,
+        inputEmpty: false,
+        userUnexist: false,
+        passwordMismatch: false,
+        passwordLength: false,
+        inputEmpty1: false,
+        inputEmpty2: false,
+        inputEmpty3: false,
+        inputEmpty4: false,
+
         userData: {
           userName: "Guest",
-          userId: "419",
+          emailAddress: "",
+          password: "",
           emailAddress: "419",
+          gender: '',
           firstName: "",
           lastName: "",
           address: "",
@@ -310,582 +167,289 @@
           country: "",
           city: "",
           aboutMe: "",
-          password: "",
           messages: [],
           posts: [],
           followers: [],
           following: [],
           friends: [],
-          likes: [],
-          unLikes: [],
-          posterComment: "",
-          comments: {
-            likes: [],
-            unLikes: [],
-          },
         },
-        sidebarListOneMargin: "margin-top:2rem",
-        newsFeed: {},
-        postTextArea: "",
-        displayFriends: false,
-        displayFollowers: false,
-        displayFollowing: false,
-        notifications: [],
-        showUserName: false,
-        postStyle: "text-theme-default",
-        tempUrl: '',
-        previewVideo: false,
-        previewImage: false,
-        loadFileAddress: false,
-        textAreaStyle: "",
-        PostBackDrop: false,
-        PostBackDropZIndex: "z-index:600",
-        restrictGuest: false,
-        videoAutoplay: false,
       };
-
+    },
+    beforeMount() {
+      this.$store.dispatch("handleDisplayFunctions", {
+        loginPageUnmounted: false,
+        params: "loginPageUnMount"
+      });
+setTimeout(() => {
+  this.$store.dispatch("handleDisplayFunctions", {
+        wihteBackgroundLogin: false,
+        params: "wihteBackgroundLogin"
+      });
+}, 2000);
 
     },
 
-    mounted() {
-      this.loadData();
-      window.scrollTo(0, 0);
-      document.addEventListener('scroll', () => this.onScroll(this.$refs));
-    },
     beforeUnmount() {
-      this.loadData();
-      window.scrollTo(0, 0);
-      document.removeEventListener('scroll', () => this.onScroll(this.$refs));
+      this.$store.dispatch("handleDisplayFunctions", {
+        loginPageUnmounted: true,
+        params: "loginPageUnMount"
+      });
     },
-  
+
     methods: {
-      loadData() {
-        this.newsFeed = this.$store.state.newsFeed;
-        this.userData = this.$store.state.userData;
-
-
-      },
-
-
-      handlePostThemes(theme) {
-        if (theme !== "text-theme-default") {
-
-          return "min-height:200px"
-        }
-
-
-        return "heigth:auto"
-
-
-
-      },
-
-      handleLikeStyle(likes, params) {
+      toggleDisplay(params) {
         switch (params) {
-          case "likes":
-            if (likes.includes(this.userData.userName)) {
-
-
-              return "text-success"
-
-            }
-            return "comment-like"
+          case "showCreateAccountOrLogin":
+            this.createAccount = !this.createAccount;
+            this.userExists = false;
+            this.inputEmpty = false;
+            this.userUnexist = false;
+            this.passwordMismatch = false;
+            this.passwordLength = false;
+            this.handleBorderHignLight("")
             break;
 
-          case "unlikes":
-            if (likes.includes(this.userData.userName)) {
+          case "loginUser":
+            this.userUnexist = false;
+            this.inputEmpty = false;
+            this.handleBorderHignLight("")
 
+            break;
 
+          case "userUnexist":
+            this.userUnexist = true;
+            this.inputEmpty = false;
+            this.handleBorderHignLight("")
 
-              return "text-danger"
+            break;
 
-            }
+          case "inputEmpty":
+            this.inputEmpty = true;
+            this.userUnexist = false;
+            this.userExists = false;
+            this.passwordMismatch = false;
+            this.passwordLength = false;
+            this.handleBorderHignLight("inputEmpty")
+            break;
 
-            return "comment-like"
+          case "userExists":
+            this.inputEmpty = false;
+            this.userExists = true;
+            this.passwordMismatch = false;
+            this.handleBorderHignLight("")
+
+            break;
+
+          case "passwordMismatch":
+            this.passwordMismatch = true;
+            this.inputEmpty = false;
+            this.userExists = false;
+            this.passwordLength = false;
+            this.handleBorderHignLight("")
+
+            break;
+
+          case "passwordLength":
+            this.passwordLength = true;
+            this.inputEmpty = false;
+            this.userExists = false;
+            this.handleBorderHignLight("")
+
             break;
 
           default:
             break;
         }
-
-
-
-
-
       },
 
+      handleBorderHignLight(params) {
+        if (params.length) {
+          !this.state.userName.length && (this.inputEmpty1 = true)
+          !this.state.password.length && (this.inputEmpty2 = true)
+          !this.state.passwordSecond.length && (this.inputEmpty3 = true)
+          !this.state.gender.length && (this.inputEmpty4 = true)
 
 
-      localFiles(e) {
-
-        this.tempUrl = URL.createObjectURL(e.target.files[0]);
-
-      },
-
-
-      handleTheme(theme) {
-
-        this.postStyle = theme;
-        this.textAreaStyle = "height:15rem;border-radius:2px;width:100%;"
-
-      },
-
-      handleMakePost(params) {
-
-        if (this.userData.userName === "Guest") {
-
-          return this.restrictGuest = true
-        }
-        this.PostBackDrop = true
-
-        if (params !== "text") {
-          if (params === "video") {
-            this.previewVideo = true;
-            this.previewImage = false;
-            this.loadFileAddress = false;
-            this.tempUrl = "";
-            this.$refs.filesUploadVideo.click()
-          } else {
-            this.previewImage = true;
-            this.previewVideo = false;
-            this.$refs.filesUploadImages.click()
-          }
-
-        }
-
-        this.$refs.formField.style = "flex-flow:column;transition:all 0.4s;z-index:650";
-        this.$refs.textArea.classList.add("textarea-input")
-        this.$refs.textareaIcons.style = "flex-flow:column;font-size:1.5rem;transition:all 0.4s";
-        this.$refs.themeContainer.style = "display:flex;width:auto;transition:all 0.4s";
-        this.$refs.editContainer.style = "display:flex";
-        this.$refs.chevronRight.style = "display:inline";
-        this.showUserName = true;
-      },
-
-      handleCloseTextarea() {
-        this.PostBackDrop = false
-
-        this.$refs.textArea.classList.remove("textarea-input")
-        this.textAreaStyle = ""
-        this.$refs.formField.style = "flex-flow:row;height:auto;transition:all 0.4s";
-        this.$refs.textareaIcons.style = "flex-flow:row;";
-        this.$refs.themeContainer.style = "display:none;";
-        this.$refs.editContainer.style = "display:inline";
-        this.$refs.chevronRight.style = "display:none";
-        this.postStyle = "text-theme-default";
-        this.showUserName = false;
-        this.previewVideo = false;
-        this.previewImage = false;
-        this.tempUrl = ""
-      },
-
-
-
-      handleUserIcon(userProfileImage) {
-        if (userProfileImage === undefined) {
-          return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png";
-        }
-        return userProfileImage;
-      },
-      showUserTimeline(userName) {
-        if (this.userData.userName === "Guest") {
-
-          return this.restrictGuest = true
-        }
-
-        this.$router.push({
-          name: "Timeline",
-          params: { userName: userName, Timeline: "Timeline" },
-        });
-      },
-
-      handleClickedLinks(link) {
-        if (this.userData.userName === "Guest") {
-
-          return this.restrictGuest = true
-        }
-
-        if (link === "Friends") {
-          return this.$router.push({
-            name: 'Friends',
-            params: { userName: this.userData.userName, Timeline: 'friends' },
-          })
-
-
-        }
-
-        this.$router.push({
-          name: "Messages",
-          params: { userName: this.userData.userName },
-        })
-
-      },
-
-      handlePublishPost() {
-
-        if (this.userData.userName === "Guest") {
-
-          return this.restrictGuest = true
-        }
-
-        let postId = uuid.v1();
-        let videoId = '';
-        let imageId = '';
-
-        this.previewVideo && this.tempUrl ? videoId = uuid.v1() : imageId = uuid.v1();
-
-
-        if (this.postTextArea.length || this.tempUrl.length) {
-          this.$store.dispatch("handlePublishPost", {
-            [postId]: {
-              userName: this.userData.userName,
-              userId: this.userData.userId,
-              views: [],
-              postId,
-              datePosted: Date.now(),
-              posts: this.postTextArea,
-              likes: [],
-              unLikes: [],
-              posterComment: "",
-              comments: [],
-              postStyle: this.postStyle,
-              postImages: [{ imageUrl: this.tempUrl, imageId }],
-              postVideos: { videoUrl: this.tempUrl, videoId, videoAutoplay: false },
-
-
-
-
-            },
-
-          });
-
-
-          if (this.tempUrl.length && this.previewVideo) {
-            this.$store.dispatch("handleAddImageVideo", {
-              userName: this.userData.userName,
-              videoUrl: this.tempUrl,
-              videoId: uuid.v1(),
-              fileType: "video",
-            });
-          }
-          else if (this.tempUrl.length && this.previewImage) {
-            this.$store.dispatch("handleAddImageVideo", {
-              userName: this.userData.userName,
-              imageUrl: this.tempUrl,
-              imageId: uuid.v1(),
-              fileType: "image",
-
-            });
-
-
-          }
-
-
-
-          this.postTextArea = "";
-          this.handleCloseTextarea();
-          this.loadData();
-          this.tempUrl = ""
-        }
-
-        this.$store.dispatch("handleNotifications", {
-          userName: this.userData.userName,
-          notificationId: uuid.v1(),
-          notificationType: "post",
-          notificationStatus: "unRead",
-          notificationDate: Date.now(),
-        });
-
-        this.$store.dispatch("handleActivities", {
-          userName: this.userData.userName,
-          activity: "posted",
-          activityDate: Date.now(),
-          activityId: uuid.v1(),
-        });
-      },
-
-
-
-      handleLikes(condition, params, postId, userId, posterUserName, comment) {
-  if (this.userData.userName === "Guest") {
-
-          return this.restrictGuest = true
-        }
-
-
-        this.$store.dispatch("handleLikes", {
-          condition,
-          params,
-          postId,
-          userId,
-          userName: this.userData.userName,
-          commentId: comment.commentId,
-          dateLiked: Date.now(),
-        });
-
-        this.$store.dispatch("handleNotifications", {
-          userName: this.userData.userName,
-          posterUserName,
-          notificationId: uuid.v1(),
-          notificationType: "likes",
-          notificationStatus: "unRead",
-          notificationDate: Date.now(),
-        });
-
-        if (condition === "postLikes" && params === "incrementPostLikes") {
-          this.$store.dispatch("handleNotifications", {
-            userName: this.userData.userName,
-            posterUserName,
-            notificationId: uuid.v1(),
-            notificationType: "likes",
-            notificationStatus: "unRead",
-            notificationDate: Date.now(),
-          });
-
-          this.$store.dispatch("handleActivities", {
-            userName: this.userData.userName,
-            posterUserName,
-            activity: "liked",
-            activityDate: Date.now(),
-            activityId: uuid.v1(),
-          });
-        } else {
-          if (params === "incrementCommentLikes") {
-            this.$store.dispatch("handleActivities", {
-              userName: this.userData.userName,
-              posterUserName,
-              commenterUserName: comment.userName,
-              activity: "likedComment",
-              activityDate: Date.now(),
-              activityId: uuid.v1(),
-            });
-
-            this.$store.dispatch("handleNotifications", {
-              userName: this.userData.userName,
-              posterUserName,
-              commenterUserName: comment.userName,
-              notificationId: uuid.v1(),
-              notificationType: "likedComment",
-              notificationStatus: "unRead",
-              notificationDate: Date.now(),
-            });
-          }
-        }
-
-      },
-
-
-      handleLogin(params) {
-        this.$router.push({ name: "Login" });
-
-      },
-
-
-
-      closeRestrictMessage() {
-        this.restrictGuest = false
-
-      },
-
-
-
-      showMessage(userName, status) {
-        if (this.userData.userName === "Guest") {
-
-          return this.restrictGuest = true
-        }
-
-        this.$store.dispatch("handleDisplayFunctions", {
-          userName,
-          params: "displayMessage"
-        })
-        this.$router.push({
-          name: "Messages",
-          params: { userName: this.userData.userName },
-        })
-
-      },
-
-      handlePostViews(postId) {
-        this.$store.dispatch("handlePostViews", {
-          userName: this.userData.userName,
-          postId,
-        });
-      },
-
-
-
-      onScroll(ref) {
-
-
-        let refObject = Object.keys(ref)
-
-        for (let newsFeedId in this.newsFeed) {
-          if (refObject.includes(newsFeedId)) {
-
-            if (ref[newsFeedId] !== null) {
-              if (this.isElementInViewport(ref[newsFeedId])) {
-                this.handlePostViews(newsFeedId)
-              }
-            }
-          }
-
-          if (refObject.includes(this.newsFeed[newsFeedId].postVideos.videoId)) {
-            if (ref[this.newsFeed[newsFeedId].postVideos.videoId] !== null) {
-              if (this.isElementInViewport(ref[this.newsFeed[newsFeedId].postVideos.videoId])) {
-                // this.newsFeed[newsFeedId].postVideos.videoAutoplay = true
-                document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).play()
-
-              } else {
-                document.getElementById(this.newsFeed[newsFeedId].postVideos.videoId).pause()
-              }
-            }
-
-          }
-
-
-
-        }
-
-      },
-
-      isElementInViewport(el) {
-        var rect = el.getBoundingClientRect();
-        return (
-          rect.top >= 0 &&
-          rect.left >= 0 &&
-          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-      },
-
-
-
-      handlePosterComment(comment, postId, posterUserName) {
-        if (this.userData.userName === "Guest") {
-
-          return this.restrictGuest = true
-        }
-        let commentId = uuid.v1();
-        if (comment.length) {
-          this.$store.dispatch("handlePosterComment", {
-            [commentId]: {
-              userName: this.userData.userName,
-              userId: this.userData.userId,
-              comment,
-              dateCommented: Date.now(),
-              commentId,
-              likes: [],
-              postId,
-              unLikes: [],
-            },
-          });
-
-          this.$store.dispatch("handleNotifications", {
-            userName: this.userData.userName,
-            posterUserName,
-            notificationId: uuid.v1(),
-            notificationType: "comment",
-            notificationStatus: "unRead",
-            notificationDate: Date.now(),
-          });
-
-          this.$store.dispatch("handleActivities", {
-            userName: this.userData.userName,
-            posterUserName,
-            activity: "commented",
-            activityDate: Date.now(),
-            activityId: uuid.v1(),
-          });
-        }
-      },
-
-      showDate(date) {
-        const currentDate = Date.now();
-        const dateStatus = currentDate - date;
-        const minutes = Math.round(dateStatus / (1000 * 60));
-        const hours = Math.round(dateStatus / (1000 * 60 * 60));
-        const days = Math.round(dateStatus / (1000 * 60 * 60 * 24));
-        const weeks = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7));
-        const months = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7 * 12));
-        const years = Math.round(dateStatus / (1000 * 60 * 60 * 365));
-
-        if (minutes <= 0) {
-          return "Just now";
-        } else if (minutes < 59) {
-          return minutes === 1 ? "1 minute ago" : minutes + " minutes ago";
-        } else if (hours < 23) {
-          return hours === 1 ? "1 hour ago" : hours + " hours ago";
-        } else if (days >= 1) {
-          return days === 1 ? "1 day ago" : days + " days ago";
-        } else if (weeks < 59) {
-          return weeks === 1 ? "1 week ago" : weeks + " weeks ago";
-        } else if (months < 59) {
-          return months === 1 ? "1 month ago" : months + " mouths ago";
-        } else {
-          return years === 1 ? "1 year ago" : years + " years ago";
-        }
-      },
-
-
-      handleDisplayFunctions() {
-        if (this.$store.state.displayFunctions.navCollapsed) {
-          this.sidebarListOneMargin = "margin-top:-3rem"
-          return this.sidebarListOneMargin
         }
         else {
-          this.sidebarListOneMargin = "margin-top:2rem"
-          return this.sidebarListOneMargin
+          this.inputEmpty1 = false
+          this.inputEmpty2 = false
+          this.inputEmpty3 = false
+          this.inputEmpty4 = false
+
         }
+
 
       },
 
+      handleClearInputField() {
+        this.state.userName = "";
+        this.state.emailAddress = "";
+        this.state.password = "";
+        this.state.passwordSecond = "";
+        this.state.gender = "";
+      },
+      handleLocalStorage() {
+        let userData = {
+          userName: this.state.userName,
+          loginTime: Date.now()
+        }
+        localStorage.userData = JSON.stringify(userData)
+      },
     },
-  watch: {
-      restrictGuest: {
-        handler(showin) {
-          // console.log("yes", showin);
 
-        },
-        deep: true
-
-      }
-
-    },
 
     computed: {
+      handleCreateAccount() {
+        let users = this.$store.state.users;
+        if (this.state.userName && this.state.password) {
+          if (users[this.state.userName] !== undefined) {
+            return this.toggleDisplay("userExists");
+          } else {
+            if (this.state.password.length < 6) {
+              return this.toggleDisplay("passwordLength");
+            } else if (this.state.password !== this.state.passwordSecond) {
+              return this.toggleDisplay("passwordMismatch");
+            }
+            else if (!this.state.gender.length) {
+              return this.toggleDisplay("inputEmpty");
+            }
 
-handleFooterOnScreen(){
-if(this.$store.state.displayFunctions.footerOnScreen){
+            else {
+              this.$store.dispatch("handleDisplayFunctions", {
+                newAccount: true,
+                params: "newAccount"
+              });
 
-return false
-}
-
-return true
-
-},
-
-      newsFeeds() {
-
-
-
-        if (this.previewVideo && this.tempUrl.length || this.previewImage && this.tempUrl.length) {
-          this.loadFileAddress = true
+              this.$store.dispatch("handleAddAccount", {
+                [this.state.userName]: {
+                  userName: this.state.userName,
+                  emailAddress: this.state.emailAddress,
+                  password: this.state.password,
+                  firstName: this.state.firstName,
+                  lastName: this.state.lastName,
+                  gender: this.state.gender,
+                  address: "",
+                  postCode: "",
+                  country: "",
+                  city: "",
+                  aboutMe: "",
+                  posts: [],
+                  followers: [],
+                  following: [],
+                  friends: [],
+                  age: "",
+                  education: "",
+                  videos: [],
+                  photos: [],
+                  messages: {},
+                  messageStatus: {},
+                  notifications: {},
+                  occupation: "",
+                  status: "online",
+                  activities: {},
+                  userCoverImage: require('../assets/coverImages/defaultBg.jpg'),
+                  userId: uuid.v1(),
+                  userProfileImage: require('../assets/userThumbnail/User.png'),
+                },
+              });
+              this.handleLocalStorage()
+              this.userData = this.$store.state.users[this.state.userName];
+              this.toggleDisplay("loginUser");
+              this.$store.dispatch("handleActivities", {
+                userName: this.state.userName,
+                activity: "Created account",
+                activityDate: Date.now(),
+                activityId: uuid.v1()
+              })
+              this.$router.push({ name: "Home" })
+              return this.handleClearInputField();
+            }
+          }
+        } else {
+          this.$store.dispatch("handleDisplayFunctions", {
+            newAccount: false,
+            params: "newAccount"
+          });
+          return this.toggleDisplay("inputEmpty");
         }
-
-        let newsFeeds = [];
-
-        for (const newsFeedId in this.newsFeed) {
-          newsFeeds.push(this.newsFeed[newsFeedId]);
-
-
-        }
-        return newsFeeds.sort((a, b) => a.datePosted - b.datePosted).reverse();
       },
+
+      handleLogin() {
+        let users = this.$store.state.users;
+
+        if (this.state.userName && this.state.password) {
+
+          if (
+            users[this.state.userName] !== undefined &&
+            users[this.state.userName] !== undefined
+          ) {
+            this.toggleDisplay("loginUser");
+            this.userData = users[this.state.userName];
+            this.$emit("sendUserdata", this.userData);
+            this.$router.push({ name: "Home" })
+            this.$store.dispatch("handleLogin", {
+              userName: this.state.userName, status: "online"
+            })
+            this.handleLocalStorage()
+            this.$store.dispatch("handleActivities", {
+              userName: this.state.userName,
+              activity: "logged in",
+              activityDate: Date.now(),
+              activityId: uuid.v1(),
+            })
+
+            return this.handleClearInputField();
+          } else {
+            return this.toggleDisplay("userUnexist");
+          }
+        } else {
+          return this.toggleDisplay("inputEmpty");
+        }
+      },
+      useGuestAccount() {
+        this.$router.push({ name: "Home" })
+        this.$store.dispatch("updateUserData", {
+          Guest: {
+            userName: "Guest",
+            emailAddress: "",
+            password: "",
+            firstName: "",
+            lastName: "",
+            gender: "",
+            address: "",
+            postCode: "",
+            country: "",
+            city: "",
+            aboutMe: "",
+            posts: [],
+            followers: [],
+            following: [],
+            friends: [],
+            age: "",
+            education: "",
+            videos: [],
+            photos: [],
+            messages: {},
+            messageStatus: {},
+            notifications: {},
+            occupation: "",
+            status: "online",
+            activities: {},
+            userCoverImage: require('../assets/coverImages/defaultBg.jpg'),
+            userId: uuid.v1(),
+            userProfileImage: require('../assets/userThumbnail/User.png'),
+
+          }
+        })
+
+
+      },
+
+
+
+
+
     },
   };
 </script>
-
-<style scoped>
-
-</style>

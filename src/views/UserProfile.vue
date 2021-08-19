@@ -11,9 +11,9 @@
           <span class="update-cover-text">Update Your Cover Picture
           </span>
 
-          <input type="file" name="fileUpload" accept="image/png, image/jpeg,video/mp4" ref="uploadCoverImage"
+          <input type="file" name="fileUpload" accept="image/png,image/jpeg" ref="uploadCoverImage"
             @change="getLocalCoverImgAddress" v-show="false">
-          <input type="file" name="fileUploadprofile" accept="image/png, image/jpeg,video/mp4" ref="uploadProfileImage"
+          <input type="file" name="fileUploadprofile" accept="image/png,image/jpeg" ref="uploadProfileImage"
             @change="getLocalProfileImgAddress" v-show="false">
         </span>
 
@@ -30,13 +30,13 @@
       <div class="card-set-profile">
         <form @submit.prevent="handleUserDetailsUpDate">
           <div class="card-set-profile-header">
-            <h3>My account</h3>
+            <h5>My account</h5>
 
-            <input class="btn btn-info  editBtn" @click="handleEnableEdit" value="Edit" />
+            <input type="button" class="btn btn-info  editBtn" @click="handleEnableEdit" value="Edit" />
           </div>
 
           <div class="info-form">
-            <h4>User information</h4>
+            <h6>User information</h6>
             <div class="your-info">
               <div>
                 <label for="UserName">UserName</label>
@@ -75,7 +75,7 @@
             </div>
             <hr />
           </div>
-          <h4>Contact information</h4>
+          <h6>Contact information</h6>
           <div class="contact-info">
             <div class="Home-Address">
               <div>
@@ -99,7 +99,7 @@
           <hr />
 
           <div class="about-me">
-            <h4>About me</h4>
+            <h6>About me</h6>
 
             <div class="textarea-container">
               <label for="About-me">About Me</label>
@@ -124,19 +124,28 @@
               class="setup-buttons-text">&nbsp; Update Profile Picture</span>
           </span>
 
+
         </div>
         <div class="friends-follwers-container">
           <div>
-            <h5>{{ userData.friends.length }} 1</h5>
-            <span>Friends</span>
+            <h5>{{ userData.friends.length }} </h5>
+        <span class="description" @click="$emit('toggleView','displayFriends')">
+                  <router-link :to="{name:'Friends',params:{userName:userData.userName,Timeline:'Friends'}}">Friends
+                  </router-link>
+                </span>          </div>
+          <div>
+            <h5>{{ userData.photos.length }}</h5>
+          <span class="description" @click="$emit('toggleView','displayPhotos')">
+                  <router-link :to="{name:'Timeline',params:{userName:userData.userName,Timeline:'Friends'}}">Photos
+                  </router-link>
+                </span>
           </div>
           <div>
-            <h5>{{ userData.photos.length }}2</h5>
-            <span>Photos</span>
-          </div>
-          <div>
-            <h5>{{ userData.posts.length }}3</h5>
-            <span>Posts</span>
+            <h5>{{ userData.posts.length }}</h5>
+             <span class="description" @click="$emit('toggleView','displayPosts')">
+                  <router-link :to="{name:'Timeline',params:{userName:userData.userName,Timeline:'Friends'}}">Posts
+                  </router-link>
+                </span>
           </div>
         </div>
 
@@ -152,21 +161,25 @@
           <span>{{ userData.country }}</span>
         </div>
 
-        <div class="userData-userName">
-          <h5>{{ userData.occupation }}</h5>
-          ,
+        <div class="text-center">
+          <h5>{{ userData.occupation }}</h5>  <br>
+         
           <span>{{ userData.education }}</span>
         </div>
 
         <hr />
-
-        <span>{{ userData.aboutMe }}</span>
+<div class="text-center">
+         <span>{{ userData.aboutMe }}</span>
+ 
+</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import { uuid } from "vue-uuid";
+
   export default {
     name: "userProfile",
     props: ["userName"],
@@ -174,8 +187,8 @@
       return {
         userDetails: {
           userName: "Guest",
-          userId: "419",
-          emailAddress: "419",
+          userId: "",
+          emailAddress: "",
           firstName: "Guest",
           lastName: "Guest",
           address: "Guest",
@@ -206,7 +219,6 @@
         inputState: true,
         userCoverImage: '',
         userProfileImage: '',
-        onUserName: 'uche',
       }
     },
 
@@ -218,7 +230,6 @@
     },
     methods: {
       loadData(params) {
-        this.onUserName = this.userName
         this.userDetails = { ...this.$store.state.users[this.userName] };
         params === "load" ? this.$store.dispatch("handleDisplayFunctions", {
           activeLink: "userProfile",
@@ -245,6 +256,15 @@
 
         })
 
+
+            this.$store.dispatch("handleAddImageVideo", {
+              userName: this.userName,
+              imageUrl:this.userCoverImage,
+              imageId: uuid.v1(),
+              fileType: "image",
+
+            });
+
       },
 
       getLocalProfileImgAddress(e) {
@@ -256,6 +276,14 @@
           userName: this.userName,
 
         })
+
+ this.$store.dispatch("handleAddImageVideo", {
+              userName: this.userName,
+              imageUrl: this.userProfileImage ,
+              imageId: uuid.v1(),
+              fileType: "image",
+
+            });
 
 
       },
@@ -279,47 +307,38 @@
 
 
       handleUserDetailsUpDate() {
-        // this.$store.dispatch('handleAccountUpdate', {
-        //         params: 'updateCoverImage',
-        //         userCoverImage: this.userCoverImage,
-        //         userName: this.userName,
 
-        //       })
+        if (this.userDetails.userName.length) {
 
-        if (this.userDetails.userName !== this.userData.userName) {
 
-          this.$store.dispatch('handleAccountUpdate', {
-            params: 'updateUserName',
-            userName: this.userName,
-            userDetails: this.userDetails,
-          })
-          // this.onUserName =this.userDetails.userName
-          this.$router.push({
-            name: "userProfile",
-            params: { userName: this.userDetails.userName },
-          });
-          // this.loadData("load");
+          if (this.userDetails.userName !== this.userData.userName) {
 
-        }
-        else {
+            this.$store.dispatch('handleAccountUpdate', {
+              params: 'updateUserName',
+              userName: this.userName,
+              userDetails: this.userDetails,
+            })
+            this.$router.push({
+              name: "userProfile",
+              params: { userName: this.userDetails.userName },
+            });
+          }
+          else {
 
-          this.$store.dispatch('handleAccountUpdate', {
-            params: 'otherDetails',
-            userName: this.userName,
-            userDetails: this.userDetails,
-          })
-          console.log(this.userName, 2);
+            this.$store.dispatch('handleAccountUpdate', {
+              params: 'otherDetails',
+              userName: this.userName,
+              userDetails: this.userDetails,
+            })
 
 
 
 
 
+          } 
+this.inputState = true
         }
         // this.userDetails = { ...this.$store.state.users[this.userName] };
-        this.inputState = true
-
-        console.log('working');
-
 
       },
 
