@@ -15,9 +15,9 @@ Try out the application at [https://uche-okoroafor.github.io/SoMedia/](https://u
 
 ## Features:
 * User login/sign up authentication.
-* Make a post.
-* Upload images and videos.
-
+* Content Sharing.
+* Instant Messaging System.
+* Real-Time Notifications
 
 ## Installation:
 If you want to run the application locally, follow the instructions below:
