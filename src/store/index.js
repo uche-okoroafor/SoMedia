@@ -46,7 +46,7 @@ export default createStore({
             componentMounted: '',
             suspendMessageUpdate: false,
             pageReLoad: false,
-wihteBackgroundLogin:true,
+            wihteBackgroundLogin: true,
         },
         "user": {
             "Ruby": {
@@ -7941,9 +7941,7 @@ wihteBackgroundLogin:true,
         },
 
         handlePublishPost(state, payLoad) {
-            const userName = Object.keys(payLoad)[0];
             state.newsFeed = {...state.newsFeed, ...payLoad };
-            // state.users[payLoad[userName].userName].posts = {...state.users[payLoad[userName].userName].posts, ...payLoad }
         },
 
         handlePosterComment(state, payLoad) {
@@ -8021,6 +8019,7 @@ wihteBackgroundLogin:true,
                 default:
                     break;
             }
+
         },
 
         handleSubmitMessage(state, payLoad) {
@@ -8043,9 +8042,6 @@ wihteBackgroundLogin:true,
                 ...state.users[friendMessaged].messages[userName],
                 [messsageData.messageId]: {...messsageData }
             };
-
-
-
 
 
         },
@@ -8353,7 +8349,6 @@ wihteBackgroundLogin:true,
                     break;
                 case 'displayMessage':
                     state.displayFunctions.displayMessage.userName = payLoad.userName;
-                    console.log(payLoad.userName)
 
                     break;
 
@@ -8375,7 +8370,7 @@ wihteBackgroundLogin:true,
                     state.displayFunctions.newAccount = payLoad.newAccount;
                     break;
 
-  case 'wihteBackgroundLogin':
+                case 'wihteBackgroundLogin':
                     state.displayFunctions.wihteBackgroundLogin = payLoad.wihteBackgroundLogin;
                     break;
 
@@ -8568,27 +8563,26 @@ wihteBackgroundLogin:true,
                         }
 
                     }
-state.displayFunctions = {
-            navCollapsed: false,
-            newAccount: false,
-            loginPageUnmounted: false,
-            displayClickedImage: undefined,
-            activeLink: 'Home',
-            displayMessage: { userName: '' },
-            footerOnScreen: false,
-            photosCompOnScreen: false,
-            componentMounted: '',
-            suspendMessageUpdate: false,
-            pageReLoad: false,
-wihteBackgroundLogin:true,
-        }
+                    state.displayFunctions = {
+                        navCollapsed: false,
+                        newAccount: false,
+                        loginPageUnmounted: false,
+                        displayClickedImage: undefined,
+                        activeLink: 'Home',
+                        displayMessage: { userName: '' },
+                        footerOnScreen: false,
+                        photosCompOnScreen: false,
+                        componentMounted: '',
+                        suspendMessageUpdate: false,
+                        pageReLoad: false,
+                        wihteBackgroundLogin: true,
+                    }
 
                     break;
 
                 default:
                     break;
             }
-            // console.log(JSON.parse(localStorage.state))
         },
 
 

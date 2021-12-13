@@ -64,7 +64,6 @@
             target="_blank"
             >About</a
           >&nbsp;
-          <!-- @click="reset" -->
           <font-awesome-icon :icon="['fas', 'info']" />
         </li>
         <li>
@@ -73,12 +72,9 @@
             target="_blank"
             >Contact</a
           >&nbsp;
-          <!--  @click="updates" -->
           <font-awesome-icon :icon="['fas', 'phone-square-alt']" />
         </li>
         <li>
-          <!-- <button class="log-out">Logout <font-awesome-icon :icon="['fas', 'sign-out-alt']" v-if="true"  />
-</button> -->
           <button
             @click="handleLogin('')"
             class="btn btn-danger m-1"
@@ -696,7 +692,6 @@
             v-if="dropIconDisplay"
             ref="sortDown"
           />
-          <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
           <font-awesome-icon
             :icon="['fas', 'sort-up']"
             v-if="!dropIconDisplay"
@@ -746,15 +741,8 @@
     <div
       class="nav-menu-bar-drop"
       v-if="menuBarBackDrop"
-      @click="handleMenuBarBackDropBackDrop"
+      @click="handleMenuBarBackDrop"
     ></div>
-
-    <!-- <div class="restrict-Guest">
-
-      <div class="restrict-Guest-contents">
-        <span>Login Or Create an Account to Have Access to this Link !</span>
-
-      </div> </div>-->
   </nav>
 
   <div
@@ -780,7 +768,7 @@
     <div
       class="nav-menu-bar-drop"
       v-if="menuBarBackDrop"
-      @click="handleMenuBarBackDropBackDrop"
+      @click="handleMenuBarBackDrop"
     ></div>
 
     <div class="logo-container">
@@ -896,7 +884,6 @@
             }
           "
         >
-          <!-- <router-link  :style="newsFeedLink"  :to="{ name: 'Home' }">  -->
           <span
             class="collapsed-nav-text list-mobile-view "
             :class="handleTextHover('Newsfeed')"
@@ -904,7 +891,6 @@
           >
           <font-awesome-icon :icon="['fas', 'newspaper']" ref="newsFeedIcon" />
 
-          <!-- </router-link> -->
           <span class="show-counter" v-if="timelineCount ? true : false">{{
             timelineCount
           }}</span>
@@ -928,11 +914,6 @@
           ref="profile"
           @click="handlePushRoutes('userProfile')"
         >
-          <!-- <router-link :style="profileLink" :to="{
-                name: 'userProfile',
-                params: { userName: userData.userName },
-              }"> -->
-
           <span
             class="collapsed-nav-text nav-profile "
             :class="handleTextHover('userProfile')"
@@ -940,7 +921,6 @@
           </span>
 
           <font-awesome-icon :icon="['fas', 'user']" ref="profileIcon" />
-          <!-- </router-link> -->
         </li>
         <li
           class="lists list-mobile-view"
@@ -1411,7 +1391,6 @@
           v-if="dropIconDisplay"
           ref="sortDown"
         />
-        <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
         <font-awesome-icon
           :icon="['fas', 'sort-up']"
           v-if="!dropIconDisplay"
@@ -1701,7 +1680,7 @@ export default {
             userName: "Guest",
             emailAddress: "",
             password: "",
-            emailAddress: "419",
+            emailAddress: "",
             firstName: "",
             lastName: "",
             age: "",
@@ -1736,7 +1715,7 @@ export default {
       this.menuContents = true;
     },
 
-    handleMenuBarBackDropBackDrop() {
+    handleMenuBarBackDrop() {
       this.menuBarBackDrop = false;
       this.menuContents = false;
     },
@@ -1774,9 +1753,6 @@ export default {
     handleUserOwnMenu(params) {
       this.clickedMenu = params;
       if (params === "userImageFullNav") {
-        // if(this.backDrop){
-
-        // this.backDrop=false}
         this.userOwnMenuFullNav
           ? (this.$refs.userOwnMenuFullNav.style =
               "display:none;height:0;transition:all 1s")
@@ -1809,6 +1785,7 @@ export default {
 
       this.backDrop = !this.backDrop;
     },
+
     handleActiveLink(activeLink) {
       switch (activeLink) {
         case "Home":
@@ -1835,7 +1812,6 @@ export default {
           this.messageLink = this.inActiveLink;
           this.newsFeedLink = this.inActiveLink;
           this.notificationLink = this.inActiveLink;
-
           break;
         case "Messages":
           if (this.userData.userName === "Guest") {
@@ -1847,9 +1823,7 @@ export default {
           this.messageLink = this.activeLink;
           this.newsFeedLink = this.inActiveLink;
           this.notificationLink = this.inActiveLink;
-
           break;
-
         case "Timeline":
           if (this.userData.userName === "Guest") {
             return (this.restrictGuest = true);
@@ -1965,14 +1939,12 @@ export default {
       this.soundNum--;
       switch (notificationType) {
         case "friend request":
-          console.log("yes");
           this.$router.push({
             name: "Friends",
             params: { userName: this.userData.userName },
           });
           break;
         case "follow":
-          console.log("yes");
           this.$router.push({
             name: "Friends",
             params: { userName: this.userData.userName },
@@ -2059,9 +2031,9 @@ export default {
         return "Just now";
       } else if (minutes < 60) {
         return minutes === 1 ? "1 minute ago" : minutes + " minutes ago";
-      } else if (hours < 24) {
+      } else if (hours < 12) {
         return hours === 1 ? "1 hour ago" : hours + " hours ago";
-      } else if (days > 7) {
+      } else if (days < 7) {
         return days === 1 ? "1 day ago" : days + " days ago";
       } else if (weeks < 4) {
         return weeks === 1 ? "1 week ago" : weeks + " weeks ago";
@@ -2301,6 +2273,30 @@ export default {
           );
         }, 45000);
 
+        setTimeout(() => {
+          this.$store.dispatch("handlePublishPost", {
+            ["9b687760-dc19-11eb-9e4e-33a1151joshc9e"]: {
+              userName: "Nova",
+              userId: "89045af0-d9c9-11eb-ba8c-e9a262a433df",
+              views: [],
+              postId: "9b687760-dc19-11eb-9e4e-33a1151joshc9e",
+              datePosted: Date.now(),
+              posts: "When your Need crushes your Desire",
+              likes: [],
+              unLikes: [],
+              posterComment: "",
+              comments: [],
+              postStyle: "text-theme-default",
+              postImages: [{ imageUrl: "", imageId: "" }],
+              postVideos: {
+                videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+                videoId: "33a1151joshc9e",
+                videoAutoplay: false,
+              },
+            },
+          });
+        }, 50000);
+
         this.$store.dispatch("handleDisplayFunctions", {
           newAccount: false,
           params: "newAccount",
@@ -2425,17 +2421,6 @@ export default {
       if (this.notificationCount > this.soundNum) {
         setTimeout(() => {
           var promise = document.getElementById("newAlert").play();
-
-          if (promise !== undefined) {
-            promise
-              .then((_) => {
-                // Autoplay started!
-              })
-              .catch((error) => {
-                // Autoplay was prevented.
-                // Show a "Play" button so that user can start playback.
-              });
-          }
 
           this.soundNum = this.notificationCount;
         }, 500);

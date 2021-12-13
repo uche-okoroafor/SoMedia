@@ -58,7 +58,7 @@
           >
             <div
               @click="handleTheme('text-theme-default')"
-              class="text-theme text-theme-default "
+              class="text-theme text-theme-default"
               :style="handleThemeStyle('text-theme-default')"
             ></div>
             <div
@@ -127,7 +127,7 @@
           />
         </span>
       </div>
-      <button type="submit" class="btn ">Post</button>
+      <button type="submit" class="btn">Post</button>
       <input
         type="file"
         name="fileUpload"
@@ -169,7 +169,9 @@
       />
       <span class="userName-Timeposted"
         ><span class="username-header">{{ post.userName }}</span
-        ><span class="comment"> Posted {{ showDate(post.datePosted) }}</span>
+        ><span class="comment">
+          Posted <PostTime :date="post.datePosted" />
+        </span>
       </span>
     </div>
 
@@ -186,7 +188,7 @@
     <div
       v-for="image in post.postImages"
       class="post-images"
-      :key="image.imageUrl"
+      :key="post.postImages"
       v-if="post.postImages.length"
     >
       <img :src="image.imageUrl" alt="" />
@@ -199,9 +201,10 @@
       <video
         width="500"
         max-height="300"
-        controls
+        :controls="controlsState"
         :autoplay="post.postVideos.videoAutoplay"
         :id="post.postVideos.videoId"
+        @click="pauseVideo(post.postVideos.videoId)"
       >
         <source :src="post.postVideos.videoUrl" type="video/mp4" />
         <source :src="post.postVideos.videoUrl" type="video/ogg" />
@@ -221,7 +224,7 @@
             post.postId
           )
         "
-        class="m-2  comment-like"
+        class="m-2 comment-like"
         :class="handleLikeStyle(post.likes, 'likes')"
         ><span class="text-success">Likes</span>
         &nbsp;
@@ -239,14 +242,14 @@
             post.postId
           )
         "
-        class="m-2  comment-unlike"
+        class="m-2 comment-unlike"
         :class="handleLikeStyle(post.unLikes, 'unlikes')"
       >
         <span class="text-danger"> unlikes</span> &nbsp;
         <font-awesome-icon :icon="['fas', 'thumbs-down']" />
         {{ post.unLikes.length }}
       </span>
-      <div class="m-2  post-views">
+      <div class="m-2 post-views">
         Views &nbsp; <font-awesome-icon :icon="['fas', 'eye']" /> &nbsp;{{
           post.views.length
         }}
@@ -260,7 +263,7 @@
     <h6 class="m-3 ml-5 font-weight-bold">Comments</h6>
 
     <div
-      class=" comments"
+      class="comments"
       v-for="comment in post.comments"
       :key="comment.commentId"
     >
@@ -280,8 +283,8 @@
         <span class="userName-Timeposted"
           ><span class="username-header">{{ comment.userName }}</span
           ><span class="comment">
-            commented {{ showDate(comment.dateCommented) }}</span
-          >
+            commented <PostTime :date="comment.dateCommented" />
+          </span>
         </span>
       </div>
 
@@ -316,7 +319,7 @@
               comment
             )
           "
-          class="comment-mobile-view  comment-unlike"
+          class="comment-mobile-view comment-unlike"
           :class="handleLikeStyle(comment.unLikes, 'unlikes')"
         >
           <span class="text-danger">Unikes</span>
@@ -360,11 +363,14 @@
 
 <script>
 import { uuid } from "vue-uuid";
+import PostTime from "./PostTime";
 
 export default {
   name: "Posts",
   props: ["userName", "loadData", "displayPosts"],
-
+  components: {
+    PostTime,
+  },
   data() {
     return {
       userData: {},
@@ -380,6 +386,8 @@ export default {
       textAreaStyle: "",
       PostBackDrop: false,
       PostBackDropZIndex: "z-index:600",
+      controlsState: true,
+      videoPlay: true,
     };
   },
 
@@ -504,7 +512,6 @@ export default {
     handleUserIcon(userProfileImage) {
       if (userProfileImage === undefined) {
         return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png";
-        // require('./assets/userProfileImage/original1.jpg')
       }
       return userProfileImage;
     },
@@ -569,34 +576,6 @@ export default {
         }
       }
     },
-
-    showDate(date) {
-      const currentDate = Date.now();
-      const dateStatus = currentDate - date;
-      const minutes = Math.round(dateStatus / (1000 * 60));
-      const hours = Math.round(dateStatus / (1000 * 60 * 60));
-      const days = Math.round(dateStatus / (1000 * 60 * 60 * 24));
-      const weeks = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7));
-      const months = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7 * 12));
-      const years = Math.round(dateStatus / (1000 * 60 * 60 * 365));
-
-      if (minutes <= 0) {
-        return "Just now";
-      } else if (minutes < 60) {
-        return minutes === 1 ? "1 minute ago" : minutes + " minutes ago";
-      } else if (hours < 24) {
-        return hours === 1 ? "1 hour ago" : hours + " hours ago";
-      } else if (days < 7) {
-        return days === 1 ? "1 day ago" : days + " days ago";
-      } else if (weeks < 4) {
-        return weeks === 1 ? "1 week ago" : weeks + " weeks ago";
-      } else if (months < 12) {
-        return months === 1 ? "1 month ago" : months + " mouths ago";
-      } else {
-        return years === 1 ? "1 year ago" : years + " years ago";
-      }
-    },
-
     handlePosterComment(comment, postId, posterUserName) {
       let commentId = uuid.v1();
       if (comment.length) {
@@ -696,7 +675,6 @@ export default {
         this.postTextArea = "";
         this.handleCloseTextarea();
         this.tempUrl = "";
-        // this.loadData();
       }
 
       this.$store.dispatch("handleNotifications", {
@@ -741,7 +719,6 @@ export default {
             this.posts[postId].postId && ref[this.posts[postId]] !== null
           )
         ) {
-          // if () {
           if (this.$store.state.displayFunctions.componentMounted === "posts") {
             if (
               this.isElementInViewport(ref[this.posts[postId].postId]) &&
@@ -749,7 +726,6 @@ export default {
             ) {
               this.handlePostViews(this.posts[postId].postId);
             }
-            // }
           }
         }
 
@@ -760,7 +736,6 @@ export default {
           if (
             this.isElementInViewport(ref[this.posts[postId].postVideos.videoId])
           ) {
-            // this.posts[postId].postVideos.videoAutoplay = true
             document
               .getElementById(this.posts[postId].postVideos.videoId)
               .play()
@@ -772,6 +747,23 @@ export default {
               .getElementById(this.posts[postId].postVideos.videoId)
               .pause();
           }
+        }
+      }
+      if (document.body.scrollWidth <= 530) {
+        this.controlsState = false;
+      } else {
+        this.controlsState = true;
+      }
+    },
+
+    pauseVideo(videoId) {
+      if (document.body.scrollWidth) {
+        if (this.videoPlay) {
+          document.getElementById(videoId).pause();
+          this.videoPlay = !this.videoPlay;
+        } else {
+          document.getElementById(videoId).play();
+          this.videoPlay = !this.videoPlay;
         }
       }
     },
@@ -807,12 +799,7 @@ export default {
 
       for (let newsfeedId in this.$store.state.newsFeed) {
         if (this.$store.state.newsFeed[newsfeedId].userName === this.userName) {
-          // for(const postId in userData.posts){
-          // if(newsfeedId !== userData.posts[postId].postId)
-
           posts = [...posts, this.$store.state.newsFeed[newsfeedId]];
-
-          // }
         }
       }
       !posts.length ? (this.emptyPost = true) : (this.emptyPost = false);

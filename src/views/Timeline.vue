@@ -1,9 +1,6 @@
 <template>
   <div class="timeline-layout">
     <div class="profile-cover-container" :style="userCoverImage">
-      <!-- 
-    <h2>{{ userData.userName }}</h2>
-  <h2>{{handleUserNames}}</h2> -->
       <div class="cover-Links">
         <ul>
           <li @click="toggleDisplay('displayPosts')">
@@ -61,7 +58,6 @@
               {{ handleUserNames }}'s Photos
             </h5>
             <h5 v-else>Your Photos</h5>
-            <!-- if="this.userData.userName === this.$store.state.userData.userName" -->
           </div>
           <div
             v-if="
@@ -438,11 +434,9 @@ export default {
 
   mounted() {
     this.loadData(this.userName, "load");
-    // window.scrollTo(0, 0)
   },
   beforeUnmount() {
     this.loadData(this.userName, "unLoad");
-    // window.scrollTo(0, 0)
   },
   methods: {
     loadData(userName, params) {

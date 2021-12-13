@@ -188,7 +188,6 @@
         v-for="post in newsFeeds"
         :key="post.postId + 'key'"
       >
-        <!-- <span ></span> -->
         <div
           class="userImage"
           @click="showUserTimeline(post.userName, post.userId)"
@@ -221,7 +220,7 @@
         <div
           v-for="image in post.postImages"
           class="post-images"
-          :key="image.imageUrl"
+          :key="post.postImages"
           v-if="post.postImages.length"
         >
           <img :src="image.imageUrl" alt="" />
@@ -235,9 +234,10 @@
             width="500"
             class="video-desktopView"
             max-height="300"
-            controls
+            :controls="controlsState"
             :autoplay="post.postVideos.videoAutoplay"
             :id="post.postVideos.videoId"
+            @click="pauseVideo(post.postVideos.videoId)"
           >
             <source :src="post.postVideos.videoUrl" type="video/mp4" />
             <source :src="post.postVideos.videoUrl" type="video/ogg" />
@@ -503,7 +503,8 @@ export default {
       restrictGuest: false,
       videoAutoplay: false,
       newsFeeds: [],
-      controlsState: false,
+      controlsState: true,
+      videoPlay: true,
     };
   },
 
@@ -844,7 +845,6 @@ export default {
       if (this.userData.userName === "Guest") {
         return (this.restrictGuest = true);
       }
-      // console.log(userName);
       this.$store.dispatch("handleDisplayFunctions", {
         userName,
         params: "displayMessage",
@@ -883,19 +883,34 @@ export default {
                 ref[this.newsFeed[newsFeedId].postVideos.videoId]
               )
             ) {
-              // this.newsFeed[newsFeedId].postVideos.videoAutoplay = true
               document
                 .getElementById(this.newsFeed[newsFeedId].postVideos.videoId)
                 .play()
-                .catch((e) => {
-                  /* error handler */
-                });
+                .catch((e) => {});
             } else {
               document
                 .getElementById(this.newsFeed[newsFeedId].postVideos.videoId)
                 .pause();
             }
           }
+        }
+      }
+
+      if (document.body.scrollWidth <= 530) {
+        this.controlsState = false;
+      } else {
+        this.controlsState = true;
+      }
+    },
+
+    pauseVideo(videoId) {
+      if (document.body.scrollWidth) {
+        if (this.videoPlay) {
+          document.getElementById(videoId).pause();
+          this.videoPlay = !this.videoPlay;
+        } else {
+          document.getElementById(videoId).play();
+          this.videoPlay = !this.videoPlay;
         }
       }
     },

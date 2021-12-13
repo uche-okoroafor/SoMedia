@@ -1,7 +1,7 @@
 <template>
   <section id="messageBox">
     <div class="message-container">
-      <div class="list-container-left container-mobile-view  " ref="chatList">
+      <div class="list-container-left container-mobile-view" ref="chatList">
         <div class="chat-list">
           <div class="header-chat-list">
             <h5>Chats</h5>
@@ -22,7 +22,7 @@
                     <span class="names-Bold"> {{ user.userName }}</span>
                   </li>
                 </ul>
-                <div v-if="searchNotFound" style="text-align:center">
+                <div v-if="searchNotFound" style="text-align: center">
                   User Not Found
                 </div>
               </div>
@@ -57,12 +57,9 @@
               <div class="userName-data-container">
                 <div class="side-userName">
                   <span class="username-header">{{ user.userName }}</span>
-                  <span>{{
-                    showDateInWords(
-                      chattedUsersInfo[user.userName].messageDate,
-                      user.userName
-                    )
-                  }}</span>
+                  <PostTime
+                    :date="chattedUsersInfo[user.userName].messageDate"
+                  />
                 </div>
 
                 <div class="side-user-message">
@@ -71,9 +68,9 @@
                       chattedUsersInfo[user.userName].userName ===
                         userData.userName
                     "
-                    class="shortMessage "
+                    class="shortMessage"
                   >
-                    <span style="font-weight: 600;">You:&nbsp</span>
+                    <span style="font-weight: 600">You:&nbsp</span>
                     <span class="message-ellipsis">{{
                       handleMessageSlice(
                         chattedUsersInfo[user.userName].message
@@ -121,7 +118,7 @@
         </div>
       </div>
 
-      <div class="list-container-left  container-desktop-view">
+      <div class="list-container-left container-desktop-view">
         <div class="chat-list">
           <div class="header-chat-list">
             <h5>Chats</h5>
@@ -143,7 +140,7 @@
                     <span class="names-Bold"> {{ user.userName }}</span>
                   </li>
                 </ul>
-                <div v-if="searchNotFound" style="text-align:center">
+                <div v-if="searchNotFound" style="text-align: center">
                   User Not Found
                 </div>
               </div>
@@ -182,9 +179,10 @@
               <div class="userName-data-container">
                 <div class="side-userName">
                   <span class="username-header">{{ user.userName }}</span>
-                  <span>{{
-                    showDateInWords(chattedUsersInfo[user.userName].messageDate)
-                  }}</span>
+
+                  <PostTime
+                    :date="chattedUsersInfo[user.userName].messageDate"
+                  />
                 </div>
 
                 <div class="side-user-message">
@@ -195,7 +193,7 @@
                     "
                     class="shortMessage"
                   >
-                    <span style="font-weight: 600;">You:&nbsp</span>
+                    <span style="font-weight: 600">You:&nbsp</span>
                     <span class="message-ellipsis">{{
                       handleMessageSlice(
                         chattedUsersInfo[user.userName].message
@@ -243,7 +241,7 @@
         </div>
       </div>
 
-      <div class="container-message  container-desktop-view">
+      <div class="container-message container-desktop-view">
         <div class="fill-up-container" :style="filUpStyle"></div>
         <div class="messager-Header" :style="handleNavCollapse()">
           <img :src="userProfilePicture" alt="" v-if="messagesEmpty" />
@@ -265,7 +263,7 @@
           <div
             v-for="message in showingMessages"
             :key="message.messageId"
-            class="message-body  message-body-disktopView"
+            class="message-body message-body-disktopView"
             :class="handleUserChatBoxStyle(message.userName)"
             v-if="messagesEmpty"
           >
@@ -285,7 +283,6 @@
               />
               <div>
                 <h6 class="username-header">{{ message.userName }}</h6>
-
                 <span>{{ showDate(message.messageDate) }} </span>
               </div>
               <hr />
@@ -317,16 +314,6 @@
                 />
               </span>
             </div>
-            <!-- <p>  {{moment().format('LT')}} </p> -->
-
-            <!-- 
-        <input type="text" value="delete message" class="btn btn-danger" @click="
-            handleDeleteMessage(
-              userData.userName,
-              friendMessaged,
-              message.messageId
-            )
-          " /> -->
           </div>
         </div>
         <form @submit.prevent="handleSubmitMessage" class="message-input-field">
@@ -336,12 +323,11 @@
             placeholder=" Type your message"
           />
           <img :src="userData.userProfileImage" alt="" />
-          <!-- <button type="submit" class="btn btn-success">send</button> -->
         </form>
       </div>
 
       <div
-        class="container-message  container-mobile-view  container-mobileView"
+        class="container-message container-mobile-view container-mobileView"
         ref="containerMessage"
       >
         <div class="fill-up-container" :style="filUpStyle"></div>
@@ -414,16 +400,6 @@
                 />
               </span>
             </div>
-            <!-- <p>  {{moment().format('LT')}} </p> -->
-
-            <!-- 
-        <input type="text" value="delete message" class="btn btn-danger" @click="
-            handleDeleteMessage(
-              userData.userName,
-              friendMessaged,
-              message.messageId
-            )
-          " /> -->
           </div>
         </div>
         <form @submit.prevent="handleSubmitMessage" class="message-input-field">
@@ -433,11 +409,10 @@
             placeholder=" Type your message"
           />
           <img :src="userData.userProfileImage" alt="" />
-          <!-- <button type="submit" class="btn btn-success">send</button> -->
         </form>
       </div>
 
-      <div class="list-container-right ">
+      <div class="list-container-right">
         <div class="friends-list-container">
           <div class="friends-listHeader">
             <h5>Friends</h5>
@@ -457,7 +432,7 @@
               <img :src="handleImages(friend.userName)" alt="" />
               <span class="username-header">{{ friend.userName }}</span>
               <div class="message-friend">
-                <button class="btn btn-success ">Chat</button>
+                <button class="btn btn-success">Chat</button>
               </div>
             </div>
           </div>
@@ -470,10 +445,16 @@
 <script>
 import { uuid } from "vue-uuid";
 import moment from "moment";
+import PostTime from "../components/PostTime";
+import Time from "../components/Time";
 
 export default {
   name: "Messages",
   props: ["userName"],
+  components: {
+    PostTime,
+    Time,
+  },
 
   data() {
     return {
@@ -489,7 +470,6 @@ export default {
       messageUserProfilePicture: "",
       userProfilePicture: "",
       messageUserName: "",
-      // displayMessage: '',
       displayChatList: "",
       filUpStyle: "",
       messagesEmpty: true,
@@ -725,33 +705,6 @@ export default {
       return "check-double-read";
     },
 
-    showDateInWords(date, userName) {
-      const currentDate = Date.now();
-      const dateStatus = currentDate - date;
-      const minutes = Math.round(dateStatus / (1000 * 60));
-      const hours = Math.round(dateStatus / (1000 * 60 * 60));
-      const days = Math.round(dateStatus / (1000 * 60 * 60 * 24));
-      const weeks = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7));
-      const months = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7 * 12));
-      const years = Math.round(dateStatus / (1000 * 60 * 60 * 365));
-
-      if (minutes <= 0) {
-        return "Just now";
-      } else if (minutes < 60) {
-        return minutes === 1 ? "1 minute ago" : minutes + " minutes ago";
-      } else if (hours < 24) {
-        return hours === 1 ? "1 hour ago" : hours + " hours ago";
-      } else if (days < 7) {
-        return days === 1 ? "1 day ago" : days + " days ago";
-      } else if (weeks < 4) {
-        return weeks === 1 ? "1 week ago" : weeks + " weeks ago";
-      } else if (months < 12) {
-        return months === 1 ? "1 month ago" : months + " mouths ago";
-      } else {
-        return years === 1 ? "1 year ago" : years + " years ago";
-      }
-    },
-
     showDate(messageDate) {
       let currentDate = Date.now();
       let dateStatus = currentDate - messageDate;
@@ -767,15 +720,15 @@ export default {
       } else if (minutes < 60) {
         return minutes === 1 ? "1 minute ago" : minutes + "minutes ago";
       } else if (hours < 24) {
-        return moment(messageDate).format(" h:mm :ss a L");
+        return moment(date).format("L, h:mm :ss a");
       } else if (days < 7) {
-        return moment(messageDate).format(" h:mm:ss a L");
+        return moment(date).format("L, h:mm:ss a");
       } else if (weeks < 4) {
-        return moment(messageDate).format(" h:mm :ss a L");
+        return moment(date).format("L, h:mm :ss a");
       } else if (months < 12) {
-        return moment(messageDate).format(" h:mm :SS a L");
+        return moment(date).format("L, h:mm :SS a");
       } else {
-        return moment(messageDate).format(" h:mm a  L");
+        return moment(date).format("L, h:mm a");
       }
     },
 

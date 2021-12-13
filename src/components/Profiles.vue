@@ -195,7 +195,6 @@ this.userData.posts =postCount
 
       handleFriendRequest(user, requestStatus) {
 
-console.log(requestStatus);
         switch (requestStatus) {
           case "Add Friend":
 
@@ -228,7 +227,6 @@ console.log(requestStatus);
     computed: {
       userNames() {
 this.friendsList = this.$store.state.users[this.userName].friends.map((user)=>user.userName)
-// console.log(this.$store.state.allUsers[this.userName].requests);
 
 let friendRequestList =this.$store.state.allUsers[this.userName].requests.map((user)=>user.userName)
 let userRequestList = this.$store.state.allUsers[this.$store.state.userData.userName].requests.map((user)=>user.userName)
