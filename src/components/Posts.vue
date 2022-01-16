@@ -478,6 +478,7 @@ export default {
           this.previewVideo = false;
           this.$refs.filesUploadImages.click();
         }
+        this.postStyle = "text-theme-default";
       }
       this.$refs.formField.style =
         "flex-flow:column;transition:all 0.4s;z-index:650";

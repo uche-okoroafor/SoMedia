@@ -502,7 +502,6 @@ export default {
       PostBackDropZIndex: "z-index:600",
       restrictGuest: false,
       videoAutoplay: false,
-      newsFeeds: [],
       controlsState: true,
       videoPlay: true,
     };
@@ -529,28 +528,6 @@ export default {
         (this.previewImage && this.tempSource.length)
       ) {
         this.loadFileAddress = true;
-      }
-
-      let newsFeeds = [];
-
-      for (const newsFeedId in this.newsFeed) {
-        newsFeeds.push(this.newsFeed[newsFeedId]);
-      }
-
-      let viewed = [...newsFeeds].filter((posts) =>
-        posts.views.includes(this.userData.userName)
-      );
-      let unViewed = [...newsFeeds].filter(
-        (posts) => !posts.views.includes(this.userData.userName)
-      );
-      let newsFeedsList = unViewed.concat(viewed);
-
-      if (!unViewed.length) {
-        return (this.newsFeeds = newsFeedsList.reverse());
-      } else if (!viewed.length) {
-        return (this.newsFeeds = newsFeedsList.reverse());
-      } else {
-        return (this.newsFeeds = newsFeedsList);
       }
     },
 
@@ -621,6 +598,7 @@ export default {
           this.previewVideo = false;
           this.$refs.filesUploadImages.click();
         }
+        this.postStyle = "text-theme-default";
       }
 
       this.$refs.formField.style =
@@ -1024,6 +1002,17 @@ export default {
         .map((a) => a.value);
 
       return randomUsers;
+    },
+
+    newsFeeds() {
+      let posts = [];
+
+      for (let newsfeedId in this.$store.state.newsFeed) {
+        posts = [...posts, this.$store.state.newsFeed[newsfeedId]];
+      }
+      posts.sort((a, b) => a.datePosted - b.datePosted).reverse();
+
+      return posts;
     },
   },
 };

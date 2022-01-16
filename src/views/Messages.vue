@@ -707,13 +707,13 @@ export default {
 
     showDate(messageDate) {
       let currentDate = Date.now();
-      let dateStatus = currentDate - messageDate;
-      const minutes = Math.round(dateStatus / (1000 * 60));
-      const hours = Math.round(dateStatus / (1000 * 60 * 60));
-      const days = Math.round(dateStatus / (1000 * 60 * 60 * 24));
-      const weeks = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7));
-      const months = Math.round(dateStatus / (1000 * 60 * 60 * 24 * 7 * 12));
-      const years = Math.round(dateStatus / (1000 * 60 * 60 * 365));
+      let date = currentDate - messageDate;
+      const minutes = Math.round(date / (1000 * 60));
+      const hours = Math.round(date / (1000 * 60 * 60));
+      const days = Math.round(date / (1000 * 60 * 60 * 24));
+      const weeks = Math.round(date / (1000 * 60 * 60 * 24 * 7));
+      const months = Math.round(date / (1000 * 60 * 60 * 24 * 7 * 12));
+      const years = Math.round(date / (1000 * 60 * 60 * 365));
 
       if (minutes <= 0) {
         return "Just now";
