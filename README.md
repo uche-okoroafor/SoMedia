@@ -1,5 +1,5 @@
 # SoMedia
-SoMedia is a Social Media App,it provides users free web space to Upload contents like text , image or video in real time
+SoMedia is a Social Media App,it provides users free web space to Upload contents like text , image or video in real time.In Somalia users can also like a post, comment on a post, follow another user, send a friend request that can be accepted by another user, notification system to notify the user of any update he/she is connected to, has a messaging feature, where users can send a message to other users.
 
 Try out the application at [https://uche-okoroafor.github.io/SoMedia/](https://uche-okoroafor.github.io/SoMedia/)!
 <br><br>
