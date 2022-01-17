@@ -35,16 +35,13 @@
 
       <ul class="website-info">
         <li> <a href="https://www.linkedin.com/in/uche-okoroafor-a9286b19b" target="_blank">About</a>&nbsp;
-          <!-- @click="reset" -->
           <font-awesome-icon :icon="['fas', 'info']" />
         </li>
         <li> <a href="https://www.linkedin.com/in/uche-okoroafor-a9286b19b" target="_blank">Contact</a>&nbsp;
-          <!--  @click="updates" -->
           <font-awesome-icon :icon="['fas', 'phone-square-alt']" />
         </li>
         <li>
-          <!-- <button class="log-out">Logout <font-awesome-icon :icon="['fas', 'sign-out-alt']" v-if="true"  />
-</button> -->
+
           <button @click="handleLogin('')" class="btn btn-danger m-1" v-if="logout">LogOut
             <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
           </button>
@@ -136,7 +133,7 @@
 
           <div class="dropdown-notifications" ref="notificationMenuFullNav">
             <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
-            <ul v-for="notification in notifications">
+            <ul v-for="notification in notifications" :key="notification.notificationId">
 
               <li ref="lists" @click="showNotificationDetails('post',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'">
@@ -324,7 +321,6 @@
             :src="userData.userProfileImage" alt="">&nbsp;<span class="names-Bold">
             {{userData.userName}}</span>&nbsp;
           <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
-          <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
           <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
 
           <div class="dropdown-OwnMenu" ref="userOwnMenuFullNav">
@@ -347,14 +343,9 @@
     <div class="back-drop" v-if="backDrop" @click="handleUserOwnMenu(clickedMenu)"></div>
     <div class="search-back-drop" v-if="searchBackDrop" @click="handleSearchBackDrop('close')"></div>
     <div class="notify-back-drop" v-if="notificationBackDrop" @click="handleNotifyBackDrop"></div>
-    <div class="nav-menu-bar-drop" v-if="menuBarBackDrop" @click="handleMenuBarBackDropBackDrop"></div>
+    <div class="nav-menu-bar-drop" v-if="menuBarBackDrop" @click="handleMenuBarBackDrop"></div>
 
-    <!-- <div class="restrict-Guest">
 
-      <div class="restrict-Guest-contents">
-        <span>Login Or Create an Account to Have Access to this Link !</span>
-
-      </div> </div>-->
 
   </nav>
 
@@ -364,7 +355,7 @@
     <div class="back-drop" v-if="backDrop" @click="handleUserOwnMenu(clickedMenu)"></div>
     <div class="search-back-drop" v-if="searchBackDrop" @click=" handleSearchBackDrop('close')"></div>
     <div class="notify-back-drop" v-if="notificationBackDrop" @click="handleNotifyBackDrop"></div>
-    <div class="nav-menu-bar-drop" v-if="menuBarBackDrop" @click="handleMenuBarBackDropBackDrop"></div>
+    <div class="nav-menu-bar-drop" v-if="menuBarBackDrop" @click="handleMenuBarBackDrop"></div>
 
 
 
@@ -389,7 +380,7 @@
             @click="handleSearchBackDrop('open')">
         </span>
         <div class="search-contents" v-if="displaySearchContents">
-          <ul v-for="user in filteredSearchList">
+          <ul v-for="user in filteredSearchList" :key="user.userName">
             <li @click="showUserTimeline(user.userName)">
               <img :src="$store.state.users[user.userName].userProfileImage" alt="">&nbsp;
               <span class="names-Bold">{{user.userName}}</span>
@@ -442,11 +433,9 @@
         </li>
         <li class="lists list-mobile-view" :style="newsFeedLink" ref="newsFeed"
           @click="()=>{handlePushRoutes('Newsfeed');handleActiveLink('Newsfeed')}">
-          <!-- <router-link  :style="newsFeedLink"  :to="{ name: 'Home' }">  -->
           <span class="collapsed-nav-text list-mobile-view " :class="handleTextHover('Newsfeed')">Newsfeed &nbsp;</span>
           <font-awesome-icon :icon="['fas', 'newspaper']" ref="newsFeedIcon" />
 
-          <!-- </router-link> -->
           <span class="show-counter" v-if="timelineCount? true:false">{{timelineCount}}</span>
         </li>
 
@@ -457,15 +446,11 @@
         </li>
         <li class="lists   list-mobile-view" :style="profileLink" ref="profile"
           @click="handlePushRoutes('userProfile')">
-          <!-- <router-link :style="profileLink" :to="{
-                name: 'userProfile',
-                params: { userName: userData.userName },
-              }"> -->
+
 
           <span class="collapsed-nav-text nav-profile " :class="handleTextHover('userProfile')">Profile </span>
 
           <font-awesome-icon :icon="['fas', 'user']" ref="profileIcon" />
-          <!-- </router-link> -->
         </li>
         <li class="lists list-mobile-view" :style="messageLink" ref="messages" @click="handlePushRoutes('Messages')">
           <span class="collapsed-nav-text " :class="handleTextHover('Messages')"> Messages </span>
@@ -482,7 +467,7 @@
 
           <div class="dropdown-notifications  collapsed-dropdown" ref="notificationMenu">
             <font-awesome-icon :icon="['fas', 'sort-up']" class="pointer-part" />
-            <ul v-for="notification in notifications">
+            <ul v-for="notification in notifications" :key="notification.notificationId">
               <li ref="lists" @click="showNotificationDetails('post',notification.notificationId,notification.userName)"
                 v-if="notification.notificationType === 'post' && notification.notificationStatus === 'unRead'">
                 Your friend <span class="names-Bold">{{notification.userName}}</span> just made a new
@@ -665,7 +650,6 @@
         <span class="names-Bold">
           {{userData.userName}}</span>
         <font-awesome-icon :icon="['fas', 'sort-down']" v-if="dropIconDisplay" ref="sortDown" />
-        <!-- @click="showUserTimeline(userData.userName, userData.userId)" -->
         <font-awesome-icon :icon="['fas', 'sort-up']" v-if="!dropIconDisplay" ref="sortUp" />
 
 
@@ -948,7 +932,7 @@
               userName: "Guest",
               emailAddress: "",
               password: "",
-              emailAddress: "419",
+              emailAddress: "",
               firstName: "",
               lastName: "",
               age: "",
@@ -993,7 +977,7 @@
 
       },
 
-      handleMenuBarBackDropBackDrop() {
+      handleMenuBarBackDrop() {
         this.menuBarBackDrop = false
         this.menuContents = false
 
@@ -1036,9 +1020,7 @@
       handleUserOwnMenu(params) {
         this.clickedMenu = params
         if (params === 'userImageFullNav') {
-          // if(this.backDrop){
 
-          // this.backDrop=false}
           this.userOwnMenuFullNav ? this.$refs.userOwnMenuFullNav.style = "display:none;height:0;transition:all 1s" : this.$refs.userOwnMenuFullNav.style = "display:flex;height:auto;transition:all 1s";
 
           this.dropIconDisplay = !this.dropIconDisplay
@@ -1066,6 +1048,7 @@
         this.backDrop = !this.backDrop
 
       },
+
       handleActiveLink(activeLink) {
 
         switch (activeLink) {
@@ -1094,7 +1077,6 @@
             this.messageLink = this.inActiveLink
             this.newsFeedLink = this.inActiveLink
             this.notificationLink = this.inActiveLink
-
             break;
           case "Messages":
             if (this.userData.userName === "Guest") {
@@ -1107,9 +1089,7 @@
             this.messageLink = this.activeLink
             this.newsFeedLink = this.inActiveLink
             this.notificationLink = this.inActiveLink
-
             break;
-
           case "Timeline":
             if (this.userData.userName === "Guest") {
 
@@ -1121,6 +1101,7 @@
             this.messageLink = this.inActiveLink
             this.newsFeedLink = this.inActiveLink
             this.notificationLink = this.inActiveLink
+
 
             break;
           case "Newsfeed":
@@ -1233,19 +1214,17 @@
         switch (notificationType) {
 
           case 'friend request':
-console.log("yes");
             this.$router.push({
               name: "Friends",
               params: { userName: this.userData.userName },
             })
             break;
           case 'follow':
-console.log("yes");
             this.$router.push({
               name: "Friends",
               params: { userName: this.userData.userName },
             })
-   this.$store.dispatch("handleNotificationUpdate", {
+            this.$store.dispatch("handleNotificationUpdate", {
               userName: this.userData.userName,
               notificationStatus: "Read",
               notificationType: 'follow'
@@ -1340,15 +1319,15 @@ console.log("yes");
 
         if (minutes <= 0) {
           return "Just now";
-        } else if (minutes < 59) {
+        } else if (minutes < 60) {
           return minutes === 1 ? "1 minute ago" : minutes + " minutes ago";
-        } else if (hours < 11) {
+        } else if (hours < 12) {
           return hours === 1 ? "1 hour ago" : hours + " hours ago";
-        } else if (days >= 1) {
+        } else if (days < 7) {
           return days === 1 ? "1 day ago" : days + " days ago";
-        } else if (weeks < 59) {
+        } else if (weeks < 4) {
           return weeks === 1 ? "1 week ago" : weeks + " weeks ago";
-        } else if (months < 59) {
+        } else if (months < 12) {
           return months === 1 ? "1 month ago" : months + " mouths ago";
         } else {
           return years === 1 ? "1 year ago" : years + " years ago";
@@ -1533,8 +1512,6 @@ console.log("yes");
         this.storeData = this.$store.state
 
 
-
-
         if (this.$store.state.displayFunctions.newAccount && this.autoPostCounter < 1) {
 
           setTimeout(() => {
@@ -1586,10 +1563,35 @@ console.log("yes");
 
 
 
-              this.$store.dispatch("handleDisplayFunctions", {
-                newAccount:false,
-                params: "newAccount"
-              });
+          setTimeout(() => {
+
+            this.$store.dispatch("handlePublishPost", {
+              ["9b687760-dc19-11eb-9e4e-33a1151joshc9e"]: {
+                userName: "Nova",
+                userId: "89045af0-d9c9-11eb-ba8c-e9a262a433df",
+                views: [],
+                postId: "9b687760-dc19-11eb-9e4e-33a1151joshc9e",
+                datePosted: Date.now(),
+                posts: "When your Need crushes your Desire",
+                likes: [],
+                unLikes: [],
+                posterComment: "",
+                comments: [],
+                postStyle: "text-theme-default",
+                postImages: [{ imageUrl: "", imageId: "" }],
+                postVideos: { videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", videoId: "33a1151joshc9e", videoAutoplay: false },
+
+              },
+
+            });
+          }, 50000);
+
+
+
+          this.$store.dispatch("handleDisplayFunctions", {
+            newAccount: false,
+            params: "newAccount"
+          });
 
 
         }
@@ -1706,15 +1708,6 @@ console.log("yes");
 
             var promise = document.getElementById('newAlert').play()
 
-
-            if (promise !== undefined) {
-              promise.then(_ => {
-                // Autoplay started!
-              }).catch(error => {
-                // Autoplay was prevented.
-                // Show a "Play" button so that user can start playback.
-              });
-            }
 
             this.soundNum = this.notificationCount
           }, 500);
